@@ -1,1 +1,3 @@
+**Objective** 
 
+Build a modern product catalog application where users can browse products, search for items, apply filters, add products to a cart, and complete checkout using a validated form. The project focuses on UI interactions, state management, form validation, filtering logic, and drag-and-drop experiences.
