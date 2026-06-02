@@ -15,21 +15,37 @@
 
         <div class="search-section">
 
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search products..."
-            >
+            <label
+    for="searchInput"
+    class="sr-only"
+>
+    Search Products
+</label>
 
-            <div id="searchHistory"></div>
+<input
+    type="text"
+    id="searchInput"
+    placeholder="Search products..."
+    aria-label="Search Products"
+    autocomplete="off"
+>
 
-<button id="clearHistoryBtn">
+            <div
+    id="searchHistory"
+    aria-live="polite"
+></div>
+
+<button
+    id="clearHistoryBtn"
+    aria-label="Clear Search History"
+>
     Clear History
 </button>
 
 <div
     id="loadingState"
     class="hidden"
+    aria-live="assertive"
 >
     Loading...
 </div>
