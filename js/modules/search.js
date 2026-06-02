@@ -1,8 +1,14 @@
 import { products } from "../data/products.js";
 import { renderProducts } from "./catalog.js";
 
-const searchInput = document.getElementById("searchInput");
-const searchHistoryDiv = document.getElementById("searchHistory");
+const searchInput =
+    document.getElementById("searchInput");
+
+const searchHistoryDiv =
+    document.getElementById("searchHistory");
+
+const loadingState =
+    document.getElementById("loadingState");
 
 let debounceTimer;
 
@@ -25,7 +31,14 @@ function updateHistory(query) {
         "searchHistory",
         JSON.stringify(searchHistory)
     );
+clearHistoryBtn.addEventListener("click", () => {
 
+    searchHistory = [];
+
+    localStorage.removeItem("searchHistory");
+
+    renderHistory();
+});
     renderHistory();
 }
 
@@ -54,11 +67,20 @@ function renderHistory() {
 
 function performSearch(query) {
 
-    const filteredProducts = products.filter(product =>
+    const filteredProducts = products.filter(product => {
+
+    const searchText = query.toLowerCase();
+
+    return (
         product.title
             .toLowerCase()
-            .includes(query.toLowerCase())
+            .includes(searchText)
+        ||
+        product.category
+            .toLowerCase()
+            .includes(searchText)
     );
+});
 
     renderProducts(filteredProducts);
 }
@@ -71,9 +93,19 @@ searchInput.addEventListener("input", e => {
 
         const query = e.target.value;
 
-        performSearch(query);
+        loadingState.classList.remove("hidden");
 
-        updateHistory(query);
+        setTimeout(() => {
+
+            performSearch(query);
+
+            if (query.trim().length >= 2) {
+                updateHistory(query);
+            }
+
+            loadingState.classList.add("hidden");
+
+        }, 200);
 
     }, 300);
 });

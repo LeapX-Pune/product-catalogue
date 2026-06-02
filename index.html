@@ -1,21 +1,59 @@
-<div class="catalog-container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <div class="search-section">
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Search products..."
-        />
+    <title>Product Catalogue</title>
 
-        <div id="searchHistory"></div>
-    </div>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/catalog.css">
+</head>
+<body>
 
-    <div id="productGrid" class="product-grid"></div>
+    <div class="catalog-container">
 
-    <div id="noResults" class="no-results hidden">
-        No products found
-    </div>
+        <div class="search-section">
 
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search products..."
+            >
+
+            <div id="searchHistory"></div>
+
+<button id="clearHistoryBtn">
+    Clear History
+</button>
+
+<div
+    id="loadingState"
+    class="hidden"
+>
+    Loading...
 </div>
 
-<script type="module" src="./js/script.js"></script>
+        </div>
+
+        <div
+            id="productGrid"
+            class="product-grid"
+        ></div>
+
+        <div
+            id="noResults"
+            class="no-results hidden"
+        >
+            No products found
+        </div>
+
+    </div>
+
+    <script
+        type="module"
+        src="./js/script.js"
+    ></script>
+
+</body>
+</html>
