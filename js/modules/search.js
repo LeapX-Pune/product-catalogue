@@ -10,6 +10,9 @@ const searchHistoryDiv =
 const loadingState =
     document.getElementById("loadingState");
 
+const clearHistoryBtn =
+    document.getElementById("clearHistoryBtn");
+
 let debounceTimer;
 
 let searchHistory =
@@ -31,14 +34,7 @@ function updateHistory(query) {
         "searchHistory",
         JSON.stringify(searchHistory)
     );
-clearHistoryBtn.addEventListener("click", () => {
 
-    searchHistory = [];
-
-    localStorage.removeItem("searchHistory");
-
-    renderHistory();
-});
     renderHistory();
 }
 
@@ -69,18 +65,18 @@ function performSearch(query) {
 
     const filteredProducts = products.filter(product => {
 
-    const searchText = query.toLowerCase();
+        const searchText = query.toLowerCase();
 
-    return (
-        product.title
-            .toLowerCase()
-            .includes(searchText)
-        ||
-        product.category
-            .toLowerCase()
-            .includes(searchText)
-    );
-});
+        return (
+            product.title
+                .toLowerCase()
+                .includes(searchText)
+            ||
+            product.category
+                .toLowerCase()
+                .includes(searchText)
+        );
+    });
 
     renderProducts(filteredProducts);
 }
@@ -108,6 +104,15 @@ searchInput.addEventListener("input", e => {
         }, 200);
 
     }, 300);
+});
+
+clearHistoryBtn.addEventListener("click", () => {
+
+    searchHistory = [];
+
+    localStorage.removeItem("searchHistory");
+
+    renderHistory();
 });
 
 renderHistory();
