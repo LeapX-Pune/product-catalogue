@@ -302,9 +302,9 @@ body {
 }
 
 .input-dark {
-  background: #1A2235;
-  border: 1px solid #4E5A6E;
-  color: #FFFFFF;
+  background: #E8ECF0;
+  border: 1px solid #C8D0DA;
+  color: #11151C;
   caret-color: var(--accent-teal);
 }
 .input-dark::placeholder {
@@ -315,12 +315,13 @@ body {
   background: #1A2235;
   border-color: var(--accent-teal);
   box-shadow: 0 0 0 3px rgba(0, 184, 169, 0.3);
+  color: #FFFFFF;
   outline: none;
 }
 .input-dark:-webkit-autofill,
 .input-dark:-webkit-autofill:hover {
-  -webkit-box-shadow: 0 0 0 30px #1A2235 inset !important;
-  -webkit-text-fill-color: #FFFFFF !important;
+  -webkit-box-shadow: 0 0 0 30px #E8ECF0 inset !important;
+  -webkit-text-fill-color: #11151C !important;
   caret-color: var(--accent-teal);
 }
 .input-dark:-webkit-autofill:focus {
