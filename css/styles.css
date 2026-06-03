@@ -313,7 +313,7 @@ body {
   opacity: 1;
 }
 .input-dark:focus {
-  background: #1A2235;
+  background: #26304A;
   border-color: var(--accent-teal);
   box-shadow: 0 0 0 3px rgba(0, 184, 169, 0.3);
   outline: none;
@@ -325,7 +325,7 @@ body {
   caret-color: var(--accent-teal);
 }
 .input-dark:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 30px #1A2235 inset !important;
+  -webkit-box-shadow: 0 0 0 30px #26304A inset !important;
   -webkit-text-fill-color: #FFFFFF !important;
   caret-color: var(--accent-teal);
 }
