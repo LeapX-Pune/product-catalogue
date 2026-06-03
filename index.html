@@ -1,64 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Product Catalogue</title>
 
-    <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="./css/catalog.css">
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/catalog.css" />
 </head>
+
 <body>
 
     <div class="catalog-container">
 
+        <!-- SEARCH SECTION -->
         <div class="search-section">
 
-            <label
-    for="searchInput"
-    class="sr-only"
->
-    Search Products
-</label>
+            <label for="searchInput" class="sr-only">
+                Search Products
+            </label>
 
-<input
-    type="text"
-    id="searchInput"
-    placeholder="Search products..."
-    aria-label="Search Products"
-    autocomplete="off"
->
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search products..."
+                aria-label="Search Products"
+                autocomplete="off"
+            />
 
+            <!-- Search History -->
             <div
-    id="searchHistory"
-    aria-live="polite"
-></div>
+                id="searchHistory"
+                aria-live="polite"
+                class="search-history"
+            ></div>
 
-<button
-    id="clearHistoryBtn"
-    aria-label="Clear Search History"
->
-    Clear History
-</button>
+            <button
+                id="clearHistoryBtn"
+                aria-label="Clear Search History"
+                type="button"
+            >
+                Clear History
+            </button>
 
-<div
-    id="loadingState"
-    class="hidden"
-    aria-live="assertive"
->
-    Loading...
-</div>
+            <!-- Loading State -->
+            <div
+                id="loadingState"
+                class="hidden"
+                aria-live="assertive"
+            >
+                Loading...
+            </div>
 
         </div>
 
+        <!-- PRODUCT GRID  -->
         <div
             id="productGrid"
             class="product-grid"
         ></div>
 
+        <!-- EMPTY STATE  -->
         <div
-            id="noResults"
+            id="emptyState"
             class="no-results hidden"
         >
             No products found
@@ -66,10 +71,8 @@
 
     </div>
 
-    <script
-        type="module"
-        src="./js/script.js"
-    ></script>
+    <!-- MAIN ENTRY -->
+    <script type="module" src="./js/script.js"></script>
 
 </body>
 </html>
