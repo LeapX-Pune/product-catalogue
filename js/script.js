@@ -1,13 +1,13 @@
-<<<<<<< HEAD
+ HEAD
 import { renderProducts } from "./modules/catalog.js";
 import "./modules/search.js";
 
 renderProducts();
-=======
+
 import { products } from "./data/products.js";
 import { coupons } from "./constants/coupons.js";
 import { filterDefaults } from "./constants/filterDefaults.js";
->>>>>>> origin/develop
+ origin/develop
 
 // Global App State
 const state = {
