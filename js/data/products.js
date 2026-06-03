@@ -1,497 +1,2806 @@
-/**
+/** ----------------------------------------
  * Local mock product data for the catalog application.
- * Exposes a list of high-quality products from various categories.
- */
+ * 250 popular, hand-crafted products with unique images matching each product.
+ ---------------------------------------- */
 export const products = [
-  // Electronics (10)
+
+  // ----- ELECTRONICS > Smartphones -----
   {
-    id: 1,
-    title: "Wireless Noise-Canceling Headphones",
-    category: "Electronics",
-    price: 12999,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"
+    id: 1, 
+    title: "Samsung Galaxy M34 5G", 
+    name: "Samsung Galaxy M34 5G", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "Samsung", 
+    description: "The Samsung Galaxy M34 5G features a 6.5\" Super AMOLED display, 50MP triple camera, and a massive 6000mAh battery with 25W fast charging.",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80",
+    price: 18999, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 3,
-    title: "Ergonomic Mechanical Keyboard",
-    category: "Electronics",
-    price: 7499,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80"
+    id: 2, 
+    title: "Redmi Note 13 Pro 5G", 
+    name: "Redmi Note 13 Pro 5G", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "Xiaomi", 
+    description: "Redmi Note 13 Pro 5G sports a 200MP main camera, curved AMOLED display at 120Hz, and 67W turbo charging.",
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80",
+    price: 26999, rating: 4.5, stockStatus: "In Stock"
   },
   {
-    id: 7,
-    title: "Smart Fitness Tracking Ring",
-    category: "Electronics",
-    price: 15999,
-    rating: 4.4,
-    image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=600&q=80"
+    id: 3, 
+    title: "Realme 12 Pro+ 5G", 
+    name: "Realme 12 Pro+ 5G", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "Realme", 
+    description: "Realme 12 Pro+ 5G with periscope telephoto lens, Snapdragon 7s Gen 2, and 50W SUPERVOOC charging.",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=600&q=80",
+    price: 24999, rating: 4.3, stockStatus: "In Stock"
   },
   {
-    id: 13,
-    title: "Ultra-Thin 4K Monitor",
-    category: "Electronics",
-    price: 34999,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=600&q=80"
+    id: 4, 
+    title: "iQOO Z9 5G", 
+    name: "iQOO Z9 5G", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "iQOO", 
+    description: "iQOO Z9 5G powered by Dimensity 7200, 144Hz AMOLED, and 44W FlashCharge.",
+    image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=600&q=80",
+    price: 17999, rating: 4.6, stockStatus: "In Stock"
   },
   {
-    id: 14,
-    title: "Portable Bluetooth Speaker",
-    category: "Electronics",
-    price: 5999,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=600&q=80"
+    id: 5, 
+    title: "Motorola Edge 50 Fusion", 
+    name: "Motorola Edge 50 Fusion", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "Motorola", 
+    description: "Motorola Edge 50 Fusion with a vegan leather back, 68W turbopower, Snapdragon 7s Gen 2.",
+    image: "https://images.unsplash.com/photo-1565929708440-15749e7a4a0b?auto=format&fit=crop&w=600&q=80",
+    price: 22999, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 15,
-    title: "Smartphone Gimbal Stabilizer",
-    category: "Electronics",
-    price: 8999,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=600&q=80"
+    id: 6, 
+    title: "Nothing Phone (2a)", 
+    name: "Nothing Phone (2a)", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "Nothing", 
+    description: "Nothing Phone (2a) with signature Glyph Interface, MediaTek Dimensity 7200 Pro, and clean Android experience.",
+    image: "https://images.unsplash.com/photo-1574154894072-16736a4f7f6f?auto=format&fit=crop&w=600&q=80",
+    price: 19999, rating: 4.5, stockStatus: "In Stock"
   },
   {
-    id: 16,
-    title: "Wireless Charging Pad",
-    category: "Electronics",
-    price: 1999,
-    rating: 4.3,
-    image: "https://images.unsplash.com/photo-1622445275463-afa2ab738c34?auto=format&fit=crop&w=600&q=80"
+    id: 7, 
+    title: "OnePlus Nord CE4", 
+    name: "OnePlus Nord CE4", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "OnePlus", 
+    description: "OnePlus Nord CE4 featuring Snapdragon 7s Gen 2, 100W SUPERVOOC, and a sleek 6.7\" AMOLED display.",
+    image: "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=600&q=80",
+    price: 24999, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 17,
-    title: "High-Resolution Web Camera",
-    category: "Electronics",
-    price: 7499,
-    rating: 4.4,
-    image: "https://images.unsplash.com/photo-1599839619722-39751411ea63?auto=format&fit=crop&w=600&q=80"
+    id: 8, 
+    title: "Vivo T3x 5G", 
+    name: "Vivo T3x 5G", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "Vivo", 
+    description: "Vivo T3x 5G features a 6000mAh massive battery, Snapdragon 6 Gen 1, and 6.72\" 120Hz LCD.",
+    image: "https://images.unsplash.com/photo-1610945265049-55336117e1a9?auto=format&fit=crop&w=600&q=80",
+    price: 14999, rating: 4.2, stockStatus: "In Stock"
   },
   {
-    id: 18,
-    title: "Noise-Isolating Earbuds",
-    category: "Electronics",
-    price: 4999,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80"
+    id: 9, 
+    title: "POCO X6 Pro 5G", 
+    name: "POCO X6 Pro 5G", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "POCO", 
+    description: "POCO X6 Pro 5G packs MediaTek Dimensity 8300, 144Hz Flow AMOLED, and 67W fast charging.",
+    image: "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=600&q=80",
+    price: 26999, rating: 4.6, stockStatus: "Low Stock"
   },
   {
-    id: 19,
-    title: "External Solid State Drive 1TB",
-    category: "Electronics",
-    price: 12499,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=600&q=80"
+    id: 10, 
+    title: "Oppo Reno 11 5G", 
+    name: "Oppo Reno 11 5G", 
+    category: "Electronics", 
+    subcategory: "Smartphones",
+    brand: "Oppo", 
+    description: "Oppo Reno 11 5G with AI portrait camera, 67W SUPERVOOC, 120Hz curved OLED and 32MP selfie.",
+    image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=600&q=80",
+    price: 29999, rating: 4.3, stockStatus: "In Stock"
   },
 
-  // Accessories (10)
+  // ----- ELECTRONICS > Laptops -----
   {
-    id: 2,
-    title: "Minimalist Leather Watch",
-    category: "Accessories",
-    price: 4999,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"
+    id: 11, 
+    title: "HP Pavilion 15 (Ryzen 5)", 
+    name: "HP Pavilion 15 (Ryzen 5)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "HP", 
+    description: "HP Pavilion 15 with AMD Ryzen 5 7530U, 8GB RAM, 512GB SSD, and a 15.6\" FHD IPS anti-glare display.",
+    image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=600&q=80",
+    price: 49999, rating: 4.5, stockStatus: "In Stock"
   },
   {
-    id: 6,
-    title: "Double-Walled Stainless Steel Flask",
-    category: "Accessories",
-    price: 1499,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80"
+    id: 12, 
+    title: "Acer Aspire Lite (Core i5)", 
+    name: "Acer Aspire Lite (Core i5)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "Acer", 
+    description: "Acer Aspire Lite with Intel Core i5-12th Gen, 8GB LPDDR5, 512GB SSD — the ideal everyday laptop.",
+    image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=600&q=80",
+    price: 44999, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 11,
-    title: "Waterproof Travel Backpack",
-    category: "Accessories",
-    price: 3999,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"
+    id: 13, 
+    title: "Lenovo IdeaPad Slim 3", 
+    name: "Lenovo IdeaPad Slim 3", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "Lenovo", 
+    description: "Lenovo IdeaPad Slim 3 with Ryzen 5 7520U, 8GB RAM, 512GB SSD, backlit keyboard, and all-day battery.",
+    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=600&q=80",
+    price: 42999, rating: 4.3, stockStatus: "In Stock"
   },
   {
-    id: 20,
-    title: "Classic Aviator Sunglasses",
-    category: "Accessories",
-    price: 2499,
-    rating: 4.4,
-    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80"
+    id: 14, 
+    title: "ASUS VivoBook 15 (i5-13th Gen)", 
+    name: "ASUS VivoBook 15 (i5-13th Gen)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "ASUS", 
+    description: "ASUS VivoBook 15 with Intel 13th Gen Core i5, 16GB RAM, 512GB SSD, and a vivid 15.6\" FHD display.",
+    image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=600&q=80",
+    price: 54999, rating: 4.6, stockStatus: "In Stock"
   },
   {
-    id: 21,
-    title: "Genuine Leather Wallet",
-    category: "Accessories",
-    price: 1899,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=600&q=80"
+    id: 15, 
+    title: "Dell Inspiron 14 (Core i5)", 
+    name: "Dell Inspiron 14 (Core i5)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "Dell", 
+    description: "Dell Inspiron 14 with Intel Core i5, 8GB RAM, 512GB SSD, and a sleek 14\" FHD IPS display.",
+    image: "https://images.unsplash.com/photo-1484788984921-03950022c9ef?auto=format&fit=crop&w=600&q=80",
+    price: 51999, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 22,
-    title: "Canvas Weekend Duffle Bag",
-    category: "Accessories",
-    price: 5499,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"
+    id: 16, 
+    title: "Realme Book Prime (Core i5)", 
+    name: "Realme Book Prime (Core i5)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "Realme", 
+    description: "Realme Book Prime with 11th Gen Core i5, 8GB LPDDR4X, 512GB NVMe SSD, and 2K IPS display.",
+    image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=600&q=80",
+    price: 48999, rating: 4.2, stockStatus: "Low Stock"
   },
   {
-    id: 23,
-    title: "Woven Braided Belt",
-    category: "Accessories",
-    price: 999,
-    rating: 4.2,
-    image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=600&q=80"
+    id: 17, 
+    title: "HP 15s (AMD Ryzen 3)", 
+    name: "HP 15s (AMD Ryzen 3)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "HP", 
+    description: "HP 15s with AMD Ryzen 3 7320U, 8GB DDR5, 512GB SSD — budget-friendly laptop for students.",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80",
+    price: 34999, rating: 4.1, stockStatus: "In Stock"
   },
   {
-    id: 24,
-    title: "Beanie Hat with Pom",
-    category: "Accessories",
-    price: 799,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?auto=format&fit=crop&w=600&q=80"
+    id: 18, 
+    title: "ASUS TUF Gaming F15 (Ryzen 5)", 
+    name: "ASUS TUF Gaming F15 (Ryzen 5)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "ASUS", 
+    description: "ASUS TUF Gaming F15 with AMD Ryzen 5, NVIDIA RTX 3050, 16GB RAM — entry-level gaming machine.",
+    image: "https://images.unsplash.com/photo-1593640495253-23196b27a87f?auto=format&fit=crop&w=600&q=80",
+    price: 62999, rating: 4.5, stockStatus: "In Stock"
   },
   {
-    id: 25,
-    title: "Elegant Silk Scarf",
-    category: "Accessories",
-    price: 1299,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=600&q=80"
+    id: 19, 
+    title: "Xiaomi Book Pro 14 (i5-12th)", 
+    name: "Xiaomi Book Pro 14 (i5-12th)", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "Xiaomi", 
+    description: "Xiaomi Book Pro 14 features a 2.8K OLED display, Intel 12th Gen Core i5, and ultra-thin 14.9mm build.",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
+    price: 59999, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 26,
-    title: "RFID Blocking Card Holder",
-    category: "Accessories",
-    price: 1499,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1533604085848-8df0c3c8c5c7?auto=format&fit=crop&w=600&q=80"
-  },
-
-  // Fitness (10)
-  {
-    id: 4,
-    title: "Eco-Friendly Cork Yoga Mat",
-    category: "Fitness",
-    price: 2499,
-    rating: 4.3,
-    image: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 27,
-    title: "Adjustable Dumbbell Set",
-    category: "Fitness",
-    price: 14999,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 28,
-    title: "Resistance Band Set with Handles",
-    category: "Fitness",
-    price: 1899,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1598289431512-b97b0a1c2213?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 29,
-    title: "High-Density Foam Roller",
-    category: "Fitness",
-    price: 1199,
-    rating: 4.4,
-    image: "https://images.unsplash.com/photo-1600881333168-2ef49b341f30?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 30,
-    title: "Jump Rope with Calorie Counter",
-    category: "Fitness",
-    price: 999,
-    rating: 4.2,
-    image: "https://images.unsplash.com/photo-1518611507436-f9221403cca2?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 31,
-    title: "Protein Shaker Bottle",
-    category: "Fitness",
-    price: 699,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1584736286279-4a25032a1bb1?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 32,
-    title: "Kettlebell 10kg",
-    category: "Fitness",
-    price: 2999,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1584735935682-2f2b69d4fa8e?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 33,
-    title: "Abdominal Roller Wheel",
-    category: "Fitness",
-    price: 1299,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 34,
-    title: "Gym Towel Microfiber",
-    category: "Fitness",
-    price: 499,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 35,
-    title: "Pull Up Bar for Doorway",
-    category: "Fitness",
-    price: 1999,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1599058917765-a780eda07a3e?auto=format&fit=crop&w=600&q=80"
+    id: 20, 
+    title: "Acer Nitro V 15 Gaming Laptop", 
+    name: "Acer Nitro V 15 Gaming Laptop", 
+    category: "Electronics", 
+    subcategory: "Laptops",
+    brand: "Acer", 
+    description: "Acer Nitro V 15 with AMD Ryzen 5 7535HS, NVIDIA GeForce RTX 4050, 144Hz gaming display.",
+    image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80",
+    price: 71999, rating: 4.6, stockStatus: "Low Stock"
   },
 
-  // Apparel (10)
+  // ----- ELECTRONICS > Audio -----
   {
-    id: 5,
-    title: "Organic Cotton Hoodie",
-    category: "Apparel",
-    price: 3499,
-    rating: 4.2,
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"
+    id: 21, 
+    title: "Sony WH-1000XM4 Headphones", 
+    name: "Sony WH-1000XM4 Headphones", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "Sony", 
+    description: "Sony WH-1000XM4 with industry-leading ANC, 30hr battery, LDAC Hi-Res audio and multipoint connect.",
+    image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=600&q=80",
+    price: 17999, rating: 4.9, stockStatus: "In Stock"
   },
   {
-    id: 12,
-    title: "Merino Wool Running Socks (Pack of 3)",
-    category: "Apparel",
-    price: 1199,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&w=600&q=80"
+    id: 22, 
+    title: "boAt Airdopes 141 TWS Earbuds", 
+    name: "boAt Airdopes 141 TWS Earbuds", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "boAt", 
+    description: "boAt Airdopes 141 with 42hrs total playback, IPX4, ENx tech, and instant voice assistant.",
+    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.2, stockStatus: "In Stock"
   },
   {
-    id: 36,
-    title: "Classic Denim Jacket",
-    category: "Apparel",
-    price: 4999,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?auto=format&fit=crop&w=600&q=80"
+    id: 23, 
+    title: "Noise Buds VS102 Pro Earbuds", 
+    name: "Noise Buds VS102 Pro Earbuds", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "Noise", 
+    description: "Noise Buds VS102 Pro with 60hrs playback, Hyper Sync, quad-mic ENC and low-latency gaming mode.",
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.1, stockStatus: "In Stock"
   },
   {
-    id: 37,
-    title: "Breathable Running Shorts",
-    category: "Apparel",
-    price: 1899,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80"
+    id: 24, 
+    title: "JBL Tune 770NC Headphones", 
+    name: "JBL Tune 770NC Headphones", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "JBL", 
+    description: "JBL Tune 770NC with Adaptive ANC, 70hrs battery life, foldable design and hands-free calls.",
+    image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=80",
+    price: 6999, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 38,
-    title: "V-Neck Basic T-Shirt",
-    category: "Apparel",
-    price: 899,
-    rating: 4.4,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"
+    id: 25, 
+    title: "Mivi Duopods M40 TWS", 
+    name: "Mivi Duopods M40 TWS", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "Mivi", 
+    description: "Mivi Duopods M40 made in India — 50hrs playtime, 6 mics for calls, beast bass, and Type-C charging.",
+    image: "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4, stockStatus: "In Stock"
   },
   {
-    id: 39,
-    title: "Athletic Compression Tights",
-    category: "Apparel",
-    price: 2499,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1506152983158-b4a74a01c721?auto=format&fit=crop&w=600&q=80"
+    id: 26, 
+    title: "JBL Charge 5 Portable Speaker", 
+    name: "JBL Charge 5 Portable Speaker", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "JBL", 
+    description: "JBL Charge 5 with powerful bass, IP67 waterproof, 20hr battery, and USB-A charging out.",
+    image: "https://images.unsplash.com/photo-1563229710-f0c2f6e39a11?auto=format&fit=crop&w=600&q=80",
+    price: 12999, rating: 4.7, stockStatus: "In Stock"
   },
   {
-    id: 40,
-    title: "Fleece Jogger Pants",
-    category: "Apparel",
-    price: 2999,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"
+    id: 27, 
+    title: "Sony SRS-XB33 Speaker", 
+    name: "Sony SRS-XB33 Speaker", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "Sony", 
+    description: "Sony SRS-XB33 with Extra Bass, 24hr battery, IP67 waterproof, and party-perfect light show.",
+    image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80",
+    price: 11999, rating: 4.5, stockStatus: "In Stock"
   },
   {
-    id: 41,
-    title: "Lightweight Windbreaker",
-    category: "Apparel",
-    price: 3999,
-    rating: 4.3,
-    image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80"
+    id: 28, 
+    title: "Sennheiser CX 80S Earphones", 
+    name: "Sennheiser CX 80S Earphones", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "Sennheiser", 
+    description: "Sennheiser CX 80S with 3-button remote, dynamic drivers, in-ear fit, and premium German audio tuning.",
+    image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80",
+    price: 1799, rating: 4.3, stockStatus: "In Stock"
   },
   {
-    id: 42,
-    title: "Seamless Sports Bra",
-    category: "Apparel",
-    price: 1499,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1506152983158-b4a74a01c721?auto=format&fit=crop&w=600&q=80"
+    id: 29, 
+    title: "Bose SoundLink Flex Speaker", 
+    name: "Bose SoundLink Flex Speaker", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "Bose", 
+    description: "Bose SoundLink Flex, IPX7 waterproof, positionIQ tech for consistent sound, 12hr battery.",
+    image: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=600&q=80",
+    price: 9999, rating: 4.8, stockStatus: "Low Stock"
   },
   {
-    id: 43,
-    title: "Cozy Knit Sweater",
-    category: "Apparel",
-    price: 3299,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"
-  },
-
-  // Home Decor (10)
-  {
-    id: 8,
-    title: "Handpoured Soy Scented Candle",
-    category: "Home Decor",
-    price: 499,
-    rating: 4.1,
-    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 44,
-    title: "Macrame Wall Hanging",
-    category: "Home Decor",
-    price: 2499,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 45,
-    title: "Ceramic Table Vase",
-    category: "Home Decor",
-    price: 1599,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 46,
-    title: "Geometric Throw Pillow cover",
-    category: "Home Decor",
-    price: 899,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 47,
-    title: "Faux Potted Plant",
-    category: "Home Decor",
-    price: 1299,
-    rating: 4.4,
-    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 48,
-    title: "Vintage Area Rug",
-    category: "Home Decor",
-    price: 8999,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1581428982868-e410dd40d7a4?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 49,
-    title: "Minimalist Wall Clock",
-    category: "Home Decor",
-    price: 1999,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 50,
-    title: "Rustic Wood Floating Shelves",
-    category: "Home Decor",
-    price: 2999,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1505693314120-0d443867891c?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 51,
-    title: "Abstract Canvas Wall Art",
-    category: "Home Decor",
-    price: 4599,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 52,
-    title: "Decorative Bookshelf Bookends",
-    category: "Home Decor",
-    price: 1499,
-    rating: 4.3,
-    image: "https://images.unsplash.com/photo-1544457070-4cd773b4d71e?auto=format&fit=crop&w=600&q=80"
+    id: 30, 
+    title: "Skullcandy Crusher EVO Headphones", 
+    name: "Skullcandy Crusher EVO Headphones", 
+    category: "Electronics", 
+    subcategory: "Audio",
+    brand: "Skullcandy", 
+    description: "Skullcandy Crusher EVO with adjustable sensory bass, 40hr battery, and personal sound profile.",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
+    price: 7499, rating: 4.2, stockStatus: "In Stock"
   },
 
-  // Home & Kitchen (10)
+  // ----- ELECTRONICS > Wearables -----
   {
-    id: 9,
-    title: "Professional Drip Coffee Maker",
-    category: "Home & Kitchen",
-    price: 7999,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1517256064527-09c53b2d0c6b?auto=format&fit=crop&w=600&q=80"
+    id: 31, 
+    title: "boAt Wave Nano Smart Watch", 
+    name: "boAt Wave Nano Smart Watch", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "boAt", 
+    description: "boAt Wave Nano with 1.69\" HD display, SpO2, HR monitoring, 7-day battery and 100+ watch faces.",
+    image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=600&q=80",
+    price: 1799, rating: 4.1, stockStatus: "In Stock"
   },
   {
-    id: 10,
-    title: "Aesthetic Ceramic Coffee Mug",
-    category: "Home & Kitchen",
-    price: 899,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80"
+    id: 32, 
+    title: "Noise ColorFit Ultra 3 Smart Watch", 
+    name: "Noise ColorFit Ultra 3 Smart Watch", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "Noise", 
+    description: "Noise ColorFit Ultra 3 AMOLED smartwatch with BT calling, 100+ sports modes, SpO2 and 7-day battery.",
+    image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.3, stockStatus: "In Stock"
   },
   {
-    id: 53,
-    title: "Non-Stick Frying Pan",
-    category: "Home & Kitchen",
-    price: 2499,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1584285426189-dc0a232230fd?auto=format&fit=crop&w=600&q=80"
+    id: 33, 
+    title: "Xiaomi Band 8 Active", 
+    name: "Xiaomi Band 8 Active", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "Xiaomi", 
+    description: "Xiaomi Band 8 Active fitness tracker with 1.47\" TFT, 14-day battery, PAI health tracking and SpO2.",
+    image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.4, stockStatus: "In Stock"
   },
   {
-    id: 54,
-    title: "Bamboo Cutting Board Set",
-    category: "Home & Kitchen",
-    price: 1999,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1590483736622-398544c4146a?auto=format&fit=crop&w=600&q=80"
+    id: 34, 
+    title: "Fire-Boltt Ninja Calling Pro", 
+    name: "Fire-Boltt Ninja Calling Pro", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "Fire-Boltt", 
+    description: "Fire-Boltt Ninja Calling Pro with Bluetooth calling, 1.9\" large display, local music storage.",
+    image: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&w=600&q=80",
+    price: 2199, rating: 3.9, stockStatus: "In Stock"
   },
   {
-    id: 55,
-    title: "Chef's Knife 8-Inch",
-    category: "Home & Kitchen",
-    price: 3499,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=600&q=80"
+    id: 35, 
+    title: "Fitbit Inspire 3 Fitness Tracker", 
+    name: "Fitbit Inspire 3 Fitness Tracker", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "Fitbit", 
+    description: "Fitbit Inspire 3 with Daily Readiness Score, heart rate tracking, stress management, and 10-day battery.",
+    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80",
+    price: 5999, rating: 4.5, stockStatus: "In Stock"
   },
   {
-    id: 56,
-    title: "Electric Water Kettle",
-    category: "Home & Kitchen",
-    price: 2999,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1594213114663-d94ebfb885a0?auto=format&fit=crop&w=600&q=80"
+    id: 36, 
+    title: "Realme Watch 3 Pro", 
+    name: "Realme Watch 3 Pro", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "Realme", 
+    description: "Realme Watch 3 Pro features 1.78\" AMOLED, BT calling, GPS, SpO2 and multi-sport tracking.",
+    image: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&w=600&q=80",
+    price: 4499, rating: 4.2, stockStatus: "In Stock"
   },
   {
-    id: 57,
-    title: "Silicone Cooking Utensils Set",
-    category: "Home & Kitchen",
-    price: 1599,
-    rating: 4.4,
-    image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=600&q=80"
+    id: 37, 
+    title: "Garmin Vivosmart 5 Tracker", 
+    name: "Garmin Vivosmart 5 Tracker", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "Garmin", 
+    description: "Garmin Vivosmart 5 slim fitness tracker with pulse ox, hydration tracking, stress monitor.",
+    image: "https://images.unsplash.com/photo-1510017808638-a59b726bf688?auto=format&fit=crop&w=600&q=80",
+    price: 8499, rating: 4.6, stockStatus: "Low Stock"
   },
   {
-    id: 58,
-    title: "Glass Food Storage Containers",
-    category: "Home & Kitchen",
-    price: 2199,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1602927806558-75b2bb502d60?auto=format&fit=crop&w=600&q=80"
+    id: 38, 
+    title: "OnePlus Watch 2 Nordic Blue", 
+    name: "OnePlus Watch 2 Nordic Blue", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "OnePlus", 
+    description: "OnePlus Watch 2 with AMOLED display, up to 100hr battery, dual OS system, and 100+ workout modes.",
+    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80",
+    price: 16999, rating: 4.5, stockStatus: "In Stock"
   },
   {
-    id: 59,
-    title: "Stand Mixer 5-Quart",
-    category: "Home & Kitchen",
-    price: 24999,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1593077395460-2da8e8bd0316?auto=format&fit=crop&w=600&q=80"
+    id: 39, 
+    title: "boAt Storm Pro Ring Smartwatch", 
+    name: "boAt Storm Pro Ring Smartwatch", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "boAt", 
+    description: "boAt Storm Pro Ring with 1.85\" HD display, advanced health suite, BT calling and premium design.",
+    image: "https://images.unsplash.com/photo-1517502884422-41eaaced0168?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.1, stockStatus: "In Stock"
   },
   {
-    id: 60,
-    title: "Cast Iron Dutch Oven",
-    category: "Home & Kitchen",
-    price: 6499,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1582285141065-27a3c3f256ea?auto=format&fit=crop&w=600&q=80"
+    id: 40, 
+    title: "Samsung Galaxy Fit3 Tracker", 
+    name: "Samsung Galaxy Fit3 Tracker", 
+    category: "Electronics", 
+    subcategory: "Wearables",
+    brand: "Samsung", 
+    description: "Samsung Galaxy Fit3 slim band with 1.6\" AMOLED, 13-day battery, 100+ workouts, and sleep tracking.",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.3, stockStatus: "In Stock"
+  },
+
+  // ----- ELECTRONICS > Accessories -----
+  {
+    id: 41, 
+    title: "Anker 20000mAh Power Bank", 
+    name: "Anker 20000mAh Power Bank", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Anker", 
+    description: "Anker 737 power bank with 20000mAh, 140W output, smart digital display, and fast charge 4.0.",
+    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.7, stockStatus: "In Stock"
+  },
+  {
+    id: 42, 
+    title: "Belkin 67W GaN USB-C Charger", 
+    name: "Belkin 67W GaN USB-C Charger", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Belkin", 
+    description: "Belkin 67W GaN USB-C dual port wall charger — compact, fast, and safe for laptop, phone, and tablet.",
+    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80",
+    price: 2999, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 43, 
+    title: "Logitech MX Keys Mini Keyboard", 
+    name: "Logitech MX Keys Mini Keyboard", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Logitech", 
+    description: "Logitech MX Keys Mini wireless keyboard with backlit smart keys, multi-device pairing, and USB-C charging.",
+    image: "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=600&q=80",
+    price: 7999, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 44, 
+    title: "Logitech MX Master 3S Mouse", 
+    name: "Logitech MX Master 3S Mouse", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Logitech", 
+    description: "Logitech MX Master 3S with 8000 DPI, quiet clicks, fast-scrolling wheel, and ergonomic design.",
+    image: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=600&q=80",
+    price: 9499, rating: 4.8, stockStatus: "In Stock"
+  },
+  {
+    id: 45, 
+    title: "Seagate 1TB Portable HDD", 
+    name: "Seagate 1TB Portable HDD", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Seagate", 
+    description: "Seagate 1TB portable HDD, USB 3.0, compatible with PC, Mac, Xbox and PlayStation — no power adapter needed.",
+    image: "https://images.unsplash.com/photo-1618424181497-157f25b6ddd5?auto=format&fit=crop&w=600&q=80",
+    price: 3199, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 46, 
+    title: "TP-Link Wi-Fi 6 Router AX3000", 
+    name: "TP-Link Wi-Fi 6 Router AX3000", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "TP-Link", 
+    description: "TP-Link Archer AX55 Wi-Fi 6 router with AX3000 dual band, 4 antennas, and OFDMA technology.",
+    image: "https://images.unsplash.com/photo-1586495777744-4e6232bf2ebb?auto=format&fit=crop&w=600&q=80",
+    price: 3799, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 47, 
+    title: "Samsung 32GB EVO Plus MicroSD", 
+    name: "Samsung 32GB EVO Plus MicroSD", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Samsung", 
+    description: "Samsung EVO Plus 32GB MicroSD up to 95MB/s read, Class 10, ideal for smartphones and action cameras.",
+    image: "https://images.unsplash.com/photo-1616440347437-b1c73416efc2?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 48, 
+    title: "Syska LED Desk Lamp with USB", 
+    name: "Syska LED Desk Lamp with USB", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Syska", 
+    description: "Syska LED desk lamp with 5 brightness levels, eye-care mode, USB charging port, and memory function.",
+    image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 49, 
+    title: "HP 1080P Webcam with Mic", 
+    name: "HP 1080P Webcam with Mic", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "HP", 
+    description: "HP 960 1080P HD webcam with built-in noise-canceling mic, auto-focus, and wide-angle lens for WFH.",
+    image: "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 50, 
+    title: "Portronics Car Power X USB Charger", 
+    name: "Portronics Car Power X USB Charger", 
+    category: "Electronics", 
+    subcategory: "Accessories",
+    brand: "Portronics", 
+    description: "Portronics Car Power X with dual USB + Type-C 36W fast car charger for simultaneous device charging.",
+    image: "https://images.unsplash.com/photo-1622445275463-afa2ab738c34?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4, stockStatus: "In Stock"
+  },
+
+  // ----- FASHION > Men's Wear -----
+  {
+    id: 51, 
+    title: "Levi's 511 Slim Fit Jeans", 
+    name: "Levi's 511 Slim Fit Jeans", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Levi's", 
+    description: "Levi's 511 slim fit jeans in dark indigo stretch denim — perfect for everyday casual wear.",
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 52, 
+    title: "Raymond Formal Shirt (Blue)", 
+    name: "Raymond Formal Shirt (Blue)", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Raymond", 
+    description: "Raymond cotton formal shirt in sky blue with a slim fit silhouette — ideal for office wear.",
+    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 53, 
+    title: "Nike Dri-FIT T-Shirt", 
+    name: "Nike Dri-FIT T-Shirt", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Nike", 
+    description: "Nike Dri-FIT Men's training T-shirt with sweat-wicking technology for cool, dry workouts.",
+    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 54, 
+    title: "Allen Solly Regular Chinos", 
+    name: "Allen Solly Regular Chinos", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Allen Solly", 
+    description: "Allen Solly cotton-stretch regular fit chinos in khaki — smart casual perfection.",
+    image: "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=600&q=80",
+    price: 1799, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 55, 
+    title: "H&M Cotton Polo T-Shirt", 
+    name: "H&M Cotton Polo T-Shirt", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "H&M", 
+    description: "H&M slim-fit men's polo in pique cotton — timeless design with a collared look for a smart-casual vibe.",
+    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 56, 
+    title: "Mufti Jogger Track Pants", 
+    name: "Mufti Jogger Track Pants", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Mufti", 
+    description: "Mufti men's jogger pants in cotton-blend with ribbed cuffs and elastic waistband for active comfort.",
+    image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
+    price: 1199, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 57, 
+    title: "Peter England Suit Blazer", 
+    name: "Peter England Suit Blazer", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Peter England", 
+    description: "Peter England single-button formal blazer in navy blue — crafted for confident office and event looks.",
+    image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.4, stockStatus: "Low Stock"
+  },
+  {
+    id: 58, 
+    title: "US Polo Assn. Hoodie Sweatshirt", 
+    name: "US Polo Assn. Hoodie Sweatshirt", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "U.S. Polo Assn.", 
+    description: "US Polo Assn. fleece hoodie with kangaroo pocket, ribbed cuffs, and a cozy interior for winter.",
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+    price: 1599, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 59, 
+    title: "Roadster Graphic Printed T-Shirt", 
+    name: "Roadster Graphic Printed T-Shirt", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Roadster", 
+    description: "Roadster men's graphic tee in soft cotton with a vibrant print — casual streetwear at its best.",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 3.9, stockStatus: "In Stock"
+  },
+  {
+    id: 60, 
+    title: "Arrow Regular Fit Kurta", 
+    name: "Arrow Regular Fit Kurta", 
+    category: "Fashion", 
+    subcategory: "Men's Wear",
+    brand: "Arrow", 
+    description: "Arrow cotton straight kurta in subtle checks — designed for festive occasions and casual wear.",
+    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
+    price: 1899, rating: 4.3, stockStatus: "In Stock"
+  },
+
+  // ----- FASHION > Women's Wear -----
+  {
+    id: 61, 
+    title: "Biba Anarkali Kurta Set", 
+    name: "Biba Anarkali Kurta Set", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "Biba", 
+    description: "Biba printed Anarkali kurta paired with palazzo and dupatta — perfect for festive and casual occasions.",
+    image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 62, 
+    title: "W Women's Straight Kurta", 
+    name: "W Women's Straight Kurta", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "W for Woman", 
+    description: "W brand straight-cut cotton kurta with block print work — breezy and stylish for everyday wear.",
+    image: "https://images.unsplash.com/photo-1434389678232-0692a48ab86a?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 63, 
+    title: "Zara Women Blazer (Black)", 
+    name: "Zara Women Blazer (Black)", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "Zara", 
+    description: "Zara structured blazer in black — minimalist power dressing piece for a professional wardrobe.",
+    image: "https://images.unsplash.com/photo-1551803091-e20673f15770?auto=format&fit=crop&w=600&q=80",
+    price: 3999, rating: 4.4, stockStatus: "Low Stock"
+  },
+  {
+    id: 64, 
+    title: "FabIndia Cotton Floral Kurti", 
+    name: "FabIndia Cotton Floral Kurti", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "FabIndia", 
+    description: "FabIndia cotton kurta with handblock floral print — light, breathable and earthy.",
+    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80",
+    price: 1699, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 65, 
+    title: "Levis Women High Rise Jeans", 
+    name: "Levis Women High Rise Jeans", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "Levi's", 
+    description: "Levi's 724 women's high rise straight jeans in cool dark indigo — a closet essential.",
+    image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=600&q=80",
+    price: 2799, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 66, 
+    title: "Aurelia Women Ethnic Dress", 
+    name: "Aurelia Women Ethnic Dress", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "Aurelia", 
+    description: "Aurelia rayon blend A-line ethnic dress with mirror work and satin border for a festive glow.",
+    image: "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 67, 
+    title: "Global Desi Palazzo Set", 
+    name: "Global Desi Palazzo Set", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "Global Desi", 
+    description: "Global Desi printed palazzo set with shrug — boho-chic style for everyday relaxed wear.",
+    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=600&q=80",
+    price: 1799, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 68, 
+    title: "H&M Ribbed Jersey Dress", 
+    name: "H&M Ribbed Jersey Dress", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "H&M", 
+    description: "H&M figure-hugging ribbed jersey dress — a versatile wardrobe staple for any casual outing.",
+    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 69, 
+    title: "Sangria Crepe Maxi Dress", 
+    name: "Sangria Crepe Maxi Dress", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "Sangria", 
+    description: "Sangria solid crepe maxi dress with ruffled neckline — elevate your evening look effortlessly.",
+    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80",
+    price: 2199, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 70, 
+    title: "Anouk Art Silk Saree", 
+    name: "Anouk Art Silk Saree", 
+    category: "Fashion", 
+    subcategory: "Women's Wear",
+    brand: "Anouk", 
+    description: "Anouk women's art silk saree with contrast border and blouse piece — timeless Indian elegance.",
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.5, stockStatus: "In Stock"
+  },
+
+  // ----- FASHION > Kids' Wear -----
+  {
+    id: 71, 
+    title: "H&M Kids Cotton T-Shirt 2-Pack", 
+    name: "H&M Kids Cotton T-Shirt 2-Pack", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "H&M", 
+    description: "H&M soft cotton T-shirt 2-pack for kids — printed with fun characters and built for everyday play.",
+    image: "https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 72, 
+    title: "United Colors of Benetton Kids Jeans", 
+    name: "United Colors of Benetton Kids Jeans", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "UCB", 
+    description: "United Colors of Benetton regular fit jeans for kids with adjustable waistband and stretch fabric.",
+    image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=600&q=80",
+    price: 899, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 73, 
+    title: "Disney Mickey Printed Pyjama Set", 
+    name: "Disney Mickey Printed Pyjama Set", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "Disney", 
+    description: "Disney Mickey Mouse printed kids pyjama set — 100% cotton, super soft for a restful sleep.",
+    image: "https://images.unsplash.com/photo-1622273509381-4b1049c6ba7f?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 74, 
+    title: "Mothercare Baby Romper (Pack of 3)", 
+    name: "Mothercare Baby Romper (Pack of 3)", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "Mothercare", 
+    description: "Mothercare cotton romper set in soft pastel shades, gentle on baby skin with easy snap buttons.",
+    image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 75, 
+    title: "MAX Kids Ethnic Kurta Pyjama", 
+    name: "MAX Kids Ethnic Kurta Pyjama", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "Max Fashion", 
+    description: "Max fashion kids festive kurta pyjama set in vibrant print — ideal for celebrations and functions.",
+    image: "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 76, 
+    title: "Gini & Jony Girls Frock", 
+    name: "Gini & Jony Girls Frock", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "Gini & Jony", 
+    description: "Gini & Jony A-line smocked dress for girls with floral prints and puff sleeves.",
+    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 77, 
+    title: "Allen Solly Junior Boys Shirt", 
+    name: "Allen Solly Junior Boys Shirt", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "Allen Solly Junior", 
+    description: "Allen Solly Junior boys' printed cotton shirt — vibrant, durable, and perfect for school or outings.",
+    image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 78, 
+    title: "Hopscotch Girls Dungaree Set", 
+    name: "Hopscotch Girls Dungaree Set", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "Hopscotch", 
+    description: "Hopscotch girls denim dungaree paired with cotton inner tee — adorable and comfortable.",
+    image: "https://images.unsplash.com/photo-1609302517876-db9bc0915f0d?auto=format&fit=crop&w=600&q=80",
+    price: 1099, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 79, 
+    title: "Mee Mee Baby Mittens & Booties Set", 
+    name: "Mee Mee Baby Mittens & Booties Set", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "Mee Mee", 
+    description: "Mee Mee soft cotton mittens and booties set for newborns — keeps tiny hands and feet warm.",
+    image: "https://images.unsplash.com/photo-1611099684343-4ccb380dc582?auto=format&fit=crop&w=600&q=80",
+    price: 299, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 80, 
+    title: "GAP Kids Hoodie Zip-Up", 
+    name: "GAP Kids Hoodie Zip-Up", 
+    category: "Fashion", 
+    subcategory: "Kids' Wear",
+    brand: "GAP", 
+    description: "GAP Kids cotton fleece zip-up hoodie — classic American style in soft, cozy material for winter.",
+    image: "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=600&q=80",
+    price: 1599, rating: 4.3, stockStatus: "In Stock"
+  },
+
+  // ----- FASHION > Footwear -----
+  {
+    id: 81, 
+    title: "Nike Air Max 270 Running Shoes", 
+    name: "Nike Air Max 270 Running Shoes", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Nike", 
+    description: "Nike Air Max 270 with Max Air unit for all-day comfort, breathable mesh upper and bold street style.",
+    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80",
+    price: 8999, rating: 4.7, stockStatus: "In Stock"
+  },
+  {
+    id: 82, 
+    title: "Puma Softride Running Shoes", 
+    name: "Puma Softride Running Shoes", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Puma", 
+    description: "Puma Softride Vital slip-on running shoes with SoftFoam+ insole for superior cushioning.",
+    image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 83, 
+    title: "Bata Men's Casual Loafers", 
+    name: "Bata Men's Casual Loafers", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Bata", 
+    description: "Bata leather-look casual loafers with cushioned footbed — stylish, affordable, everyday wear.",
+    image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 84, 
+    title: "Adidas Ultraboost 22 Sneakers", 
+    name: "Adidas Ultraboost 22 Sneakers", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Adidas", 
+    description: "Adidas Ultraboost 22 with responsive BOOST midsole, sock-like Primeknit upper for ultimate running comfort.",
+    image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=600&q=80",
+    price: 12999, rating: 4.8, stockStatus: "In Stock"
+  },
+  {
+    id: 85, 
+    title: "Campus Champion Running Shoes", 
+    name: "Campus Champion Running Shoes", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Campus", 
+    description: "Campus Champion men's lightweight sport shoes with EVA midsole and mesh upper — budget-friendly performance.",
+    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
+    price: 1599, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 86, 
+    title: "Woodland Men's Leather Boots", 
+    name: "Woodland Men's Leather Boots", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Woodland", 
+    description: "Woodland rugged leather ankle boots with anti-slip rubber sole — built for outdoor adventures.",
+    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80",
+    price: 4499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 87, 
+    title: "Crocs Classic Clogs", 
+    name: "Crocs Classic Clogs", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Crocs", 
+    description: "Crocs Classic Clogs in lightweight Croslite foam — ultra-comfortable, waterproof, and ventilated.",
+    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=600&q=80",
+    price: 2799, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 88, 
+    title: "Reebok Men's Classic Leather Sneakers", 
+    name: "Reebok Men's Classic Leather Sneakers", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Reebok", 
+    description: "Reebok Classic Leather sneakers with soft garment leather upper and molded EVA midsole — a timeless icon.",
+    image: "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=600&q=80",
+    price: 3999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 89, 
+    title: "Catwalk Women Block Heels", 
+    name: "Catwalk Women Block Heels", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Catwalk", 
+    description: "Catwalk women's block heel sandals with ankle strap — elegant for work and evening occasions.",
+    image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 90, 
+    title: "Skechers GO WALK 6 Slip-Ons", 
+    name: "Skechers GO WALK 6 Slip-Ons", 
+    category: "Fashion", 
+    subcategory: "Footwear",
+    brand: "Skechers", 
+    description: "Skechers GO WALK 6 slip-ons with 5GEN midsole and GOGA Max insole for next-level walking comfort.",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+    price: 4299, rating: 4.6, stockStatus: "In Stock"
+  },
+
+  // ----- FASHION > Fashion Accessories -----
+  {
+    id: 91, 
+    title: "Titan Karishma Analog Watch", 
+    name: "Titan Karishma Analog Watch", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Titan", 
+    description: "Titan Karishma women's analog watch with rose gold dial, slim bracelet and mineral glass.",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 92, 
+    title: "Fastrack Tees Sunglasses", 
+    name: "Fastrack Tees Sunglasses", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Fastrack", 
+    description: "Fastrack Tees square UV400 sunglasses with full-rim acetate frame — trendy eye protection.",
+    image: "https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 93, 
+    title: "Tommy Hilfiger Leather Wallet", 
+    name: "Tommy Hilfiger Leather Wallet", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Tommy Hilfiger", 
+    description: "Tommy Hilfiger slim leather bi-fold wallet with RFID blocking and multiple card slots.",
+    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 94, 
+    title: "Wildcraft Laptop Backpack 30L", 
+    name: "Wildcraft Laptop Backpack 30L", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Wildcraft", 
+    description: "Wildcraft 30L laptop backpack with dedicated 15.6\" sleeve, rain cover, and ergonomic straps.",
+    image: "https://images.unsplash.com/photo-1566150905458-1bf1fc15a6e0?auto=format&fit=crop&w=600&q=80",
+    price: 2199, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 95, 
+    title: "American Tourister Cabin Trolley", 
+    name: "American Tourister Cabin Trolley", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "American Tourister", 
+    description: "American Tourister 55cm cabin trolley with TSA lock, 360° spinner wheels and lightweight shell.",
+    image: "https://images.unsplash.com/photo-1524498250422-0749c8d6b535?auto=format&fit=crop&w=600&q=80",
+    price: 3999, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 96, 
+    title: "Hidesign Canvas Tote Bag", 
+    name: "Hidesign Canvas Tote Bag", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Hidesign", 
+    description: "Hidesign canvas and leather tote bag — spacious, sturdy, and perfect for daily commute.",
+    image: "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&w=600&q=80",
+    price: 2699, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 97, 
+    title: "Clovia Silk Scarf Floral Print", 
+    name: "Clovia Silk Scarf Floral Print", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Clovia", 
+    description: "Clovia lightweight silk-feel scarf with vibrant floral print — adds elegance to any outfit.",
+    image: "https://images.unsplash.com/photo-1531907700752-62799b2a3e84?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 98, 
+    title: "Mivi Pro Sterling Necklace Set", 
+    name: "Mivi Pro Sterling Necklace Set", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Zaveri Pearls", 
+    description: "Zaveri Pearls antique gold-plated choker necklace with earrings — elegant for ethnic occasions.",
+    image: "https://images.unsplash.com/photo-1582211594533-268f4f1edeb5?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 99, 
+    title: "Fossil Men's Chronograph Watch", 
+    name: "Fossil Men's Chronograph Watch", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Fossil", 
+    description: "Fossil Grant chronograph stainless steel watch with leather strap — classic style meets precision timing.",
+    image: "https://images.unsplash.com/photo-1582142306909-195724d33ab3?auto=format&fit=crop&w=600&q=80",
+    price: 9999, rating: 4.6, stockStatus: "Low Stock"
+  },
+  {
+    id: 100, 
+    title: "Baggit Vegan Leather Sling Bag", 
+    name: "Baggit Vegan Leather Sling Bag", 
+    category: "Fashion", 
+    subcategory: "Fashion Accessories",
+    brand: "Baggit", 
+    description: "Baggit vegan leather crossbody sling bag with adjustable strap and multiple pockets.",
+    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.2, stockStatus: "In Stock"
+  },
+
+  // ----- HOME & KITCHEN > Furniture -----
+  {
+    id: 101, 
+    title: "Nilkamal Plastic Dining Chair (Set of 2)", 
+    name: "Nilkamal Plastic Dining Chair (Set of 2)", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Nilkamal", 
+    description: "Nilkamal durable plastic dining chairs with armrests — ideal for dining halls, outdoor patios, and offices.",
+    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80",
+    price: 2999, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 102, 
+    title: "Pepperfry Fabric 3-Seater Sofa", 
+    name: "Pepperfry Fabric 3-Seater Sofa", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Pepperfry", 
+    description: "Pepperfry plush 3-seater sofa in fabric upholstery with solid wood legs — stylish living room centerpiece.",
+    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80",
+    price: 19999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 103, 
+    title: "FurnCraft Engineered Wood Bookshelf", 
+    name: "FurnCraft Engineered Wood Bookshelf", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "FurnCraft", 
+    description: "FurnCraft 5-shelf engineered wood bookcase with metal frame — modern and sturdy home storage solution.",
+    image: "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=600&q=80",
+    price: 4999, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 104, 
+    title: "IKEA KALLAX Shelf Unit (White)", 
+    name: "IKEA KALLAX Shelf Unit (White)", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "IKEA", 
+    description: "IKEA KALLAX 4-cube shelf unit in white — versatile storage, use as bookcase, room divider or sideboard.",
+    image: "https://images.unsplash.com/photo-1506898667547-42e22a46e12a?auto=format&fit=crop&w=600&q=80",
+    price: 6999, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 105, 
+    title: "Durian Leatherette Office Chair", 
+    name: "Durian Leatherette Office Chair", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Durian", 
+    description: "Durian mid-back leatherette office chair with lumbar support, adjustable height and armrests.",
+    image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600&q=80",
+    price: 8999, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 106, 
+    title: "Wakefit Orthopaedic Memory Foam Mattress", 
+    name: "Wakefit Orthopaedic Memory Foam Mattress", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Wakefit", 
+    description: "Wakefit dual comfort 5-inch memory foam mattress with anti-skid base — Queen size, 100 night trial.",
+    image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=600&q=80",
+    price: 13999, rating: 4.7, stockStatus: "In Stock"
+  },
+  {
+    id: 107, 
+    title: "Godrej Interio Study Table", 
+    name: "Godrej Interio Study Table", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Godrej Interio", 
+    description: "Godrej Interio engineered wood study table with drawer and side shelf — compact and functional.",
+    image: "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=600&q=80",
+    price: 7499, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 108, 
+    title: "Pepperfry Wooden TV Unit", 
+    name: "Pepperfry Wooden TV Unit", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Pepperfry", 
+    description: "Pepperfry engineered wood TV unit with cable management, 2 drawers and open shelves — fits up to 55\" TV.",
+    image: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=600&q=80",
+    price: 9999, rating: 4.4, stockStatus: "Low Stock"
+  },
+  {
+    id: 109, 
+    title: "Nilkamal Freedom Big Plastic Wardrobe", 
+    name: "Nilkamal Freedom Big Plastic Wardrobe", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Nilkamal", 
+    description: "Nilkamal Freedom Big 2-door plastic wardrobe with 2 drawers and locking mechanism — easy to assemble.",
+    image: "https://images.unsplash.com/photo-1595514534724-40585f148003?auto=format&fit=crop&w=600&q=80",
+    price: 5499, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 110, 
+    title: "Urban Ladder Foldable Dining Table Set", 
+    name: "Urban Ladder Foldable Dining Table Set", 
+    category: "Home & Kitchen", 
+    subcategory: "Furniture",
+    brand: "Urban Ladder", 
+    description: "Urban Ladder 4-seater solid wood foldable dining table set — saves space without compromising style.",
+    image: "https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=600&q=80",
+    price: 16999, rating: 4.5, stockStatus: "In Stock"
+  },
+
+  // ----- HOME & KITCHEN > Decor -----
+  {
+    id: 111, 
+    title: "Rangoli Cotton Mandala Tapestry", 
+    name: "Rangoli Cotton Mandala Tapestry", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Rangoli", 
+    description: "Rangoli 100% cotton mandala tapestry — a beautiful boho-chic wall hanging for any room.",
+    image: "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 112, 
+    title: "Nestasia Ceramic Vase (Set of 2)", 
+    name: "Nestasia Ceramic Vase (Set of 2)", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Nestasia", 
+    description: "Nestasia matte ceramic bud vases in cream and sage green — minimalist décor for shelf or table.",
+    image: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 113, 
+    title: "Wooden Street Wall Clock (Teak)", 
+    name: "Wooden Street Wall Clock (Teak)", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Wooden Street", 
+    description: "Wooden Street handcrafted teak wood wall clock with silent sweep movement — a rustic statement piece.",
+    image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 114, 
+    title: "Archies Soy Wax Scented Candle Set", 
+    name: "Archies Soy Wax Scented Candle Set", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Archies", 
+    description: "Archies soy wax scented candle set with lavender, jasmine and vanilla — long 40hr burn time.",
+    image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 115, 
+    title: "Chumbak Geometric Photo Frames (3-set)", 
+    name: "Chumbak Geometric Photo Frames (3-set)", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Chumbak", 
+    description: "Chumbak geometric photo frames in gold finish for 4×6 photos — gallery wall made easy.",
+    image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 116, 
+    title: "FabFurnish Macrame Wall Hanging", 
+    name: "FabFurnish Macrame Wall Hanging", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "FabFurnish", 
+    description: "FabFurnish handmade cotton macramé wall hanging with wooden dowel — adds boho texture to any wall.",
+    image: "https://images.unsplash.com/photo-1531971589569-0d9370cbe1e5?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 117, 
+    title: "Bamboo Decorative Tray with Handles", 
+    name: "Bamboo Decorative Tray with Handles", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Ecosense", 
+    description: "Ecosense rectangular bamboo serving tray with handles — perfect for breakfast in bed, ottomans, or display.",
+    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 118, 
+    title: "Folkulture Pampas Grass Dried Flowers", 
+    name: "Folkulture Pampas Grass Dried Flowers", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Folkulture", 
+    description: "Folkulture natural dried pampas grass bunch — boho aesthetic home decor that lasts for months.",
+    image: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 119, 
+    title: "Saral Home Kantha Cushion Covers (5 Pcs)", 
+    name: "Saral Home Kantha Cushion Covers (5 Pcs)", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Saral Home", 
+    description: "Saral Home hand-stitched kantha work cotton cushion covers in vibrant colours — pack of 5, 16×16 inch.",
+    image: "https://images.unsplash.com/photo-1615874959474-d609969a20ed?auto=format&fit=crop&w=600&q=80",
+    price: 849, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 120, 
+    title: "Orientbell Floor Mirror with Gold Frame", 
+    name: "Orientbell Floor Mirror with Gold Frame", 
+    category: "Home & Kitchen", 
+    subcategory: "Decor",
+    brand: "Orientbell", 
+    description: "Orientbell leaning floor mirror with ornate gold metal frame — a glamorous statement in any bedroom.",
+    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80",
+    price: 4999, rating: 4.5, stockStatus: "Low Stock"
+  },
+
+  // ----- HOME & KITCHEN > Kitchen Appliances -----
+  {
+    id: 121, 
+    title: "Prestige IRIS 750W Mixer Grinder", 
+    name: "Prestige IRIS 750W Mixer Grinder", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Prestige", 
+    description: "Prestige IRIS 750W mixer grinder with 4 jars (dry, wet, chutney + liquidising), 5-yr motor warranty.",
+    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 122, 
+    title: "Bajaj Majesty 2L Rice Cooker", 
+    name: "Bajaj Majesty 2L Rice Cooker", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Bajaj", 
+    description: "Bajaj Majesty 2L rice cooker with 3-in-1 cooking, cool-touch handles and stainless steel lid.",
+    image: "https://images.unsplash.com/photo-1517256064527-09c53b2d0c6b?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 123, 
+    title: "Philips HD9252 Air Fryer 1400W", 
+    name: "Philips HD9252 Air Fryer 1400W", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Philips", 
+    description: "Philips Essential Air Fryer with Rapid Air technology — 2.6L capacity, up to 90% less fat.",
+    image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?auto=format&fit=crop&w=600&q=80",
+    price: 6499, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 124, 
+    title: "Panasonic 20L Solo Microwave Oven", 
+    name: "Panasonic 20L Solo Microwave Oven", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Panasonic", 
+    description: "Panasonic 20L solo microwave with 6 auto cook menus, child lock and 5 power levels.",
+    image: "https://images.unsplash.com/photo-1594213114663-d94ebfb885a0?auto=format&fit=crop&w=600&q=80",
+    price: 5999, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 125, 
+    title: "Morphy Richards Brew Drip Coffee Maker", 
+    name: "Morphy Richards Brew Drip Coffee Maker", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Morphy Richards", 
+    description: "Morphy Richards Brew Aroma 600W drip coffee maker with keep-warm feature and borosilicate glass carafe.",
+    image: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 126, 
+    title: "Havells Instanio Instant Water Heater", 
+    name: "Havells Instanio Instant Water Heater", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Havells", 
+    description: "Havells Instanio 3L instant water heater with thermal cut-out, ISI mark and rust-free ABS body.",
+    image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=600&q=80",
+    price: 3299, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 127, 
+    title: "Kent 2L Double Wall Electric Kettle", 
+    name: "Kent 2L Double Wall Electric Kettle", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Kent", 
+    description: "Kent 2L double-wall stainless steel electric kettle with auto shut-off and boil dry protection.",
+    image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 128, 
+    title: "Usha Toaster Grill Sandwich Maker", 
+    name: "Usha Toaster Grill Sandwich Maker", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Usha", 
+    description: "Usha 750W sandwich toaster with floating hinge for thick sandwiches and non-stick coated plates.",
+    image: "https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&w=600&q=80",
+    price: 899, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 129, 
+    title: "Bosch 700W Hand Blender", 
+    name: "Bosch 700W Hand Blender", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Bosch", 
+    description: "Bosch ErgoMixx 700W hand blender with 2-speed setting, whisk and chopper attachments.",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
+    price: 2799, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 130, 
+    title: "Kaff 60cm 1200 m³/hr Chimney", 
+    name: "Kaff 60cm 1200 m³/hr Chimney", 
+    category: "Home & Kitchen", 
+    subcategory: "Kitchen Appliances",
+    brand: "Kaff", 
+    description: "Kaff 60cm straight wall mounted kitchen chimney with baffle filter and touch control — powerful 1200 m³/hr suction.",
+    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=600&q=80",
+    price: 12999, rating: 4.4, stockStatus: "Low Stock"
+  },
+
+  // ----- HOME & KITCHEN > Cookware -----
+  {
+    id: 131, 
+    title: "Hawkins Futura Non-Stick Tawa 30cm", 
+    name: "Hawkins Futura Non-Stick Tawa 30cm", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Hawkins", 
+    description: "Hawkins Futura 30cm non-stick tawa with hard anodised base for even heat distribution — ideal for rotis.",
+    image: "https://images.unsplash.com/photo-1590483736622-398544c4146a?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 132, 
+    title: "Prestige Svachh 5L Pressure Cooker", 
+    name: "Prestige Svachh 5L Pressure Cooker", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Prestige", 
+    description: "Prestige Svachh 5L aluminium pressure cooker with unique deep-lid design for easy cleaning.",
+    image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=600&q=80",
+    price: 1799, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 133, 
+    title: "Wonderchef Granite Non-Stick Kadai", 
+    name: "Wonderchef Granite Non-Stick Kadai", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Wonderchef", 
+    description: "Wonderchef 26cm granite finish kadai with glass lid — PFOA-free coating and induction-compatible base.",
+    image: "https://images.unsplash.com/photo-1536304993881-ff86e0c9b584?auto=format&fit=crop&w=600&q=80",
+    price: 1899, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 134, 
+    title: "Meyer Stainless Steel Casserole Set", 
+    name: "Meyer Stainless Steel Casserole Set", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Meyer", 
+    description: "Meyer 3-piece stainless steel casserole set with encapsulated bottom — safe for all hobs including induction.",
+    image: "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 135, 
+    title: "Cello Opalware Dinner Set 27 Pcs", 
+    name: "Cello Opalware Dinner Set 27 Pcs", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Cello", 
+    description: "Cello Opalware 27-piece printed dinner set — lightweight, break-resistant with a glossy porcelain look.",
+    image: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 136, 
+    title: "Borosil Classic Mixing Bowl Set", 
+    name: "Borosil Classic Mixing Bowl Set", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Borosil", 
+    description: "Borosil 3-piece glass mixing bowl set with lids — microwave, dishwasher and freezer safe.",
+    image: "https://images.unsplash.com/photo-1604147706283-d7119b5b822c?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 137, 
+    title: "Victorinox Fibrox Chef's Knife 20cm", 
+    name: "Victorinox Fibrox Chef's Knife 20cm", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Victorinox", 
+    description: "Victorinox Fibrox 20cm chef's knife with ergonomic textured handle — professional grade, NSF certified.",
+    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=600&q=80",
+    price: 2299, rating: 4.7, stockStatus: "In Stock"
+  },
+  {
+    id: 138, 
+    title: "Signoraware Stainless Steel Tiffin Box", 
+    name: "Signoraware Stainless Steel Tiffin Box", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Signoraware", 
+    description: "Signoraware 4-tier stainless steel lunch box with insulated carry bag — leakproof and durable.",
+    image: "https://images.unsplash.com/photo-1544982503-9f984c14501a?auto=format&fit=crop&w=600&q=80",
+    price: 899, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 139, 
+    title: "Tupperware Classic Lunch Set", 
+    name: "Tupperware Classic Lunch Set", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Tupperware", 
+    description: "Tupperware 2-container lunch set with insulated bag, BPA-free, and microwave-safe containers.",
+    image: "https://images.unsplash.com/photo-1594794312433-dee9255743c4?auto=format&fit=crop&w=600&q=80",
+    price: 1599, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 140, 
+    title: "Pigeon Aluminium Appachetty Paniyaram Pan", 
+    name: "Pigeon Aluminium Appachetty Paniyaram Pan", 
+    category: "Home & Kitchen", 
+    subcategory: "Cookware",
+    brand: "Pigeon", 
+    description: "Pigeon 12-pit non-stick paniyaram pan with lid — perfect for making healthy appe, paniyaram with less oil.",
+    image: "https://images.unsplash.com/photo-1584285426189-dc0a232230fd?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.3, stockStatus: "In Stock"
+  },
+
+  // ----- HOME & KITCHEN > Bedding -----
+  {
+    id: 141, 
+    title: "Spaces Atrium Bedsheet Set (King)", 
+    name: "Spaces Atrium Bedsheet Set (King)", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Spaces", 
+    description: "Spaces Atrium 100% cotton king-size bedsheet with 2 pillow covers — 144 TC, vibrant printed design.",
+    image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 142, 
+    title: "Story@Home Microfibre Comforter", 
+    name: "Story@Home Microfibre Comforter", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Story@Home", 
+    description: "Story@Home microfibre double comforter — lightweight, reversible, machine washable, 250 GSM fill.",
+    image: "https://images.unsplash.com/photo-1617806118233-18e1db207f62?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 143, 
+    title: "Sleepwell Nexa Foam Pillow", 
+    name: "Sleepwell Nexa Foam Pillow", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Sleepwell", 
+    description: "Sleepwell Nexa Memory Foam pillow with 3-layer support and soft, breathable fabric cover — orthopaedic care.",
+    image: "https://images.unsplash.com/photo-1616627561950-9f746e330187?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 144, 
+    title: "Raymond Home 400TC Satin Bedsheet", 
+    name: "Raymond Home 400TC Satin Bedsheet", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Raymond Home", 
+    description: "Raymond Home 400TC satin weave king bedsheet — ultra-silky, anti-pilling with 2 pillow covers included.",
+    image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 145, 
+    title: "Bombay Dyeing Cotton Bedsheet Set", 
+    name: "Bombay Dyeing Cotton Bedsheet Set", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Bombay Dyeing", 
+    description: "Bombay Dyeing 160 TC pure cotton printed bedsheet with 2 pillow covers — soft, durable, colour-fast.",
+    image: "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=600&q=80",
+    price: 899, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 146, 
+    title: "Trident Group Towel Set (4 Pcs)", 
+    name: "Trident Group Towel Set (4 Pcs)", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Trident", 
+    description: "Trident 100% cotton 500 GSM bath towel set of 4 — quick-dry, colour-fast, premium softness.",
+    image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 147, 
+    title: "D'Decor Sherpa Fleece Throw Blanket", 
+    name: "D'Decor Sherpa Fleece Throw Blanket", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "D'Decor", 
+    description: "D'Decor sherpa-lined fleece throw blanket in neutral tones — reversible, warm, and ultra-soft for winter.",
+    image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 148, 
+    title: "Urban Home Waterproof Mattress Protector", 
+    name: "Urban Home Waterproof Mattress Protector", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Urban Home", 
+    description: "Urban Home fitted waterproof mattress protector in soft terry cotton — King size, dust-mite resistant.",
+    image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 149, 
+    title: "Maspar Elegance Cushion Filler Set (5 Pcs)", 
+    name: "Maspar Elegance Cushion Filler Set (5 Pcs)", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Maspar", 
+    description: "Maspar 5-piece microfiber cushion fillers 16×16 — fluffy, even fill for sofa and bed cushions.",
+    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 150, 
+    title: "Portico Geometric Duvet Cover Set", 
+    name: "Portico Geometric Duvet Cover Set", 
+    category: "Home & Kitchen", 
+    subcategory: "Bedding",
+    brand: "Portico", 
+    description: "Portico 200TC geometric pattern duvet cover with 2 pillow shams — double size, zipper closure.",
+    image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=600&q=80",
+    price: 2999, rating: 4.5, stockStatus: "In Stock"
+  },
+
+  // ----- BEAUTY & PERSONAL CARE > Skincare -----
+  {
+    id: 151, 
+    title: "Minimalist 10% Niacinamide Serum", 
+    name: "Minimalist 10% Niacinamide Serum", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "Minimalist", 
+    description: "Minimalist 10% Niacinamide + Zinc serum for pore minimising, oil control and blemish reduction.",
+    image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 152, 
+    title: "Plum E-Luminence Simply Supple Face Wash", 
+    name: "Plum E-Luminence Simply Supple Face Wash", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "Plum", 
+    description: "Plum Simply Supple face wash with Vitamin E for a gentle, hydrating cleanse without stripping skin.",
+    image: "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=600&q=80",
+    price: 349, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 153, 
+    title: "Cetaphil Moisturising Cream 250g", 
+    name: "Cetaphil Moisturising Cream 250g", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "Cetaphil", 
+    description: "Cetaphil Moisturising Cream for dry to very dry sensitive skin — non-greasy, fragrance-free, 24hr hydration.",
+    image: "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.7, stockStatus: "In Stock"
+  },
+  {
+    id: 154, 
+    title: "Dot & Key Vitamin C SPF50 Sunscreen", 
+    name: "Dot & Key Vitamin C SPF50 Sunscreen", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "Dot & Key", 
+    description: "Dot & Key Vitamin C+E SPF50 PA++++ sunscreen with antioxidants — lightweight, no white cast.",
+    image: "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 155, 
+    title: "WOW Skin Science Apple Cider Vinegar Toner", 
+    name: "WOW Skin Science Apple Cider Vinegar Toner", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "WOW", 
+    description: "WOW ACV toner with witch hazel and rose water — balances pH, minimises pores and brightens skin.",
+    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=600&q=80",
+    price: 449, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 156, 
+    title: "Lakme 9 to 5 CC Cream SPF30", 
+    name: "Lakme 9 to 5 CC Cream SPF30", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "Lakmé", 
+    description: "Lakmé 9 to 5 CC cream with SPF30 — lightweight coverage, hydrating formula, brightening finish.",
+    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=600&q=80",
+    price: 299, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 157, 
+    title: "The Body Shop Tea Tree Face Wash", 
+    name: "The Body Shop Tea Tree Face Wash", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "The Body Shop", 
+    description: "The Body Shop Tea Tree purifying face wash for blemish-prone oily skin — naturally derived tea tree.",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 158, 
+    title: "Forest Essentials Facial Ubtan Scrub", 
+    name: "Forest Essentials Facial Ubtan Scrub", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "Forest Essentials", 
+    description: "Forest Essentials pure Himalayan clay & herb ubtan face scrub — ayurvedic glow ritual for all skin types.",
+    image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 159, 
+    title: "St. Botanica Retinol & Vitamin E Night Cream", 
+    name: "St. Botanica Retinol & Vitamin E Night Cream", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "St. Botanica", 
+    description: "St. Botanica retinol + vitamin E night cream for wrinkle reduction, skin renewal and deep hydration.",
+    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 160, 
+    title: "Neutrogena Hydro Boost Water Gel 50g", 
+    name: "Neutrogena Hydro Boost Water Gel 50g", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Skincare",
+    brand: "Neutrogena", 
+    description: "Neutrogena Hydro Boost water gel with hyaluronic acid — instantly hydrates and refills skin moisture bank.",
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.6, stockStatus: "In Stock"
+  },
+
+  // ----- BEAUTY & PERSONAL CARE > Haircare -----
+  {
+    id: 161, 
+    title: "Pantene Advanced Hairfall Solution Shampoo", 
+    name: "Pantene Advanced Hairfall Solution Shampoo", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Pantene", 
+    description: "Pantene Advanced Hairfall Solution shampoo with Pro-Vitamin B5 — reduces breakage up to 98% in 4 weeks.",
+    image: "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a3ef?auto=format&fit=crop&w=600&q=80",
+    price: 349, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 162, 
+    title: "Mamaearth Onion Shampoo 400ml", 
+    name: "Mamaearth Onion Shampoo 400ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Mamaearth", 
+    description: "Mamaearth onion hair fall shampoo with plant keratin and onion extract — toxin-free, sulphate-free formula.",
+    image: "https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=600&q=80",
+    price: 399, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 163, 
+    title: "L'Oreal Paris 6-Oil Nourish Conditioner", 
+    name: "L'Oreal Paris 6-Oil Nourish Conditioner", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "L'Oréal Paris", 
+    description: "L'Oréal Paris Extraordinary Oil conditioner with 6 rare oils — intense nourishment for dry frizzy hair.",
+    image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&w=600&q=80",
+    price: 449, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 164, 
+    title: "Philips BHH887 Kerashine Hair Dryer", 
+    name: "Philips BHH887 Kerashine Hair Dryer", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Philips", 
+    description: "Philips BHH887 1800W Kerashine hair dryer with ionic conditioning, ThermoProtect and 2 heat settings.",
+    image: "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?auto=format&fit=crop&w=600&q=80",
+    price: 1799, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 165, 
+    title: "Livon Serum for Dry Hair 100ml", 
+    name: "Livon Serum for Dry Hair 100ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Livon", 
+    description: "Livon dry hair serum with argan oil — controls frizz, adds shine, and protects against heat styling.",
+    image: "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=600&q=80",
+    price: 199, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 166, 
+    title: "Biotique Bio Bhringraj Hair Oil 200ml", 
+    name: "Biotique Bio Bhringraj Hair Oil 200ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Biotique", 
+    description: "Biotique Bio Bhringraj fresh growth therapeutic hair oil — prevents hair loss, promotes growth.",
+    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=600&q=80",
+    price: 279, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 167, 
+    title: "Tresemme Keratin Smooth Mask 300ml", 
+    name: "Tresemme Keratin Smooth Mask 300ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "TRESemmé", 
+    description: "TRESemmé Keratin Smooth deep conditioning mask for frizz control and silky smooth hair lasting 48hrs.",
+    image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 168, 
+    title: "Vega VHDH-06 Hair Dryer 1400W", 
+    name: "Vega VHDH-06 Hair Dryer 1400W", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Vega", 
+    description: "Vega VHDH-06 1400W lightweight hair dryer with cool shot button and 2 heat settings — budget pick.",
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 3.9, stockStatus: "In Stock"
+  },
+  {
+    id: 169, 
+    title: "Dove Intense Repair Conditioner 180ml", 
+    name: "Dove Intense Repair Conditioner 180ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Dove", 
+    description: "Dove Intense Repair conditioner with Keratin Actives — deeply repairs and nourishes damaged hair.",
+    image: "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?auto=format&fit=crop&w=600&q=80",
+    price: 199, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 170, 
+    title: "Streax Hair Serum with Walnut Oil 100ml", 
+    name: "Streax Hair Serum with Walnut Oil 100ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Haircare",
+    brand: "Streax", 
+    description: "Streax professional hair serum with walnut oil — gives instant shine and frizz control.",
+    image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=600&q=80",
+    price: 249, rating: 4, stockStatus: "In Stock"
+  },
+
+  // ----- BEAUTY & PERSONAL CARE > Makeup -----
+  {
+    id: 171, 
+    title: "Maybelline Fit Me Matte Foundation", 
+    name: "Maybelline Fit Me Matte Foundation", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "Maybelline", 
+    description: "Maybelline Fit Me Matte + Poreless liquid foundation with blurring mineral — natural matte finish.",
+    image: "https://images.unsplash.com/photo-1586495777744-4e6232bf2ebb?auto=format&fit=crop&w=600&q=80",
+    price: 299, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 172, 
+    title: "Lakme Absolute Blur Perfect Primer", 
+    name: "Lakme Absolute Blur Perfect Primer", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "Lakmé", 
+    description: "Lakmé Absolute Blur Perfect Makeup Primer — minimises pores, controls shine, SPF 25 protection.",
+    image: "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&q=80",
+    price: 349, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 173, 
+    title: "NYX Professional Soft Matte Lip Cream", 
+    name: "NYX Professional Soft Matte Lip Cream", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "NYX Professional", 
+    description: "NYX Soft Matte Lip Cream — full coverage velvety matte finish in a wide range of bold shades.",
+    image: "https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 174, 
+    title: "Colorbar Nude Enigma Eyeshadow Palette", 
+    name: "Colorbar Nude Enigma Eyeshadow Palette", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "Colorbar", 
+    description: "Colorbar 9-pan nude enigma eyeshadow palette with mix of matte, shimmer and glitter shades.",
+    image: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 175, 
+    title: "MAC Pro Longwear Lipstick", 
+    name: "MAC Pro Longwear Lipstick", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "MAC", 
+    description: "MAC Pro Longwear Lipcreme — rich colour, creamy formula, up to 8 hours wear without drying lips.",
+    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=600&q=80",
+    price: 1699, rating: 4.6, stockStatus: "In Stock"
+  },
+  {
+    id: 176, 
+    title: "Sugar Cosmetics Contour De Force Palette", 
+    name: "Sugar Cosmetics Contour De Force Palette", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "Sugar Cosmetics", 
+    description: "Sugar Cosmetics contour, highlight and blush all-in-one palette — buildable and blendable pigments.",
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 177, 
+    title: "L'Oreal Paris Telescopic Mascara", 
+    name: "L'Oreal Paris Telescopic Mascara", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "L'Oréal Paris", 
+    description: "L'Oréal Paris Telescopic mascara with precision brush — separates and lengthens every lash up to 60%.",
+    image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 178, 
+    title: "Nykaa SkinShield Anti-Pollution Serum", 
+    name: "Nykaa SkinShield Anti-Pollution Serum", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "Nykaa", 
+    description: "Nykaa SkinShield SPF50 anti-pollution foundation with Vitamin C — city-proof, lightweight coverage.",
+    image: "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 179, 
+    title: "Coloressence Aqua Series Kajal Kohl", 
+    name: "Coloressence Aqua Series Kajal Kohl", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "Coloressence", 
+    description: "Coloressence Aqua long-lasting kajal with smudge-proof formula — rich black, ophthalmologist tested.",
+    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=600&q=80",
+    price: 149, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 180, 
+    title: "Chambor Extreme Wear Foundation SPF25", 
+    name: "Chambor Extreme Wear Foundation SPF25", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Makeup",
+    brand: "Chambor", 
+    description: "Chambor Extreme Wear full-coverage liquid foundation with SPF25 — 24hr stay, sweat and humidity resistant.",
+    image: "https://images.unsplash.com/photo-1631214500004-5d65a3e3e7b2?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.3, stockStatus: "In Stock"
+  },
+
+  // ----- BEAUTY & PERSONAL CARE > Fragrances -----
+  {
+    id: 181, 
+    title: "Engage Ticket to Paradise EDP 50ml", 
+    name: "Engage Ticket to Paradise EDP 50ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Engage", 
+    description: "Engage Ticket to Paradise EDP 50ml — a fresh, floral-citrus scent for women. All-day fragrance.",
+    image: "https://images.unsplash.com/photo-1587017539504-67cfbddac569?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 182, 
+    title: "Fogg Scent Black Men's EDP 100ml", 
+    name: "Fogg Scent Black Men's EDP 100ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Fogg", 
+    description: "Fogg Scent Black 100ml EDP for men — woody and intense fragrance with 1500+ sprays, no gas.",
+    image: "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=600&q=80",
+    price: 399, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 183, 
+    title: "Titan Skinn Verge Pour Femme EDP", 
+    name: "Titan Skinn Verge Pour Femme EDP", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Titan Skinn", 
+    description: "Titan Skinn Verge Pour Femme EDP 50ml — feminine, musky floral with hints of rose, amber and vanilla.",
+    image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 184, 
+    title: "The Man Company Dark Oud EDP 60ml", 
+    name: "The Man Company Dark Oud EDP 60ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "The Man Company", 
+    description: "The Man Company Dark Oud alcohol-free EDP 60ml — rich, woody and luxurious for evening wear.",
+    image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 185, 
+    title: "Park Avenue Voyage EDP 100ml", 
+    name: "Park Avenue Voyage EDP 100ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Park Avenue", 
+    description: "Park Avenue Voyage EDP 100ml for men — fresh aquatic fragrance with citrus top notes and woody base.",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=600&q=80",
+    price: 399, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 186, 
+    title: "Nike Extreme Blue EDT 100ml", 
+    name: "Nike Extreme Blue EDT 100ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Nike Perfumes", 
+    description: "Nike Extreme Blue 100ml EDT — sporty, refreshing fragrance with citrus and aquatic notes.",
+    image: "https://images.unsplash.com/photo-1615396899839-c99c121888b0?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 3.9, stockStatus: "In Stock"
+  },
+  {
+    id: 187, 
+    title: "Aromatics Elixir Clinique EDP 45ml", 
+    name: "Aromatics Elixir Clinique EDP 45ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Clinique", 
+    description: "Clinique Aromatics Elixir EDP 45ml — a complex oriental floral perfume with lasting power and depth.",
+    image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80",
+    price: 2999, rating: 4.5, stockStatus: "Low Stock"
+  },
+  {
+    id: 188, 
+    title: "Pee Safe Rose Intimate Wash 100ml", 
+    name: "Pee Safe Rose Intimate Wash 100ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Pee Safe", 
+    description: "Pee Safe rose intimate wash for women — pH balanced, gentle, dermatologically tested and sulphate-free.",
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80",
+    price: 249, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 189, 
+    title: "Wild Stone CODE Titanium Perfume 50ml", 
+    name: "Wild Stone CODE Titanium Perfume 50ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Wild Stone", 
+    description: "Wild Stone CODE Titanium EDP 50ml — luxurious masculine fragrance with bergamot and vetiver.",
+    image: "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 190, 
+    title: "Yardley London English Lavender EDT", 
+    name: "Yardley London English Lavender EDT", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Fragrances",
+    brand: "Yardley", 
+    description: "Yardley English Lavender EDT 100ml — a classic, timeless floral fragrance with a clean powdery finish.",
+    image: "https://images.unsplash.com/photo-1541643600914-78b084683702?auto=format&fit=crop&w=600&q=80",
+    price: 449, rating: 4.1, stockStatus: "In Stock"
+  },
+
+  // ----- BEAUTY & PERSONAL CARE > Bath & Body -----
+  {
+    id: 191, 
+    title: "Dove Deeply Nourishing Body Wash 500ml", 
+    name: "Dove Deeply Nourishing Body Wash 500ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Dove", 
+    description: "Dove Deeply Nourishing body wash with NutriumMoisture — leaves skin soft and moisturised all day.",
+    image: "https://images.unsplash.com/photo-1607006342456-ba2521846b4c?auto=format&fit=crop&w=600&q=80",
+    price: 299, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 192, 
+    title: "The Body Shop Shea Butter Body Lotion", 
+    name: "The Body Shop Shea Butter Body Lotion", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "The Body Shop", 
+    description: "The Body Shop Shea Butter body lotion for very dry skin — made with Fair Trade Shea from Ghana.",
+    image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 193, 
+    title: "Nivea Men Whitening SPF30 Face Wash", 
+    name: "Nivea Men Whitening SPF30 Face Wash", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Nivea", 
+    description: "Nivea Men Dark Spot Reduction moisturizing face wash with SPF30 — fairness, anti-aging and UV protection.",
+    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=600&q=80",
+    price: 199, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 194, 
+    title: "Fiama Shower Gel 200ml", 
+    name: "Fiama Shower Gel 200ml", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Fiama", 
+    description: "Fiama gel bar shower gel — lathers up to a rich creamy lather for silky smooth skin.",
+    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80",
+    price: 179, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 195, 
+    title: "Himalaya Nourishing Almond & Rose Body Lotion", 
+    name: "Himalaya Nourishing Almond & Rose Body Lotion", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Himalaya", 
+    description: "Himalaya nourishing Almond & Rose body lotion with Vitamin E — deeply moisturises for 48hr hydration.",
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80",
+    price: 249, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 196, 
+    title: "Biotique Apricot Scrub 75g", 
+    name: "Biotique Apricot Scrub 75g", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Biotique", 
+    description: "Biotique Bio Apricot body scrub — gently exfoliates dead skin cells with natural apricot kernel.",
+    image: "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=600&q=80",
+    price: 199, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 197, 
+    title: "Lux Soft Glow Rose Bath Soap (Pack of 6)", 
+    name: "Lux Soft Glow Rose Bath Soap (Pack of 6)", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Lux", 
+    description: "Lux Soft Glow rose and Vitamin B3 bar soap pack of 6 — leaves skin soft with a delicate floral scent.",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80",
+    price: 199, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 198, 
+    title: "Veet Full Body Wax Strips Kit", 
+    name: "Veet Full Body Wax Strips Kit", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Veet", 
+    description: "Veet cold wax strips for full body — ready to use, removes hair at root, smooth results for 4 weeks.",
+    image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=600&q=80",
+    price: 299, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 199, 
+    title: "Sensodyne Rapid Relief Toothpaste 80g", 
+    name: "Sensodyne Rapid Relief Toothpaste 80g", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Sensodyne", 
+    description: "Sensodyne Rapid Relief sensitive toothpaste — clinically proven to build a protective layer within 60 seconds.",
+    image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=600&q=80",
+    price: 149, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 200, 
+    title: "Oral-B Pro 2000 Electric Toothbrush", 
+    name: "Oral-B Pro 2000 Electric Toothbrush", 
+    category: "Beauty & Personal Care", 
+    subcategory: "Bath & Body",
+    brand: "Oral-B", 
+    description: "Oral-B Pro 2000 rechargeable electric toothbrush with 2D cleaning action, pressure sensor, 2 brush heads.",
+    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.5, stockStatus: "In Stock"
+  },
+
+  // ----- SPORTS & FITNESS > Cardio Equipment -----
+  {
+    id: 201, 
+    title: "PowerMax Fitness MFG-20 Mini Exercise Cycle", 
+    name: "PowerMax Fitness MFG-20 Mini Exercise Cycle", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "PowerMax Fitness", 
+    description: "PowerMax MFG-20 mini pedal exerciser with digital LCD monitor — compact cardio at your desk or bed.",
+    image: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&q=80",
+    price: 3499, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 202, 
+    title: "Cockatoo CTM-04 Manual Treadmill", 
+    name: "Cockatoo CTM-04 Manual Treadmill", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Cockatoo", 
+    description: "Cockatoo CTM-04 manual treadmill with 5-level incline, LCD monitor and folding design for home use.",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69d4fa8e?auto=format&fit=crop&w=600&q=80",
+    price: 13999, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 203, 
+    title: "Durafit Blaze EC022A Elliptical Cross Trainer", 
+    name: "Durafit Blaze EC022A Elliptical Cross Trainer", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Durafit", 
+    description: "Durafit Blaze elliptical trainer with 12 magnetic resistance levels, LCD display and transport wheels.",
+    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80",
+    price: 17999, rating: 4.3, stockStatus: "Low Stock"
+  },
+  {
+    id: 204, 
+    title: "Boldfit Jump Rope Steel Wire", 
+    name: "Boldfit Jump Rope Steel Wire", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Boldfit", 
+    description: "Boldfit steel wire speed skipping rope with bearing handles — for boxing, MMA and HIIT cardio workouts.",
+    image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+    price: 399, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 205, 
+    title: "Strauss Aerobic Stepper Platform", 
+    name: "Strauss Aerobic Stepper Platform", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Strauss", 
+    description: "Strauss adjustable aerobic step platform — 3 height levels, non-slip surface for step aerobics and dance.",
+    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 206, 
+    title: "Lifelong LLM4020 Fitness Cycle", 
+    name: "Lifelong LLM4020 Fitness Cycle", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Lifelong", 
+    description: "Lifelong LLM4020 upright exercise bike with 8 magnetic resistance levels, backrest and heart-rate sensor.",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    price: 8499, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 207, 
+    title: "Burnlab Pro Agility Ladder 5m", 
+    name: "Burnlab Pro Agility Ladder 5m", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Burnlab", 
+    description: "Burnlab 5m agility ladder with 12 rungs and carry bag — essential for footwork training and HIIT.",
+    image: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 208, 
+    title: "Nivia Run Treadmill Belt 550W", 
+    name: "Nivia Run Treadmill Belt 550W", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Nivia", 
+    description: "Nivia Run 550W motorised treadmill — 12 programmes, 10km/h max, LCD display, foldable for home gym.",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69d4fa8e?auto=format&fit=crop&w=600&q=80",
+    price: 22999, rating: 4, stockStatus: "Low Stock"
+  },
+  {
+    id: 209, 
+    title: "Kobo Resistance Band Loop Set (5 pcs)", 
+    name: "Kobo Resistance Band Loop Set (5 pcs)", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Kobo", 
+    description: "Kobo 5-piece fabric resistance loop band set for glute, leg and hip activation — 5 resistance levels.",
+    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 210, 
+    title: "Vixen 6-in-1 Battle Rope 9m", 
+    name: "Vixen 6-in-1 Battle Rope 9m", 
+    category: "Sports & Fitness", 
+    subcategory: "Cardio Equipment",
+    brand: "Vixen", 
+    description: "Vixen 9m battle rope with anchor strap and carry bag — intense upper body and core cardio workout.",
+    image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.1, stockStatus: "In Stock"
+  },
+
+  // ----- SPORTS & FITNESS > Strength Training -----
+  {
+    id: 211, 
+    title: "Kore PVC Home Gym Dumbbell Set 20kg", 
+    name: "Kore PVC Home Gym Dumbbell Set 20kg", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Kore", 
+    description: "Kore PVC adjustable dumbbell set — 20kg total weight, with chrome handles and weight plates.",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69d4fa8e?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 212, 
+    title: "Boldfit Pull Up Bar for Doorway", 
+    name: "Boldfit Pull Up Bar for Doorway", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Boldfit", 
+    description: "Boldfit pull-up bar for doorway — no screws needed, holds up to 150kg, foam grip handles.",
+    image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 213, 
+    title: "Arnav AB Roller Wheel with Knee Pad", 
+    name: "Arnav AB Roller Wheel with Knee Pad", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Arnav", 
+    description: "Arnav dual-wheel AB roller with non-slip handles and thick knee pad — core toning made effective.",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    price: 449, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 214, 
+    title: "SpartanFit Hex Rubber Kettlebell 12kg", 
+    name: "SpartanFit Hex Rubber Kettlebell 12kg", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "SpartanFit", 
+    description: "SpartanFit rubber hex kettlebell 12kg with wide flat-bottom and textured handle — safe, no roll.",
+    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 215, 
+    title: "Prokyde Adjustable Weight Bench", 
+    name: "Prokyde Adjustable Weight Bench", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Prokyde", 
+    description: "Prokyde adjustable weight training bench with 6-position back pad and leg extension for home gym.",
+    image: "https://images.unsplash.com/photo-1605296867304-46d5465a25f1?auto=format&fit=crop&w=600&q=80",
+    price: 6999, rating: 4.2, stockStatus: "Low Stock"
+  },
+  {
+    id: 216, 
+    title: "Burnlab Olympic EZ Curl Bar 4ft", 
+    name: "Burnlab Olympic EZ Curl Bar 4ft", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Burnlab", 
+    description: "Burnlab 4ft Olympic EZ curl bar with knurled grip — designed for bicep curls and tricep extensions.",
+    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 217, 
+    title: "Decathlon Corength Ankle Weights 2×1kg", 
+    name: "Decathlon Corength Ankle Weights 2×1kg", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Decathlon", 
+    description: "Decathlon Corength adjustable ankle weights — 2×1kg, velcro fastening for leg toning and pilates.",
+    image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 218, 
+    title: "BodyGrip Parallettes Push-up Stand Set", 
+    name: "BodyGrip Parallettes Push-up Stand Set", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "BodyGrip", 
+    description: "BodyGrip steel parallettes set for calisthenics — low handles for L-sits, push-ups and planches.",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69d4fa8e?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 219, 
+    title: "Strauss Foam Roller 60cm", 
+    name: "Strauss Foam Roller 60cm", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Strauss", 
+    description: "Strauss high-density EVA foam roller 60cm — for muscle recovery, myofascial release and stretching.",
+    image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 220, 
+    title: "Kobo Weight Lifting Gloves (Pair)", 
+    name: "Kobo Weight Lifting Gloves (Pair)", 
+    category: "Sports & Fitness", 
+    subcategory: "Strength Training",
+    brand: "Kobo", 
+    description: "Kobo leather full palm weight lifting gloves with wrist strap — anti-slip, breathable and washable.",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    price: 549, rating: 4.2, stockStatus: "In Stock"
+  },
+
+  // ----- SPORTS & FITNESS > Yoga -----
+  {
+    id: 221, 
+    title: "Boldfit Anti-Slip Yoga Mat 6mm", 
+    name: "Boldfit Anti-Slip Yoga Mat 6mm", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Boldfit", 
+    description: "Boldfit thick 6mm TPE yoga mat with body alignment lines — anti-slip, lightweight and eco-friendly.",
+    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 222, 
+    title: "Strauss Yoga Blocks (Set of 2)", 
+    name: "Strauss Yoga Blocks (Set of 2)", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Strauss", 
+    description: "Strauss foam yoga blocks set of 2 — lightweight, moisture-resistant for improved balance and flexibility.",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    price: 399, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 223, 
+    title: "Nike 2.0 Yoga Strap", 
+    name: "Nike 2.0 Yoga Strap", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Nike", 
+    description: "Nike Yoga strap 2.0 with metal D-ring — assists in stretching and pose deepening for all levels.",
+    image: "https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?auto=format&fit=crop&w=600&q=80",
+    price: 599, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 224, 
+    title: "Srishti Yoga Cotton Bolster", 
+    name: "Srishti Yoga Cotton Bolster", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Srishti", 
+    description: "Srishti rectangular cotton yoga bolster — ideal for restorative yoga, pranayama and meditation support.",
+    image: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 225, 
+    title: "Decathlon Nyamba Yoga Wheel", 
+    name: "Decathlon Nyamba Yoga Wheel", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Decathlon", 
+    description: "Decathlon Nyamba yoga wheel for backbend, spine stretch and core strengthening — 33cm, 150kg limit.",
+    image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 226, 
+    title: "Lifelong Meditation Yoga Cushion", 
+    name: "Lifelong Meditation Yoga Cushion", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Lifelong", 
+    description: "Lifelong zafu meditation cushion filled with organic buckwheat — supports proper posture during practice.",
+    image: "https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 227, 
+    title: "Puma Yoga Bra Top for Women", 
+    name: "Puma Yoga Bra Top for Women", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Puma", 
+    description: "Puma Studio women's padded yoga bra with Drycell moisture management — medium support for yoga.",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 228, 
+    title: "Adidas Women Yoga Tight Pants", 
+    name: "Adidas Women Yoga Tight Pants", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Adidas", 
+    description: "Adidas women's yoga AEROREADY high-waist tight — moisture-wicking, 4-way stretch for studio to street.",
+    image: "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?auto=format&fit=crop&w=600&q=80",
+    price: 1999, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 229, 
+    title: "HiCool Cooling Towel Microfibre 120cm", 
+    name: "HiCool Cooling Towel Microfibre 120cm", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "HiCool", 
+    description: "HiCool 120cm instant cooling gym towel — stays cool and damp for yoga, hiking, and running.",
+    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80",
+    price: 299, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 230, 
+    title: "Gaia Organic Yoga Mat Bag", 
+    name: "Gaia Organic Yoga Mat Bag", 
+    category: "Sports & Fitness", 
+    subcategory: "Yoga",
+    brand: "Gaia", 
+    description: "Gaia organic cotton yoga mat bag with adjustable shoulder strap and side pockets — fits most mat sizes.",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.2, stockStatus: "In Stock"
+  },
+
+  // ----- SPORTS & FITNESS > Outdoor Gear -----
+  {
+    id: 231, 
+    title: "Quechua Arpenaz 30L Hiking Backpack", 
+    name: "Quechua Arpenaz 30L Hiking Backpack", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Quechua", 
+    description: "Quechua Arpenaz 30L hiking bag with rain cover, ventilated back, and hip-belt — for day trekking.",
+    image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80",
+    price: 1799, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 232, 
+    title: "Forclaz Trek500 Trekking Poles (Pair)", 
+    name: "Forclaz Trek500 Trekking Poles (Pair)", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Forclaz", 
+    description: "Forclaz Trek 500 adjustable aluminium trekking poles — anti-shock, folding design with wrist straps.",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80",
+    price: 2499, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 233, 
+    title: "Columbia Watertight Packable Rain Jacket", 
+    name: "Columbia Watertight Packable Rain Jacket", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Columbia", 
+    description: "Columbia Watertight II lightweight rain jacket — packable, waterproof and wind-resistant for all terrains.",
+    image: "https://images.unsplash.com/photo-1533632359083-0185df1b85e1?auto=format&fit=crop&w=600&q=80",
+    price: 5999, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 234, 
+    title: "Wildcraft Trek Waterproof Shoes", 
+    name: "Wildcraft Trek Waterproof Shoes", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Wildcraft", 
+    description: "Wildcraft unisex waterproof mid-ankle trekking shoes with grip sole — ideal for hilly, wet terrain.",
+    image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80",
+    price: 2999, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 235, 
+    title: "Starlight Camping Tent 2-Person", 
+    name: "Starlight Camping Tent 2-Person", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Starlight", 
+    description: "Starlight 2-person waterproof dome camping tent with fibreglass poles — easy setup in under 5 minutes.",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+    price: 3999, rating: 4.2, stockStatus: "Low Stock"
+  },
+  {
+    id: 236, 
+    title: "Quechua MH100 Trekking Stick Poles", 
+    name: "Quechua MH100 Trekking Stick Poles", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Quechua", 
+    description: "Quechua MH100 aluminium hiking poles with comfort grip and adjustable length — durable and lightweight.",
+    image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 237, 
+    title: "Milton Thermosteel Flip Lid Water Bottle", 
+    name: "Milton Thermosteel Flip Lid Water Bottle", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Milton", 
+    description: "Milton Thermosteel 500ml insulated water bottle — keeps liquids hot 24hr and cold 48hr, leakproof lid.",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80",
+    price: 699, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 238, 
+    title: "AmazonBasics Camping Sleeping Bag", 
+    name: "AmazonBasics Camping Sleeping Bag", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Amazon Basics", 
+    description: "Amazon Basics camping sleeping bag — lightweight, 5°C rated with compression sack and double zip.",
+    image: "https://images.unsplash.com/photo-1533632359083-0185df1b85e1?auto=format&fit=crop&w=600&q=80",
+    price: 2299, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 239, 
+    title: "Nikon Aculon 8×42 Binoculars", 
+    name: "Nikon Aculon 8×42 Binoculars", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Nikon", 
+    description: "Nikon Aculon A211 8×42 binoculars with turn-and-slide eyecups, eco-glass lenses and rubber armour.",
+    image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=600&q=80",
+    price: 4999, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 240, 
+    title: "Portronics POR-905 Solar Lantern", 
+    name: "Portronics POR-905 Solar Lantern", 
+    category: "Sports & Fitness", 
+    subcategory: "Outdoor Gear",
+    brand: "Portronics", 
+    description: "Portronics solar powered LED camping lantern with USB charging, 3 light modes and collapsible design.",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+    price: 999, rating: 4.1, stockStatus: "In Stock"
+  },
+
+  // ----- SPORTS & FITNESS > Sports Accessories -----
+  {
+    id: 241, 
+    title: "Nike Pro 3mm Running Socks (3-Pack)", 
+    name: "Nike Pro 3mm Running Socks (3-Pack)", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Nike", 
+    description: "Nike Pro cushioned low-cut running socks with arch support and moisture-wicking — pack of 3 pairs.",
+    image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.5, stockStatus: "In Stock"
+  },
+  {
+    id: 242, 
+    title: "Cosco Champion Badminton Racket", 
+    name: "Cosco Champion Badminton Racket", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Cosco", 
+    description: "Cosco Champion full graphite badminton racket — lightweight, 80g, with full cover for beginners and pros.",
+    image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4.2, stockStatus: "In Stock"
+  },
+  {
+    id: 243, 
+    title: "SG Cricket Batting Gloves RSD Spark", 
+    name: "SG Cricket Batting Gloves RSD Spark", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "SG", 
+    description: "SG RSD Xtreme batting gloves with dual-density foam, full pigskin fingers and neoprene Velcro wristband.",
+    image: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 244, 
+    title: "Nivia Street Football Size 5", 
+    name: "Nivia Street Football Size 5", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Nivia", 
+    description: "Nivia Street PVC football size 5 — durable hand-stitched construction ideal for roads and hard surfaces.",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    price: 499, rating: 4.1, stockStatus: "In Stock"
+  },
+  {
+    id: 245, 
+    title: "Adidas X Speed Training Football", 
+    name: "Adidas X Speed Training Football", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Adidas", 
+    description: "Adidas X Speed football — FIFA basic certified, TPU casing, butyl bladder for consistent air retention.",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69d4fa8e?auto=format&fit=crop&w=600&q=80",
+    price: 1499, rating: 4.4, stockStatus: "In Stock"
+  },
+  {
+    id: 246, 
+    title: "Boldfit Pro Gym Protein Shaker Bottle", 
+    name: "Boldfit Pro Gym Protein Shaker Bottle", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Boldfit", 
+    description: "Boldfit 700ml BPA-free protein shaker with wire whisk ball and leak-proof lid — for pre/post workout.",
+    image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=600&q=80",
+    price: 299, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 247, 
+    title: "Vinex Javelin 800g Training Throw", 
+    name: "Vinex Javelin 800g Training Throw", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Vinex", 
+    description: "Vinex aluminium 800g javelin with cord grip — used for athletics training and school competitions.",
+    image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+    price: 1299, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 248, 
+    title: "Decathlon Basketball Tarmak BT100", 
+    name: "Decathlon Basketball Tarmak BT100", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Decathlon", 
+    description: "Tarmak BT100 size 7 basketball — rubber casing for outdoor courts, easy grip pattern, butyl bladder.",
+    image: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&q=80",
+    price: 799, rating: 4.3, stockStatus: "In Stock"
+  },
+  {
+    id: 249, 
+    title: "Strauss Head Band & Wrist Band Set", 
+    name: "Strauss Head Band & Wrist Band Set", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Strauss", 
+    description: "Strauss terry cotton headband + 2 wristbands set — absorbs sweat during intense workouts.",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    price: 199, rating: 4, stockStatus: "In Stock"
+  },
+  {
+    id: 250, 
+    title: "Nivia Knee Support Guard (Pair)", 
+    name: "Nivia Knee Support Guard (Pair)", 
+    category: "Sports & Fitness", 
+    subcategory: "Sports Accessories",
+    brand: "Nivia", 
+    description: "Nivia elasticated knee support guard — compression fit, reduces pain during running and gym workouts.",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69d4fa8e?auto=format&fit=crop&w=600&q=80",
+    price: 399, rating: 4.2, stockStatus: "In Stock"
   }
 ];
