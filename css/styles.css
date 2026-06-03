@@ -93,19 +93,6 @@ body {
   );
 }
 
-.drag-over {
-  transform: scale(1.015);
-  border-color: var(--accent-teal) !important;
-  background-color: rgba(0, 184, 169, 0.06) !important;
-  box-shadow: 0 0 25px rgba(0, 184, 169, 0.2) !important;
-}
-
-.product-card-dragging {
-  opacity: 0.4;
-  cursor: grabbing !important;
-  transform: scale(0.98);
-}
-
 .transition-view {
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -119,15 +106,6 @@ body {
   20%, 80% { transform: translate3d(2px, 0, 0); }
   30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
   40%, 60% { transform: translate3d(4px, 0, 0); }
-}
-
-.success-checkmark {
-  animation: checkmark-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-@keyframes checkmark-pop {
-  0% { transform: scale(0); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
 }
 
 .success-glow {
