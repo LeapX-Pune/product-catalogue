@@ -302,20 +302,32 @@ body {
 }
 
 .input-dark {
-  background: #0E131D;
-  border: 1px solid #3A4252;
+  background: #1A2235;
+  border: 1px solid #4E5A6E;
   color: #FFFFFF;
   caret-color: var(--accent-teal);
   transition: all 0.25s ease;
 }
 .input-dark::placeholder {
-  color: #5D6578;
+  color: #8892A8;
+  opacity: 1;
 }
 .input-dark:focus {
-  background: #121A27;
-  border-color: rgba(0, 184, 169, 0.7);
-  box-shadow: 0 0 0 4px rgba(0, 184, 169, 0.15);
+  background: #1A2235;
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 0 3px rgba(0, 184, 169, 0.3);
   outline: none;
+}
+.input-dark:-webkit-autofill,
+.input-dark:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 30px #1A2235 inset !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  caret-color: var(--accent-teal);
+}
+.input-dark:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #1A2235 inset !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  caret-color: var(--accent-teal);
 }
 
 input[type="number"].input-dark {
