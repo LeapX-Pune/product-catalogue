@@ -481,3 +481,68 @@ p, .description {
   transform: scale(0.9);
   background: #e5e7eb;
 }
+
+/* ─── Drag-and-Drop: Product Card ─────────────────────────────────────────── */
+.dragging-card {
+  opacity: 0.55;
+  transform: scale(1.03) rotate(1deg) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 184, 169, 0.4) !important;
+  cursor: grabbing;
+  transition: opacity 0.15s ease, transform 0.15s ease !important;
+}
+
+/* ─── Drag-and-Drop: Cart Button Drop Zone ────────────────────────────────── */
+
+/* Floated state — cart drops straight down on the right side (same X as navbar) */
+.drag-drop-zone {
+  position: fixed !important;
+  /* Keep on the right side, same X column as the navbar cart icon */
+  right: 24px !important;
+  left: auto !important;
+  top: 65vh !important;
+  transform: scale(2.2) !important;
+  transform-origin: right center !important;
+  z-index: 9999 !important;
+  border-radius: 9999px !important;
+  padding: 18px !important;
+  background: rgba(31, 36, 48, 0.96) !important;
+  border: 2px dashed rgba(99, 102, 241, 0.7) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(99, 102, 241, 0.18) !important;
+  transition:
+    right 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    top 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease !important;
+  pointer-events: auto !important;
+  cursor: copy;
+}
+
+/* Hover state — user is hovering over the cart with an item */
+.drag-drop-zone--over {
+  background: rgba(99, 102, 241, 0.2) !important;
+  border-color: rgb(99, 102, 241) !important;
+  box-shadow: 0 0 0 8px rgba(99, 102, 241, 0.22), 0 24px 60px rgba(0, 0, 0, 0.65) !important;
+  transform: scale(2.6) !important;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* Success flash — item was dropped */
+.drag-drop-zone--success {
+  background: rgba(0, 184, 169, 0.22) !important;
+  border-color: var(--accent-teal) !important;
+  box-shadow: 0 0 0 8px rgba(0, 184, 169, 0.25), 0 24px 60px rgba(0, 0, 0, 0.65) !important;
+  animation: drop-success-pulse 0.25s ease forwards !important;
+}
+
+@keyframes drop-success-pulse {
+  0%   { transform: scale(2.6); }
+  50%  { transform: scale(2.9); }
+  100% { transform: scale(2.2); }
+}
+
+/* Ensure the cart icon inside the floated button stays crisp */
+.drag-drop-zone .material-symbols-outlined {
+  pointer-events: none;
+}
