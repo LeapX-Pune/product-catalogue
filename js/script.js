@@ -1,6 +1,7 @@
 import { products } from "./data/products.js";
 import { coupons } from "./constants/coupons.js";
 import { filterDefaults } from "./constants/filterDefaults.js";
+import { initDragDrop } from "./modules/dragdrop.js";
 
 // Global App State
 const state = {
@@ -103,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initCategoryCards();
     renderGrids();
     updateCartUI();
+    initDragDrop(addToCart);
 });
 
 export function updateNavbarActiveState(activeViewOrSection) {
