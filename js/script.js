@@ -9,6 +9,7 @@ import {
     validateCity,
     validatePincode,
 } from "./utils/checkout_validator.js";
+import { initDragDrop } from "./modules/dragdrop.js";
 
 // Global App State
 const state = {
@@ -53,11 +54,6 @@ const DOM = {
     cartItemsContainer: document.getElementById("cart-items"),
     cartCountBadges: document.querySelectorAll(".cart-count"),
     cartTotalDisplay: document.getElementById("cart-total"),
-    cartDropZone: document.getElementById("cart-drop-zone"),
-    dropPlaceholder: document.getElementById("drop-zone-placeholder"),
-    dropIcon: document.getElementById("drop-icon"),
-    dropText: document.getElementById("drop-text"),
-    successAnim: document.getElementById("success-animation"),
     checkoutDrawerBtn: document.getElementById("checkout-drawer-btn"),
 
     // Product Grids
@@ -117,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initCategoryCards();
     renderGrids();
     updateCartUI();
+    initDragDrop(addToCart);
 });
 
 // Expose helpers so any external module can call back into the app
@@ -662,7 +659,6 @@ function renderGrids() {
     if (DOM.gridInteractive) DOM.gridInteractive.innerHTML = renderGridMarkup(list, "interactive");
     if (DOM.gridAnimated) DOM.gridAnimated.innerHTML = renderGridMarkup(list, "animated");
 
-    // Add drag event listeners & card hover listeners
     bindProductCardEvents();
 }
 
@@ -700,12 +696,11 @@ function renderGridMarkup(items, type) {
         }
 
         return `
-        <div class="card-dark group cursor-grab active:cursor-grabbing product-card rounded-xl p-unit-4 shadow-sm" 
+        <div class="card-dark group product-card rounded-xl p-unit-4 shadow-sm" 
              data-product-id="${item.id}" 
              data-name="${item.title}" 
              data-price="${item.price}" 
-             data-category="${item.category}" 
-             draggable="true">
+             data-category="${item.category}">
             <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
                 <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
                 ${tagHtml}
@@ -732,36 +727,10 @@ function renderGridMarkup(items, type) {
     }).join("");
 }
 
-// Bind drag-and-drop & button quick-adds
+// Bind quick-add buttons & sort selectors
 function bindProductCardEvents() {
     const cards = document.querySelectorAll(".product-card");
     cards.forEach(card => {
-        // Drag events
-        card.addEventListener("dragstart", (e) => {
-            const prodId = parseInt(card.dataset.productId);
-            const item = products.find(p => p.id === prodId);
-            if (item) {
-                e.dataTransfer.setData("application/json", JSON.stringify(item));
-                card.classList.add("product-card-dragging");
-                
-                // Show sliding drawer sneak peek
-                if (DOM.cartDrawer.classList.contains("translate-x-full")) {
-                    DOM.cartDrawer.classList.remove("translate-x-full");
-                    DOM.cartDrawer.classList.add("translate-x-[90%]");
-                }
-            }
-        });
-
-        card.addEventListener("dragend", () => {
-            card.classList.remove("product-card-dragging");
-            // Pull back drawer preview
-            if (DOM.cartDrawer.classList.contains("translate-x-[90%]")) {
-                DOM.cartDrawer.classList.add("translate-x-full");
-                DOM.cartDrawer.classList.remove("translate-x-[90%]");
-            }
-        });
-
-        // Quick add buttons click
         const addBtn = card.querySelector(".quick-add-btn");
         if (addBtn) {
             addBtn.addEventListener("click", () => {
@@ -775,10 +744,8 @@ function bindProductCardEvents() {
         }
     });
 
-    // Re-bind sort selectors change
     document.querySelectorAll(".sort-select").forEach(select => {
         select.addEventListener("change", () => {
-            // Keep sort select choices aligned
             document.querySelectorAll(".sort-select").forEach(sel => {
                 if (sel !== select) sel.value = select.value;
             });
@@ -801,42 +768,6 @@ function initCart() {
     document.querySelectorAll(".close-cart-btn").forEach(btn => {
         btn.addEventListener("click", closeCartDrawer);
     });
-
-    // Drag over animations on the cart drop zones
-    if (DOM.cartDropZone) {
-        DOM.cartDropZone.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            DOM.cartDropZone.classList.add("drag-over");
-            DOM.dropIcon.textContent = "download";
-            DOM.dropText.textContent = "Drop to add";
-            DOM.dropText.classList.remove("text-[var(--accent-teal)]/50");
-            DOM.dropText.classList.add("text-[var(--accent-teal)]");
-        });
-
-        DOM.cartDropZone.addEventListener("dragleave", () => {
-            DOM.cartDropZone.classList.remove("drag-over");
-            resetDropZoneUI();
-        });
-
-        DOM.cartDropZone.addEventListener("drop", (e) => {
-            e.preventDefault();
-            DOM.cartDropZone.classList.remove("drag-over");
-            
-            try {
-                const item = JSON.parse(e.dataTransfer.getData("application/json"));
-                addToCart(item);
-                
-                // Show drop checkmark pop
-                DOM.successAnim.classList.remove("hidden");
-                setTimeout(() => DOM.successAnim.classList.add("hidden"), 600);
-
-                // Fully expand drawer
-                openCartDrawer();
-            } catch (err) {
-                console.error("Invalid drop items", err);
-            }
-        });
-    }
 
     // Clear All Cart items
     document.querySelectorAll(".clear-cart-btn").forEach(btn => {
@@ -866,14 +797,13 @@ function toggleCartDrawer() {
 }
 
 function openCartDrawer() {
-    DOM.cartDrawer.classList.remove("translate-x-full", "translate-x-[90%]");
+    DOM.cartDrawer.classList.remove("translate-x-full");
     DOM.cartBackdrop.classList.remove("hidden");
     setTimeout(() => DOM.cartBackdrop.classList.add("opacity-100"), 10);
 }
 
 function closeCartDrawer() {
     DOM.cartDrawer.classList.add("translate-x-full");
-    DOM.cartDrawer.classList.remove("translate-x-[90%]");
     DOM.cartBackdrop.classList.remove("opacity-100");
     setTimeout(() => DOM.cartBackdrop.classList.add("hidden"), 300);
 }
@@ -906,12 +836,9 @@ function updateCartUI() {
     // Update Drawer list
     if (state.cart.length === 0) {
         DOM.cartItemsContainer.classList.add("hidden");
-        DOM.dropPlaceholder.classList.remove("hidden");
-        resetDropZoneUI();
         DOM.checkoutDrawerBtn.disabled = true;
     } else {
         DOM.cartItemsContainer.classList.remove("hidden");
-        DOM.dropPlaceholder.classList.add("hidden");
         DOM.checkoutDrawerBtn.disabled = false;
 
         DOM.cartItemsContainer.innerHTML = state.cart.map((item, index) => {
@@ -965,12 +892,6 @@ function updateCartUI() {
     // Update total price displays
     const formatSubtotal = (subtotal / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
     DOM.cartTotalDisplay.textContent = formatSubtotal;
-}
-
-function resetDropZoneUI() {
-    DOM.dropIcon.textContent = "add_shopping_cart";
-    DOM.dropText.textContent = "Drag items here";
-    DOM.dropText.className = "font-headline-md text-headline-md text-[var(--accent-teal)]/50";
 }
 
 function animateCartIcons() {
