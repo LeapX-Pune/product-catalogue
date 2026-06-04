@@ -677,29 +677,63 @@
                     </h2>
                     <p class="font-body-md text-body-md text-[var(--text-secondary)]">Please specify the recipient address details below.</p>
                 </div>
-                <form id="shipping-form" class="space-y-unit-6">
+                <form id="shipping-form" class="space-y-unit-6" novalidate>
+
+                    <!-- Full Name -->
                     <div class="flex flex-col gap-unit-2">
-                        <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Recipient Full Name</label>
-                        <input name="recipient" required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="Alexander Remington" value="Alexander Remington" type="text" />
+                        <label for="s-fullName" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Full Name</label>
+                        <input id="s-fullName" name="fullName" type="text" autocomplete="name"
+                               class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                               placeholder="Neha Sharma" />
+                        <span id="shipping-fullName-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
                     </div>
+
+                    <!-- Email -->
                     <div class="flex flex-col gap-unit-2">
-                        <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Street Address</label>
-                        <input name="line1" required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="1248 Luxury Lane, Suite 200" value="1248 Luxury Lane, Suite 200" type="text" />
+                        <label for="s-email" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Email Address</label>
+                        <input id="s-email" name="email" type="email" autocomplete="email"
+                               class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                               placeholder="neha@example.com" />
+                        <span id="shipping-email-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
                     </div>
+
+                    <!-- Phone -->
+                    <div class="flex flex-col gap-unit-2">
+                        <label for="s-phone" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Phone Number</label>
+                        <input id="s-phone" name="phone" type="tel" autocomplete="tel" maxlength="10"
+                               class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                               placeholder="9876543210" />
+                        <span id="shipping-phone-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
+                    </div>
+
+                    <!-- Street Address -->
+                    <div class="flex flex-col gap-unit-2">
+                        <label for="s-street" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Street Address</label>
+                        <input id="s-street" name="street" type="text" autocomplete="street-address"
+                               class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                               placeholder="123 MG Road, Apt 4B" />
+                        <span id="shipping-street-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
+                    </div>
+
+                    <!-- City + Pincode -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-unit-6">
                         <div class="flex flex-col gap-unit-2">
-                            <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">City, State & ZIP</label>
-                            <input name="cityStateZip" required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="Beverly Hills, CA 90210" value="Beverly Hills, CA 90210" type="text" />
+                            <label for="s-city" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">City</label>
+                            <input id="s-city" name="city" type="text" autocomplete="address-level2"
+                                   class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                                   placeholder="Pune" />
+                            <span id="shipping-city-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
                         </div>
                         <div class="flex flex-col gap-unit-2">
-                            <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Country</label>
-                            <input name="country" required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="United States" value="United States" type="text" />
+                            <label for="s-pincode" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Pincode</label>
+                            <input id="s-pincode" name="pincode" type="text" autocomplete="postal-code" maxlength="6" inputmode="numeric"
+                                   class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                                   placeholder="411001" />
+                            <span id="shipping-pincode-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-unit-2">
-                        <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Phone Number</label>
-                        <input name="phone" required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="+1 (555) 012-3456" value="+1 (555) 012-3456" type="tel" />
-                    </div>
+
+                    <!-- Actions -->
                     <div class="pt-unit-4 border-t border-[var(--border-muted)] mt-unit-8 flex gap-unit-4 justify-between">
                         <button type="button" data-go-view="shop" class="btn-ghost px-unit-6 py-unit-3 rounded-lg font-label-md text-label-md">
                             Back to Store
@@ -751,25 +785,118 @@
                     </h2>
                     <p class="font-body-md text-body-md text-[var(--text-secondary)]">All connections are encrypted securely with standard Visa/Mastercard protocols.</p>
                 </div>
-                <form id="payment-form" class="space-y-unit-6">
-                    <div class="flex flex-col gap-unit-2">
-                        <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Cardholder Name</label>
-                        <input required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="Alexander Remington" value="Alexander Remington" type="text" />
+                <form id="payment-form" class="space-y-unit-6" novalidate>
+
+                    <!-- Payment method selector -->
+                    <div class="flex flex-col gap-unit-3">
+                        <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Select Payment Method</label>
+                        <div class="grid grid-cols-1 gap-unit-3">
+
+                            <!-- COD -->
+                            <label id="pm-cod-label" class="payment-method-option flex items-center gap-unit-4 p-unit-4 rounded-xl border-2 border-[var(--border-soft)] bg-[var(--bg-card)] cursor-pointer transition-all duration-200 hover:border-[var(--accent-teal)]/60 hover:bg-[var(--bg-elevated)]">
+                                <input type="radio" name="paymentMethod" value="cod" class="sr-only" />
+                                <div class="w-10 h-10 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center flex-shrink-0 border border-[var(--border-soft)]">
+                                    <span class="material-symbols-outlined text-[var(--accent-amber)] text-[20px]" style="font-variation-settings:'FILL' 1;">local_shipping</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-[var(--text-primary)] text-body-md">Cash on Delivery</p>
+                                    <p class="font-body-md text-label-md text-[var(--text-muted)]">Pay when your order arrives</p>
+                                </div>
+                                <div class="pm-radio-indicator w-5 h-5 rounded-full border-2 border-[var(--border-soft)] flex items-center justify-center flex-shrink-0">
+                                    <div class="pm-radio-dot w-2.5 h-2.5 rounded-full bg-[var(--accent-teal)] hidden"></div>
+                                </div>
+                            </label>
+
+                            <!-- UPI -->
+                            <label id="pm-upi-label" class="payment-method-option flex items-center gap-unit-4 p-unit-4 rounded-xl border-2 border-[var(--border-soft)] bg-[var(--bg-card)] cursor-pointer transition-all duration-200 hover:border-[var(--accent-teal)]/60 hover:bg-[var(--bg-elevated)]">
+                                <input type="radio" name="paymentMethod" value="upi" class="sr-only" />
+                                <div class="w-10 h-10 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center flex-shrink-0 border border-[var(--border-soft)]">
+                                    <span class="material-symbols-outlined text-[var(--accent-teal)] text-[20px]" style="font-variation-settings:'FILL' 1;">account_balance</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-[var(--text-primary)] text-body-md">UPI</p>
+                                    <p class="font-body-md text-label-md text-[var(--text-muted)]">GPay, PhonePe, Paytm &amp; more</p>
+                                </div>
+                                <div class="pm-radio-indicator w-5 h-5 rounded-full border-2 border-[var(--border-soft)] flex items-center justify-center flex-shrink-0">
+                                    <div class="pm-radio-dot w-2.5 h-2.5 rounded-full bg-[var(--accent-teal)] hidden"></div>
+                                </div>
+                            </label>
+
+                            <!-- Card -->
+                            <label id="pm-card-label" class="payment-method-option flex items-center gap-unit-4 p-unit-4 rounded-xl border-2 border-[var(--border-soft)] bg-[var(--bg-card)] cursor-pointer transition-all duration-200 hover:border-[var(--accent-teal)]/60 hover:bg-[var(--bg-elevated)]">
+                                <input type="radio" name="paymentMethod" value="card" class="sr-only" />
+                                <div class="w-10 h-10 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center flex-shrink-0 border border-[var(--border-soft)]">
+                                    <span class="material-symbols-outlined text-[var(--accent-sky)] text-[20px]" style="font-variation-settings:'FILL' 1;">credit_card</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-[var(--text-primary)] text-body-md">Credit / Debit Card</p>
+                                    <p class="font-body-md text-label-md text-[var(--text-muted)]">Visa, Mastercard, Amex</p>
+                                </div>
+                                <div class="pm-radio-indicator w-5 h-5 rounded-full border-2 border-[var(--border-soft)] flex items-center justify-center flex-shrink-0">
+                                    <div class="pm-radio-dot w-2.5 h-2.5 rounded-full bg-[var(--accent-teal)] hidden"></div>
+                                </div>
+                            </label>
+
+                        </div>
+                        <span id="payment-method-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
                     </div>
-                    <div class="flex flex-col gap-unit-2">
-                        <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Card Number</label>
-                        <input name="cardNumber" required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="4111 2222 3333 8842" value="4111 2222 3333 8842" type="text" maxlength="19"/>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-unit-6">
+
+                    <!-- UPI panel -->
+                    <div id="pm-upi-panel" class="hidden space-y-unit-4 p-unit-6 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border-muted)]">
                         <div class="flex flex-col gap-unit-2">
-                            <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Expiry Date</label>
-                            <input name="expiry" required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="MM/YY" value="12/26" type="text" maxlength="5"/>
+                            <label for="pm-upi-id" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">UPI ID</label>
+                            <input id="pm-upi-id" name="upiId" type="text" autocomplete="off" inputmode="email"
+                                   class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                                   placeholder="yourname@upi" />
+                            <span id="pm-upi-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
+                        </div>
+                    </div>
+
+                    <!-- Card panel -->
+                    <div id="pm-card-panel" class="hidden space-y-unit-4 p-unit-6 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border-muted)]">
+                        <div class="flex flex-col gap-unit-2">
+                            <label for="pm-card-name" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Cardholder Name</label>
+                            <input id="pm-card-name" name="cardName" type="text" autocomplete="cc-name"
+                                   class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                                   placeholder="Name as on card" />
+                            <span id="pm-cardName-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
                         </div>
                         <div class="flex flex-col gap-unit-2">
-                            <label class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">CVV Security Code</label>
-                            <input required class="input-dark w-full px-unit-4 py-unit-3 rounded-lg" placeholder="123" value="123" type="password" maxlength="3" />
+                            <label for="pm-card-number" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Card Number</label>
+                            <input id="pm-card-number" name="cardNumber" type="text" autocomplete="cc-number"
+                                   inputmode="numeric" maxlength="19"
+                                   class="input-dark w-full px-unit-4 py-unit-3 rounded-lg font-mono tracking-widest"
+                                   placeholder="1234 5678 9012 3456" />
+                            <span id="pm-cardNum-error" class="font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-unit-4">
+                            <div class="flex flex-col gap-unit-2">
+                                <label for="pm-expiry" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">Expiry</label>
+                                <input id="pm-expiry" name="expiry" type="text" autocomplete="cc-exp"
+                                       inputmode="numeric" maxlength="5"
+                                       class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                                       placeholder="MM/YY" />
+                                <span id="pm-expiry-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
+                            </div>
+                            <div class="flex flex-col gap-unit-2">
+                                <label for="pm-cvv" class="font-label-md text-label-md text-[var(--text-muted)] uppercase tracking-wider font-bold">CVV</label>
+                                <input id="pm-cvv" name="cvv" type="password" autocomplete="cc-csc"
+                                       inputmode="numeric" maxlength="4"
+                                       class="input-dark w-full px-unit-4 py-unit-3 rounded-lg"
+                                       placeholder="•••" />
+                                <span id="pm-cvv-error" class="text-[var(--error)] font-label-md text-[12px] min-h-[16px] block" role="alert"></span>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- COD info banner -->
+                    <div id="pm-cod-panel" class="hidden p-unit-4 rounded-xl bg-[var(--accent-amber)]/10 border border-[var(--accent-amber)]/30 flex items-start gap-unit-3">
+                        <span class="material-symbols-outlined text-[var(--accent-amber)] flex-shrink-0 mt-0.5" style="font-variation-settings:'FILL' 1;">info</span>
+                        <p class="font-body-md text-body-md text-[var(--text-secondary)]">
+                            You'll pay in cash when your order is delivered. No online transaction needed.
+                        </p>
+                    </div>
+
                     <div class="pt-unit-4 border-t border-[var(--border-muted)] mt-unit-8 flex gap-unit-4 justify-between">
                         <button type="button" data-go-view="checkout-shipping" class="btn-ghost px-unit-6 py-unit-3 rounded-lg font-label-md text-label-md">
                             Back to Shipping

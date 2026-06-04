@@ -491,3 +491,401 @@ p, .description {
   transform: scale(0.9);
   background: #e5e7eb;
 }
+
+/* ==========================================
+   Checkout Section
+   ========================================== */
+#checkout-section {
+    padding: 2rem 1rem;
+    background-color: #f5f5f0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.checkout-wrapper {
+    max-width: 580px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    padding: 2rem;
+}
+
+/* ==========================================
+   Progress Ribbon
+   ========================================== */
+.progress-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.step-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2.5px solid #d0d0d0;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #aaaaaa;
+}
+
+.step-circle.done   { background: #4caf50; border-color: #4caf50; color: #ffffff; }
+.step-circle.active { background: #1a1a2e; border-color: #1a1a2e; color: #ffffff; }
+
+.step-label {
+    font-size: 12px;
+    color: #aaaaaa;
+    font-weight: 500;
+    text-align: center;
+}
+
+.step-label.done   { color: #4caf50; }
+.step-label.active { color: #1a1a2e; font-weight: 600; }
+
+.step-line {
+    flex: 1;
+    height: 2.5px;
+    background: #d0d0d0;
+    margin: 0 8px;
+    margin-bottom: 22px;
+}
+
+.step-line.done { background: #4caf50; }
+
+/* ==========================================
+   Order Summary Bar
+   ========================================== */
+.order-summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f0f4ff;
+    border: 1px solid #d0d8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 1.5rem;
+}
+
+.order-summary-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.order-item-count { font-size: 14px; color: #444444; font-weight: 500; }
+.order-total      { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+
+.edit-cart-btn {
+    font-size: 13px;
+    color: #1a1a2e;
+    background: none;
+    border: 1px solid #1a1a2e;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.edit-cart-btn:hover { background: #1a1a2e; color: #ffffff; }
+
+/* ==========================================
+   Fieldsets
+   ========================================== */
+#checkout-form fieldset {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.25rem 1.25rem 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+#checkout-form legend {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #666666;
+    padding: 0 6px;
+}
+
+/* ==========================================
+   Form Elements
+   ========================================== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #444444;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    background: #fafafa;
+    color: #222222;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #1a1a2e;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(26, 26, 46, 0.08);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* ==========================================
+   Error Messages
+   ========================================== */
+.error-msg {
+    font-size: 12px;
+    color: #cc0000;
+    margin-top: 4px;
+    min-height: 16px;
+    display: block;
+}
+
+/* ==========================================
+   Payment Options
+   ========================================== */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payment-options label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #333333;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.payment-options label:hover   { border-color: #1a1a2e; background: #f0f0f8; }
+
+.payment-options input[type="radio"] {
+    accent-color: #1a1a2e;
+    width: 16px;
+    height: 16px;
+}
+
+/* ==========================================
+   Bottom Buttons
+   ========================================== */
+.checkout-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 32px;
+    gap: 16px;
+}
+
+#back-to-cart-btn,
+#checkout-btn {
+    min-width: 180px;
+    height: 50px;
+    padding: 0 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#back-to-cart-btn {
+    background: #1a1a2e;
+    color: #ffffff;
+    border: 2px solid #1a1a2e;
+}
+
+#back-to-cart-btn:hover:not(:disabled) {
+    transform: translateX(-2px);
+    background: #1a1a2e;
+    color: #ffffff;
+}
+
+#checkout-btn {
+    background: #1a1a2e;
+    color: #ffffff;
+    border: 2px solid #1a1a2e;
+    width: auto;
+}
+
+#checkout-btn:disabled {
+    background: #cccccc;
+    border-color: #cccccc;
+    color: #888888;
+    cursor: not-allowed;
+}
+
+#checkout-btn:hover:not(:disabled) { transform: translateY(-2px); }
+
+/* ==========================================
+   Confirmation Modal
+   ========================================== */
+#confirm-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+}
+
+.modal-box h2 { font-size: 22px; color: #1a1a2e; margin-bottom: 8px; }
+.modal-box p  { font-size: 14px; color: #555555; margin-bottom: 1.5rem; }
+
+#modal-close {
+    padding: 10px 24px;
+    background: #1a1a2e;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+#modal-close:hover { opacity: 0.85; }
+
+/* ==========================================
+   Mobile
+   ========================================== */
+@media (max-width: 480px) {
+    .checkout-wrapper {
+        padding: 1.25rem;
+        border-radius: 0;
+        border: none;
+    }
+
+    .form-row { grid-template-columns: 1fr; }
+
+    .checkout-actions { flex-direction: column; }
+
+    #back-to-cart-btn,
+    #checkout-btn { width: 100%; }
+
+    .step-circle { width: 36px; height: 36px; font-size: 13px; }
+    .step-label  { font-size: 11px; }
+}
+
+/* ==========================================
+   Shipping form — input focus & error states
+   ========================================== */
+
+/* Override Tailwind's border-red-500 so it works on input-dark */
+#shipping-form .input-dark {
+    border: 1px solid #3A4252;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#shipping-form .input-dark:hover {
+    border-color: rgba(0, 184, 169, 0.4);
+}
+
+#shipping-form .input-dark:focus {
+    border-color: rgba(0, 184, 169, 0.7);
+    box-shadow: 0 0 0 4px rgba(0, 184, 169, 0.12);
+    outline: none;
+}
+
+/* Error state applied via JS classList.add */
+#shipping-form .input-dark.input-error {
+    border-color: rgba(239, 68, 68, 0.8) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+#shipping-form .input-dark.input-valid {
+    border-color: rgba(0, 184, 169, 0.6);
+}
+
+/* ==========================================
+   Payment form — method option cards
+   ========================================== */
+
+#payment-form .input-dark {
+    border: 1px solid #3A4252;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#payment-form .input-dark:hover {
+    border-color: rgba(0, 184, 169, 0.4);
+}
+
+#payment-form .input-dark:focus {
+    border-color: rgba(0, 184, 169, 0.7);
+    box-shadow: 0 0 0 4px rgba(0, 184, 169, 0.12);
+    outline: none;
+}
+
+#payment-form .input-dark.input-error {
+    border-color: rgba(239, 68, 68, 0.8) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+/* Payment method option card — selected state */
+.payment-method-option {
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-method-option:hover {
+    box-shadow: 0 0 0 1px rgba(0, 184, 169, 0.2);
+}
+
+.payment-method-option.selected {
+    border-color: var(--accent-teal) !important;
+    background-color: var(--bg-elevated) !important;
+    box-shadow: 0 0 0 3px rgba(0, 184, 169, 0.1);
+}

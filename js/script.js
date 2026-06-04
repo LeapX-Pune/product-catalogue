@@ -1,6 +1,14 @@
 import { products } from "./data/products.js";
 import { coupons } from "./constants/coupons.js";
 import { filterDefaults } from "./constants/filterDefaults.js";
+import {
+    validateFullName,
+    validateEmail,
+    validatePhone,
+    validateStreet,
+    validateCity,
+    validatePincode,
+} from "./utils/checkout_validator.js";
 
 // Global App State
 const state = {
@@ -10,7 +18,8 @@ const state = {
         line1: "1248 Luxury Lane, Suite 200",
         cityStateZip: "Beverly Hills, CA 90210",
         country: "United States",
-        phone: "+1 (555) 012-3456"
+        phone: "+1 (555) 012-3456",
+        email: ""
     },
     paymentMethod: {
         type: "Visa",
@@ -109,6 +118,12 @@ document.addEventListener("DOMContentLoaded", () => {
     renderGrids();
     updateCartUI();
 });
+
+// Expose helpers so any external module can call back into the app
+window.openCartDrawer = openCartDrawer;
+window.switchView     = switchView;
+window.clearCart      = () => { state.cart = []; updateCartUI(); };
+window.getCart        = () => state.cart;
 
 export function updateNavbarActiveState(activeViewOrSection) {
     const navLinks = document.querySelectorAll(".nav-link");
@@ -967,32 +982,272 @@ function animateCartIcons() {
 
 // --- CHECKOUT FUNNEL COORDINATORS ---
 function initCheckout() {
-    // 1. Shipping form submission
+    // 1. Shipping form submission — validate with checkout_validator, then advance
     if (DOM.shippingForm) {
+        // Wire up live inline error clearing on blur for each field
+        const fieldValidators = [
+            { name: 'fullName', fn: validateFullName },
+            { name: 'email',    fn: validateEmail    },
+            { name: 'phone',    fn: validatePhone    },
+            { name: 'street',   fn: validateStreet   },
+            { name: 'city',     fn: validateCity     },
+            { name: 'pincode',  fn: validatePincode  },
+        ];
+
+        fieldValidators.forEach(({ name, fn }) => {
+            const input = DOM.shippingForm.querySelector(`[name="${name}"]`);
+            const errorEl = DOM.shippingForm.querySelector(`#shipping-${name}-error`);
+            if (!input || !errorEl) return;
+
+            input.addEventListener('blur', () => {
+                const result = fn(input.value);
+                errorEl.textContent = result.valid ? '' : result.message;
+                input.classList.toggle('input-error', !result.valid);
+                input.classList.toggle('input-valid', result.valid && input.value.trim() !== '');
+            });
+
+            input.addEventListener('input', () => {
+                if (errorEl.textContent) {
+                    const result = fn(input.value);
+                    if (result.valid) {
+                        errorEl.textContent = '';
+                        input.classList.remove('input-error');
+                        input.classList.add('input-valid');
+                    }
+                }
+            });
+        });
+
         DOM.shippingForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const formData = new FormData(DOM.shippingForm);
-            state.shippingAddress.recipient = formData.get("recipient") || state.shippingAddress.recipient;
-            state.shippingAddress.line1 = formData.get("line1") || state.shippingAddress.line1;
-            state.shippingAddress.cityStateZip = formData.get("cityStateZip") || state.shippingAddress.cityStateZip;
-            state.shippingAddress.country = formData.get("country") || state.shippingAddress.country;
-            state.shippingAddress.phone = formData.get("phone") || state.shippingAddress.phone;
+
+            // Run all validators and collect errors
+            let hasError = false;
+            fieldValidators.forEach(({ name, fn }) => {
+                const input   = DOM.shippingForm.querySelector(`[name="${name}"]`);
+                const errorEl = DOM.shippingForm.querySelector(`#shipping-${name}-error`);
+                if (!input || !errorEl) return;
+                const result = fn(input.value);
+                errorEl.textContent = result.valid ? '' : result.message;
+                input.classList.toggle('input-error', !result.valid);
+                input.classList.toggle('input-valid', result.valid);
+                if (!result.valid) hasError = true;
+            });
+
+            if (hasError) return;
+
+            // All valid — write to state and advance
+            const fd = new FormData(DOM.shippingForm);
+            state.shippingAddress.recipient    = fd.get("fullName") || state.shippingAddress.recipient;
+            state.shippingAddress.line1        = fd.get("street")   || state.shippingAddress.line1;
+            state.shippingAddress.cityStateZip = `${fd.get("city") || ''}, ${fd.get("pincode") || ''}`.trim().replace(/^,\s*/, '');
+            state.shippingAddress.country      = fd.get("email")    || state.shippingAddress.country; // email stored separately
+            state.shippingAddress.phone        = fd.get("phone")    || state.shippingAddress.phone;
+            // Store email in a dedicated state slot for review
+            state.shippingAddress.email        = fd.get("email")    || '';
 
             switchView("checkout-payment");
         });
     }
 
-    // 2. Payment form submission
+    // 2. Payment form — method selection + conditional validation
     if (DOM.paymentForm) {
-        DOM.paymentForm.addEventListener("submit", (e) => {
+        const form = DOM.paymentForm;
+
+        // helpers
+        function luhn(num) {
+            const digits = num.replace(/\D/g, '').split('').reverse();
+            let sum = 0;
+            digits.forEach((d, i) => {
+                let n = parseInt(d);
+                if (i % 2 === 1) { n *= 2; if (n > 9) n -= 9; }
+                sum += n;
+            });
+            return sum % 10 === 0;
+        }
+        function detectCard(num) {
+            if (/^4/.test(num))                                  return { type: 'visa',       label: 'Visa',       maxLen: 16 };
+            if (/^5[1-5]/.test(num) || /^2[2-7]/.test(num))     return { type: 'mastercard', label: 'Mastercard', maxLen: 16 };
+            if (/^3[47]/.test(num))                              return { type: 'amex',       label: 'Amex',       maxLen: 15 };
+            return null;
+        }
+        function pmErr(id, msg) {
+            const el = form.querySelector(`#${id}`);
+            if (el) el.textContent = msg;
+        }
+        function pmClear(id) {
+            const el = form.querySelector(`#${id}`);
+            if (el) el.textContent = '';
+        }
+
+        // Radio visual selection behaviour
+        form.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Reset all option cards
+                form.querySelectorAll('.payment-method-option').forEach(label => {
+                    label.classList.remove('border-[var(--accent-teal)]', 'bg-[var(--bg-elevated)]');
+                    label.classList.add('border-[var(--border-soft)]', 'bg-[var(--bg-card)]');
+                    label.querySelector('.pm-radio-dot').classList.add('hidden');
+                    label.querySelector('.pm-radio-indicator').classList.remove('border-[var(--accent-teal)]');
+                });
+                // Highlight selected card
+                const selected = form.querySelector(`label[id="pm-${radio.value}-label"]`);
+                if (selected) {
+                    selected.classList.add('border-[var(--accent-teal)]', 'bg-[var(--bg-elevated)]');
+                    selected.classList.remove('border-[var(--border-soft)]', 'bg-[var(--bg-card)]');
+                    selected.querySelector('.pm-radio-dot').classList.remove('hidden');
+                    selected.querySelector('.pm-radio-indicator').classList.add('border-[var(--accent-teal)]');
+                }
+                // Show/hide panels
+                form.querySelector('#pm-cod-panel').classList.toggle('hidden', radio.value !== 'cod');
+                form.querySelector('#pm-upi-panel').classList.toggle('hidden', radio.value !== 'upi');
+                form.querySelector('#pm-card-panel').classList.toggle('hidden', radio.value !== 'card');
+                pmClear('payment-method-error');
+                // Clear sub-field errors when switching methods
+                ['pm-upi-error','pm-cardName-error','pm-cardNum-error','pm-expiry-error','pm-cvv-error'].forEach(pmClear);
+            });
+        });
+
+        // Live card number formatting + Luhn feedback
+        const cardNumInput = form.querySelector('#pm-card-number');
+        if (cardNumInput) {
+            cardNumInput.addEventListener('input', (e) => {
+                const raw     = e.target.value.replace(/\D/g, '');
+                const card    = detectCard(raw);
+                const maxLen  = card ? card.maxLen : 16;
+                const trimmed = raw.slice(0, maxLen);
+                e.target.value = trimmed.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+                const errEl = form.querySelector('#pm-cardNum-error');
+                if (!card) {
+                    if (errEl) { errEl.style.color = 'var(--error)'; }
+                    pmErr('pm-cardNum-error', trimmed.length > 0 ? 'Unknown card — enter Visa, Mastercard, or Amex' : '');
+                    return;
+                }
+                if (trimmed.length === maxLen) {
+                    if (luhn(trimmed)) {
+                        if (errEl) { errEl.style.color = '#4caf50'; errEl.textContent = `✓ Valid ${card.label} card`; }
+                    } else {
+                        if (errEl) errEl.style.color = 'var(--error)';
+                        pmErr('pm-cardNum-error', `Invalid ${card.label} number`);
+                    }
+                } else {
+                    if (errEl) { errEl.style.color = '#888888'; errEl.textContent = `${card.label} — keep typing`; }
+                }
+            });
+        }
+
+        // Live expiry auto-format MM/YY
+        const expiryInput = form.querySelector('#pm-expiry');
+        if (expiryInput) {
+            expiryInput.addEventListener('input', (e) => {
+                let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
+                e.target.value = val;
+                if (val.length === 5) {
+                    const [mm, yy] = val.split('/').map(Number);
+                    const now = new Date();
+                    const expYear = 2000 + yy;
+                    if (mm < 1 || mm > 12)              pmErr('pm-expiry-error', 'Invalid month');
+                    else if (expYear > now.getFullYear() + 20) pmErr('pm-expiry-error', 'Invalid expiry year');
+                    else if (expYear < now.getFullYear() || (expYear === now.getFullYear() && mm < now.getMonth() + 1))
+                                                         pmErr('pm-expiry-error', 'Card has expired');
+                    else                                 pmClear('pm-expiry-error');
+                } else { pmClear('pm-expiry-error'); }
+            });
+        }
+
+        // CVV digits only
+        const cvvInput = form.querySelector('#pm-cvv');
+        if (cvvInput) {
+            cvvInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+            });
+            cvvInput.addEventListener('blur', () => {
+                const val        = cvvInput.value;
+                const raw        = cardNumInput ? cardNumInput.value.replace(/\D/g, '') : '';
+                const expectLen  = detectCard(raw)?.type === 'amex' ? 4 : 3;
+                if (!val)                         pmErr('pm-cvv-error', 'CVV is required');
+                else if (val.length !== expectLen) pmErr('pm-cvv-error', `CVV must be ${expectLen} digits`);
+                else                              pmClear('pm-cvv-error');
+            });
+        }
+
+        // UPI blur validation
+        const upiInput = form.querySelector('#pm-upi-id');
+        if (upiInput) {
+            upiInput.addEventListener('blur', () => {
+                const val = upiInput.value.trim();
+                const re  = /^[a-zA-Z0-9._-]{3,}@[a-zA-Z][a-zA-Z0-9]{2,}$/;
+                if (!val)           pmErr('pm-upi-error', 'UPI ID is required');
+                else if (!re.test(val)) pmErr('pm-upi-error', 'Enter a valid UPI ID (e.g. name@upi)');
+                else                pmClear('pm-upi-error');
+            });
+        }
+
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
-            const formData = new FormData(DOM.paymentForm);
-            
-            // Mask card numbers
-            const cardNum = formData.get("cardNumber") || "4111222233338842";
-            const masked = "•••• " + cardNum.slice(-4);
-            state.paymentMethod.cardNumber = masked;
-            state.paymentMethod.expiry = formData.get("expiry") || state.paymentMethod.expiry;
+            const method = form.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+            // Method must be selected
+            if (!method) {
+                pmErr('payment-method-error', 'Please select a payment method');
+                return;
+            }
+            pmClear('payment-method-error');
+
+            // --- Card validation ---
+            if (method === 'card') {
+                const cardRaw   = (cardNumInput?.value || '').replace(/\D/g, '');
+                const card      = detectCard(cardRaw);
+                const nameVal   = form.querySelector('#pm-card-name')?.value.trim() || '';
+                const expiryVal = expiryInput?.value.trim() || '';
+                const cvvVal    = cvvInput?.value || '';
+                const expectCvv = card?.type === 'amex' ? 4 : 3;
+                let ok = true;
+
+                if (!nameVal) { pmErr('pm-cardName-error', 'Cardholder name is required'); ok = false; }
+                else pmClear('pm-cardName-error');
+
+                if (!card || cardRaw.length !== card.maxLen || !luhn(cardRaw)) {
+                    pmErr('pm-cardNum-error', 'Enter a valid card number');
+                    form.querySelector('#pm-cardNum-error').style.color = 'var(--error)';
+                    ok = false;
+                }
+
+                if (expiryVal.length !== 5) { pmErr('pm-expiry-error', 'Enter expiry as MM/YY'); ok = false; }
+
+                if (!cvvVal || cvvVal.length !== expectCvv) {
+                    pmErr('pm-cvv-error', `CVV must be ${expectCvv} digits`);
+                    ok = false;
+                }
+
+                if (!ok) return;
+
+                const masked = '•••• ' + cardRaw.slice(-4);
+                state.paymentMethod.type       = card.label;
+                state.paymentMethod.cardNumber = masked;
+                state.paymentMethod.expiry     = expiryVal;
+            }
+
+            // --- UPI validation ---
+            if (method === 'upi') {
+                const val = upiInput?.value.trim() || '';
+                const re  = /^[a-zA-Z0-9._-]{3,}@[a-zA-Z][a-zA-Z0-9]{2,}$/;
+                if (!val || !re.test(val)) {
+                    pmErr('pm-upi-error', 'Enter a valid UPI ID (e.g. name@upi)');
+                    return;
+                }
+                state.paymentMethod.type       = 'UPI';
+                state.paymentMethod.cardNumber = val;
+                state.paymentMethod.expiry     = '—';
+            }
+
+            // --- COD (no extra fields needed) ---
+            if (method === 'cod') {
+                state.paymentMethod.type       = 'Cash on Delivery';
+                state.paymentMethod.cardNumber = '—';
+                state.paymentMethod.expiry     = '—';
+            }
 
             switchView("checkout-review");
         });
@@ -1080,9 +1335,14 @@ function renderOrderReview() {
 
     // Populate delivery fields
     DOM.reviewRecipient.textContent = state.shippingAddress.recipient;
-    DOM.reviewAddress.innerHTML = `${state.shippingAddress.line1}<br>${state.shippingAddress.cityStateZip}<br>${state.shippingAddress.country}`;
-    DOM.reviewCardName.textContent = `Visa Card ${state.paymentMethod.cardNumber}`;
-    DOM.reviewCardExpiry.textContent = `Expires ${state.paymentMethod.expiry}`;
+    DOM.reviewAddress.innerHTML = [
+        state.shippingAddress.line1,
+        state.shippingAddress.cityStateZip,
+        state.shippingAddress.email ? `Email: ${state.shippingAddress.email}` : '',
+        `Phone: ${state.shippingAddress.phone}`,
+    ].filter(Boolean).join('<br>');
+    DOM.reviewCardName.textContent = `${state.paymentMethod.type}${state.paymentMethod.cardNumber !== '—' ? ' · ' + state.paymentMethod.cardNumber : ''}`;
+    DOM.reviewCardExpiry.textContent = state.paymentMethod.expiry !== '—' ? `Expires ${state.paymentMethod.expiry}` : state.paymentMethod.type;
 
     // Render review items
     DOM.reviewItemsContainer.innerHTML = state.cart.map(item => `
