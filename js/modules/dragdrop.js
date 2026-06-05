@@ -26,6 +26,18 @@ function floatCartToDropZone() {
     }
 
     btn.classList.add("drag-drop-zone");
+
+    // Enable pointer events on the fixed header during drag so hit-testing detects the cart button
+    const header = document.querySelector("header");
+    if (header) {
+        header.style.pointerEvents = "auto";
+    }
+
+    // Add drag-active class to navbar to disable backdrop-filter during drag
+    const navbar = document.querySelector(".navbar-blur");
+    if (navbar) {
+        navbar.classList.add("drag-active");
+    }
 }
 
 function returnCartToOrigin() {
@@ -42,6 +54,18 @@ function returnCartToOrigin() {
     returnTimer = setTimeout(() => {
         btn.classList.remove("drag-drop-zone", "drag-drop-zone--over", "drag-drop-zone--success");
         isDragging = false;
+
+        // Restore header's pointer-events-none so click-through works normally
+        const header = document.querySelector("header");
+        if (header) {
+            header.style.pointerEvents = "none";
+        }
+
+        // Restore backdrop-filter on the navbar
+        const navbar = document.querySelector(".navbar-blur");
+        if (navbar) {
+            navbar.classList.remove("drag-active");
+        }
     }, 160);
 }
 
