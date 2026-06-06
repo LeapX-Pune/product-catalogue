@@ -1,6 +1,5 @@
 import { products } from "./data/products.js";
 import { coupons } from "./constants/coupons.js";
-import { filterDefaults } from "./constants/filterDefaults.js";
 import {
     validateFullName,
     validateEmail,
@@ -113,6 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initFilters();
     initCheckout();
     initCategoryCards();
+    initMobileNav();
+    initMobileFilterSheet();
     renderGrids();
     updateCartUI();
 });
@@ -240,6 +241,9 @@ function scrollToSection(selector) {
 
 export function switchView(viewName, { replace = false } = {}) {
     state.activeView = viewName;
+
+    // Reset all mobile overlays and restore body scroll
+    resetMobileUI();
     
     // Close Drawer if open
     closeCartDrawer();
@@ -295,6 +299,257 @@ function initHistoryAPI() {
     });
 }
 
+// --- MOBILE UI HELPERS (used by both toggles and switchView) ---
+function resetMobileUI() {
+    // Close mobile nav panel
+    const panel = document.getElementById("mobile-nav-panel");
+    const panelIcon = document.getElementById("mobile-menu-icon");
+    if (panel) {
+        const slidePanel = panel.querySelector(".translate-x-full");
+        if (slidePanel && !panel.classList.contains("hidden")) {
+            slidePanel.classList.add("translate-x-full");
+        }
+        panel.classList.add("hidden");
+    }
+    if (panelIcon) panelIcon.textContent = "menu";
+
+    // Close mobile filter sheet + backdrop
+    const sheet = document.getElementById("mobile-filter-sheet");
+    const sheetBackdrop = document.getElementById("mobile-filter-backdrop");
+    if (sheet) {
+        sheet.classList.remove("open", "flex");
+        sheet.classList.add("translate-y-full", "hidden");
+    }
+    if (sheetBackdrop) {
+        sheetBackdrop.classList.remove("open");
+        sheetBackdrop.classList.add("hidden");
+    }
+
+    // Restore body scroll
+    document.body.style.overflow = "";
+}
+
+// --- MOBILE NAV TOGGLE ---
+let _mobileNavInitialized = false;
+function initMobileNav() {
+    if (_mobileNavInitialized) return;
+    _mobileNavInitialized = true;
+
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const panel = document.getElementById("mobile-nav-panel");
+    const backdrop = document.getElementById("mobile-nav-backdrop");
+    const icon = document.getElementById("mobile-menu-icon");
+    const slidePanel = panel?.querySelector(".translate-x-full");
+
+    if (!menuBtn || !panel) return;
+
+    function openMobileNav() {
+        resetMobileUI(); // ensure no other overlay is open
+        panel.classList.remove("hidden");
+        // Reset shop accordion on menu open
+        const collapse = document.getElementById("mobile-category-collapse");
+        const arrow = document.getElementById("mobile-shop-arrow");
+        if (collapse) { collapse.classList.add("max-h-0"); collapse.classList.remove("max-h-[500px]"); }
+        if (arrow) arrow.style.transform = "rotate(0deg)";
+        requestAnimationFrame(() => {
+            if (slidePanel) slidePanel.classList.remove("translate-x-full");
+        });
+        if (icon) icon.textContent = "close";
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileNav() {
+        if (slidePanel) slidePanel.classList.add("translate-x-full");
+        if (icon) icon.textContent = "menu";
+        // Reset shop accordion
+        const collapse = document.getElementById("mobile-category-collapse");
+        const arrow = document.getElementById("mobile-shop-arrow");
+        if (collapse) { collapse.classList.add("max-h-0"); collapse.classList.remove("max-h-[500px]"); }
+        if (arrow) arrow.style.transform = "rotate(0deg)";
+        document.body.style.overflow = "";
+        setTimeout(() => {
+            panel.classList.add("hidden");
+        }, 300);
+    }
+
+    menuBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isHidden = panel.classList.contains("hidden");
+        const isOffscreen = slidePanel?.classList.contains("translate-x-full");
+        if (isHidden || isOffscreen) {
+            openMobileNav();
+        } else {
+            closeMobileNav();
+        }
+    });
+
+    if (backdrop) {
+        backdrop.addEventListener("click", closeMobileNav);
+    }
+
+    // Shop category accordion toggle
+    const shopToggle = document.getElementById("mobile-shop-toggle");
+    const categoryCollapse = document.getElementById("mobile-category-collapse");
+    const shopArrow = document.getElementById("mobile-shop-arrow");
+    if (shopToggle && categoryCollapse) {
+        shopToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const isOpen = !categoryCollapse.classList.contains("max-h-0");
+            if (isOpen) {
+                categoryCollapse.classList.add("max-h-0");
+                categoryCollapse.classList.remove("max-h-[500px]");
+                if (shopArrow) shopArrow.style.transform = "rotate(0deg)";
+            } else {
+                categoryCollapse.classList.remove("max-h-0");
+                categoryCollapse.classList.add("max-h-[500px]");
+                if (shopArrow) shopArrow.style.transform = "rotate(180deg)";
+            }
+        });
+    }
+
+    panel.querySelectorAll(".nav-link, .mobile-category-btn").forEach(el => {
+        el.addEventListener("click", () => {
+            if (el.classList.contains("mobile-category-btn")) {
+                const cat = el.dataset.category;
+                const desktopBtn = document.querySelector(`.category-btn[data-category="${cat}"]`);
+                if (desktopBtn) desktopBtn.click();
+            }
+            closeMobileNav();
+        });
+    });
+}
+
+// --- MOBILE FILTER BOTTOM SHEET ---
+let _mobileFilterInitialized = false;
+function initMobileFilterSheet() {
+    if (_mobileFilterInitialized) return;
+    _mobileFilterInitialized = true;
+
+    const sheet = document.getElementById("mobile-filter-sheet");
+    const backdrop = document.getElementById("mobile-filter-backdrop");
+    const filterBtn = document.getElementById("mobile-filter-btn");
+    const closeBtn = document.getElementById("mobile-filter-close");
+
+    if (!sheet || !backdrop) return;
+
+    function openSheet() {
+        resetMobileUI(); // close nav panel first
+        sheet.classList.remove("hidden", "translate-y-full");
+        sheet.classList.add("flex", "open");
+        backdrop.classList.remove("hidden");
+        requestAnimationFrame(() => backdrop.classList.add("open"));
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeSheet() {
+        sheet.classList.remove("open");
+        sheet.classList.add("translate-y-full");
+        backdrop.classList.remove("open");
+        document.body.style.overflow = "";
+        setTimeout(() => {
+            sheet.classList.add("hidden");
+            sheet.classList.remove("flex");
+            backdrop.classList.add("hidden");
+        }, 300);
+    }
+
+    if (filterBtn) filterBtn.addEventListener("click", openSheet);
+    if (closeBtn) closeBtn.addEventListener("click", closeSheet);
+    backdrop.addEventListener("click", closeSheet);
+
+    // --- Mobile Price Slider ---
+    const minSlider = document.getElementById("mob-price-min-slider");
+    const maxSlider = document.getElementById("mob-price-max-slider");
+    const minInput = document.getElementById("mob-price-min-input");
+    const maxInput = document.getElementById("mob-price-max-input");
+    const minLabel = document.getElementById("mob-price-min-label");
+    const maxLabel = document.getElementById("mob-price-max-label");
+    const track = document.getElementById("mob-price-slider-track");
+
+    function updateMobPriceUI(minVal, maxVal) {
+        if (minLabel) minLabel.textContent = `₹${minVal.toLocaleString('en-IN')}`;
+        if (maxLabel) {
+            maxLabel.textContent = maxVal >= 30000 ? "₹29,999+" : `₹${maxVal.toLocaleString('en-IN')}`;
+        }
+        if (track) {
+            const minPercent = (minVal / 30000) * 100;
+            const maxPercent = (maxVal / 30000) * 100;
+            track.style.left = `${minPercent}%`;
+            track.style.right = `${100 - maxPercent}%`;
+        }
+    }
+
+    if (minSlider && maxSlider && minInput && maxInput) {
+        updateMobPriceUI(state.filters.priceMin, state.filters.priceMax);
+
+        minSlider.addEventListener("input", () => {
+            let minVal = parseInt(minSlider.value) || 0;
+            let maxVal = parseInt(maxSlider.value) || 30000;
+            if (minVal > maxVal - 500) { minVal = maxVal - 500; minSlider.value = minVal; }
+            minSlider.style.zIndex = "25";
+            maxSlider.style.zIndex = "20";
+            state.filters.priceMin = minVal;
+            minInput.value = minVal;
+            updateMobPriceUI(minVal, maxVal);
+        });
+
+        maxSlider.addEventListener("input", () => {
+            let minVal = parseInt(minSlider.value) || 0;
+            let maxVal = parseInt(maxSlider.value) || 30000;
+            if (maxVal < minVal + 500) { maxVal = minVal + 500; maxSlider.value = maxVal; }
+            maxSlider.style.zIndex = "25";
+            minSlider.style.zIndex = "20";
+            state.filters.priceMax = maxVal;
+            maxInput.value = maxVal;
+            updateMobPriceUI(minVal, maxVal);
+        });
+
+        minInput.addEventListener("change", () => {
+            let minVal = parseInt(minInput.value);
+            if (isNaN(minVal)) minVal = 0;
+            let maxVal = state.filters.priceMax;
+            if (minVal < 0) minVal = 0;
+            if (minVal > maxVal - 500) minVal = maxVal - 500;
+            state.filters.priceMin = minVal;
+            minInput.value = minVal;
+            minSlider.value = minVal;
+            updateMobPriceUI(minVal, maxVal);
+        });
+
+        maxInput.addEventListener("change", () => {
+            let maxVal = parseInt(maxInput.value);
+            if (isNaN(maxVal)) maxVal = 30000;
+            let minVal = state.filters.priceMin;
+            if (maxVal > 30000) maxVal = 30000;
+            if (maxVal < minVal + 500) maxVal = minVal + 500;
+            state.filters.priceMax = maxVal;
+            maxInput.value = maxVal;
+            maxSlider.value = maxVal;
+            updateMobPriceUI(minVal, maxVal);
+        });
+
+        const handleEnter = (e) => { if (e.key === "Enter") e.target.blur(); };
+        minInput.addEventListener("keypress", handleEnter);
+        maxInput.addEventListener("keypress", handleEnter);
+    }
+
+    // Sync mobile price UI with desktop on apply (close sheet after)
+    sheet.querySelectorAll(".apply-filters").forEach(btn => {
+        btn.addEventListener("click", closeSheet);
+    });
+
+    // Sync mobile slider/reset UI when reset is clicked
+    sheet.querySelectorAll(".reset-filters").forEach(btn => {
+        btn.addEventListener("click", () => {
+            state.filters.priceMin = 0;
+            state.filters.priceMax = 30000;
+            if (minSlider) { minSlider.value = 0; minInput.value = 0; }
+            if (maxSlider) { maxSlider.value = 30000; maxInput.value = 30000; }
+            updateMobPriceUI(0, 30000);
+        });
+    });
+}
+
 // --- DYNAMIC PRODUCT RENDERER & FILTERS ---
 // --- SUBCATEGORY DATA AND UPDATE FUNCTIONS ---
 const SUBCATEGORIES = {
@@ -331,6 +586,8 @@ function updateSubcategories(category) {
 function initFilters() {
     // Populate default subcategories on load
     updateSubcategories("All");
+    // Bind sort selectors once (not on every renderGrids call)
+    bindSortSelectors();
 
     // Category Sub-Nav Indicators
     DOM.categoryBtns.forEach(btn => {
@@ -402,14 +659,6 @@ function initFilters() {
     }
 
     if (sidebarToggleBtn && sidebar) {
-        // Initialize sidebar as collapsed on mobile by default to prevent blocking content
-        if (window.innerWidth < 768) {
-            sidebar.classList.add("collapsed");
-            if (sidebarToggleIcon) {
-                sidebarToggleIcon.textContent = "chevron_right";
-            }
-        }
-
         sidebarToggleBtn.addEventListener("click", () => {
             sidebar.classList.toggle("collapsed");
             const isCollapsed = sidebar.classList.contains("collapsed");
@@ -845,6 +1094,13 @@ function bindProductCardEvents() {
         }
     });
 
+}
+
+// Sort binding (called once from initFilters to avoid duplicate listeners)
+let _sortBound = false;
+function bindSortSelectors() {
+    if (_sortBound) return;
+    _sortBound = true;
     document.querySelectorAll(".sort-select").forEach(select => {
         select.addEventListener("change", () => {
             document.querySelectorAll(".sort-select").forEach(sel => {
@@ -1067,7 +1323,7 @@ function initCheckout() {
             state.shippingAddress.recipient    = fd.get("fullName") || state.shippingAddress.recipient;
             state.shippingAddress.line1        = fd.get("street")   || state.shippingAddress.line1;
             state.shippingAddress.cityStateZip = `${fd.get("city") || ''}, ${fd.get("pincode") || ''}`.trim().replace(/^,\s*/, '');
-            state.shippingAddress.country      = fd.get("email")    || state.shippingAddress.country; // email stored separately
+            state.shippingAddress.country      = 'India';
             state.shippingAddress.phone        = fd.get("phone")    || state.shippingAddress.phone;
             // Store email in a dedicated state slot for review
             state.shippingAddress.email        = fd.get("email")    || '';
@@ -1306,7 +1562,7 @@ function initCheckout() {
             DOM.placeOrderBtn.innerHTML = `<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span> Processing...`;
 
             setTimeout(() => {
-                // Generate sequential LuxeCart order details
+                // Generate sequential LeapCart order details
                 const randomId = "LX-" + Math.floor(10000 + Math.random() * 90000);
                 state.currentOrderId = randomId;
                 DOM.confirmedOrderId.textContent = randomId;
@@ -1395,7 +1651,10 @@ function renderOrderTracker() {
     DOM.trackerRecipient.textContent = state.shippingAddress.recipient;
     DOM.trackerAddress.innerHTML = `${state.shippingAddress.line1}<br>${state.shippingAddress.cityStateZip}<br>${state.shippingAddress.country}`;
     DOM.trackerPhone.textContent = state.shippingAddress.phone;
-    DOM.trackerPayment.textContent = `${state.paymentMethod.type} card ending in ${state.paymentMethod.cardNumber.slice(-4)}`;
+    const pmDisplay = state.paymentMethod.cardNumber === '—'
+        ? state.paymentMethod.type
+        : `${state.paymentMethod.type} card ending in ${state.paymentMethod.cardNumber.slice(-4)}`;
+    DOM.trackerPayment.textContent = pmDisplay;
     
     // Custom stepper trigger animations
     setTimeout(() => {
