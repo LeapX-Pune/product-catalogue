@@ -9,6 +9,7 @@ import {
     validatePincode,
 } from "./utils/checkout_validator.js";
 import { loadCart, saveCart, clearCartStorage } from "./utils/localStorage.js";
+import { initDragDrop } from "./modules/dragdrop.js";
 
 // Global App State
 const state = {
@@ -114,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initCategoryCards();
     initMobileNav();
     initMobileFilterSheet();
+    initDragDrop(addToCart);
     renderGrids();
     updateCartUI();
 });
@@ -1033,6 +1035,7 @@ function toggleGridEmptyState(count) {
 }
 
 function renderGridMarkup(items, type) {
+    const isShop = type === "shop";
     return items.map(item => {
         const ratingStars = Math.round(item.rating);
         const formatPrice = (item.price / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -1043,6 +1046,40 @@ function renderGridMarkup(items, type) {
             tagHtml = `<div class="absolute top-unit-2 left-unit-2 bg-[var(--accent-amber)] text-[var(--text-dark)] font-label-md text-[10px] px-unit-2 py-0.5 rounded uppercase font-bold">Elite</div>`;
         } else if (item.id % 7 === 0) {
             tagHtml = `<div class="absolute top-unit-2 left-unit-2 bg-[var(--accent-teal)] text-[var(--text-dark)] font-label-md text-[10px] px-unit-2 py-0.5 rounded uppercase font-bold">New</div>`;
+        }
+
+        if (isShop) {
+            return `
+        <div class="card-dark group product-card rounded-xl p-unit-4 shadow-sm" 
+             data-product-id="${item.id}" 
+             data-name="${item.title}" 
+             data-price="${item.price}" 
+             data-category="${item.category}">
+            <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
+                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
+                ${tagHtml}
+                <button class="add-favorite-btn absolute top-unit-2 right-unit-2 w-8 h-8 bg-[var(--bg-card)]/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">favorite</span>
+                </button>
+            </div>
+            <div class="flex flex-col gap-unit-1">
+                <div class="flex items-start justify-between gap-1">
+                    <span class="font-label-md text-label-md text-[var(--accent-silver)] uppercase tracking-widest truncate">${item.category}</span>
+                    <div class="flex items-center gap-[2px] shrink-0">
+                        <span class="material-symbols-outlined text-[var(--accent-amber)] text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="text-label-md font-bold text-[var(--text-secondary)]">${item.rating.toFixed(1)}</span>
+                    </div>
+                </div>
+                <h3 class="font-headline-md text-headline-md text-[var(--text-primary)] truncate">${item.title}</h3>
+                <span class="text-[var(--text-primary)] font-bold text-body-lg">${formatPrice}</span>
+                <div class="flex justify-end mt-unit-1">
+                    <button class="quick-add-btn mt-unit-2 w-full py-unit-2 rounded-lg font-label-md text-label-md active:scale-95">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+            `;
         }
 
         return `

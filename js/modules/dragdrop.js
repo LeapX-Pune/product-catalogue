@@ -1,25 +1,16 @@
-/**
- * dragdrop.js
- * Adds HTML5 Drag-and-Drop support to product cards.
- * Integrates with the existing cart via addToCart() and animateCartIcons().
- * Does NOT modify any existing cart state, UI, or logic.
- */
-
 import { products } from "../data/products.js";
 
-// ─── Internal state ───────────────────────────────────────────────────────────
 let isDragging = false;
 let returnTimer = null;
+let _enabled = false;
+let _observers = [];
 
-// The cart trigger button (the shopping_cart icon in the navbar)
 const getCartBtn = () => document.querySelector(".cart-drawer-trigger");
 
-// ─── Cart float: move the cart button to the lower-third drop zone ────────────
 function floatCartToDropZone() {
     const btn = getCartBtn();
     if (!btn) return;
 
-    // Cancel any pending return animation
     if (returnTimer) {
         clearTimeout(returnTimer);
         returnTimer = null;
@@ -27,49 +18,34 @@ function floatCartToDropZone() {
 
     btn.classList.add("drag-drop-zone");
 
-    // Enable pointer events on the fixed header during drag so hit-testing detects the cart button
     const header = document.querySelector("header");
-    if (header) {
-        header.style.pointerEvents = "auto";
-    }
+    if (header) header.style.pointerEvents = "auto";
 
-    // Add drag-active class to navbar to disable backdrop-filter during drag
     const navbar = document.querySelector(".navbar-blur");
-    if (navbar) {
-        navbar.classList.add("drag-active");
-    }
+    if (navbar) navbar.classList.add("drag-active");
 }
 
 function returnCartToOrigin() {
     const btn = getCartBtn();
     if (!btn) return;
 
-    // Cancel any previous pending return
     if (returnTimer) {
         clearTimeout(returnTimer);
         returnTimer = null;
     }
 
-    // 160ms — just enough for the success pulse to be visible, then snap back
     returnTimer = setTimeout(() => {
         btn.classList.remove("drag-drop-zone", "drag-drop-zone--over", "drag-drop-zone--success");
         isDragging = false;
 
-        // Restore header's pointer-events-none so click-through works normally
         const header = document.querySelector("header");
-        if (header) {
-            header.style.pointerEvents = "none";
-        }
+        if (header) header.style.pointerEvents = "";
 
-        // Restore backdrop-filter on the navbar
         const navbar = document.querySelector(".navbar-blur");
-        if (navbar) {
-            navbar.classList.remove("drag-active");
-        }
+        if (navbar) navbar.classList.remove("drag-active");
     }, 160);
 }
 
-// ─── Drop zone hover handlers ─────────────────────────────────────────────────
 function onCartDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
@@ -80,7 +56,6 @@ function onCartDragOver(e) {
 function onCartDragLeave(e) {
     const btn = getCartBtn();
     if (!btn) return;
-    // Only remove if the pointer truly left the button (not a child re-entry)
     if (!btn.contains(e.relatedTarget)) {
         btn.classList.remove("drag-drop-zone--over");
     }
@@ -99,17 +74,14 @@ function onCartDrop(e) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
-    // ── Call addToCart IMMEDIATELY — no delay, cart count updates right away ──
     if (typeof window.__luxeAddToCart === "function") {
         window.__luxeAddToCart(product);
     }
 
-    // Success flash then return — short enough to feel instant
     btn.classList.add("drag-drop-zone--success");
     returnCartToOrigin();
 }
 
-// ─── Product card drag handlers ───────────────────────────────────────────────
 function onCardDragStart(e) {
     const card = e.currentTarget;
     const productId = card.dataset.productId;
@@ -119,25 +91,19 @@ function onCardDragStart(e) {
     e.dataTransfer.setData("text/plain", productId);
     e.dataTransfer.effectAllowed = "copy";
 
-    // Visual feedback on the card being dragged
     card.classList.add("dragging-card");
-
-    // Move cart to the lower-third drop zone
     floatCartToDropZone();
 }
 
 function onCardDragEnd(e) {
     e.currentTarget.classList.remove("dragging-card");
-    // If not dropped on cart, still return
     if (isDragging) {
         returnCartToOrigin();
     }
 }
 
-// ─── Attach drag events to all currently rendered product cards ───────────────
 function bindDragToCards() {
     document.querySelectorAll(".product-card").forEach(card => {
-        // Avoid double-binding
         if (card.dataset.dragBound) return;
         card.dataset.dragBound = "1";
         card.setAttribute("draggable", "true");
@@ -146,7 +112,6 @@ function bindDragToCards() {
     });
 }
 
-// ─── Attach drop zone events to the cart button ───────────────────────────────
 function bindDropZoneToCart() {
     const btn = getCartBtn();
     if (!btn || btn.dataset.dropBound) return;
@@ -156,22 +121,66 @@ function bindDropZoneToCart() {
     btn.addEventListener("drop", onCartDrop);
 }
 
-// ─── Public init ──────────────────────────────────────────────────────────────
+export function enableDragDrop() {
+    if (_enabled) return;
+    _enabled = true;
+
+    bindDragToCards();
+
+    _observers.forEach(({ el, observer }) => {
+        observer.observe(el, { childList: true });
+    });
+}
+
+export function disableDragDrop() {
+    if (!_enabled) return;
+    _enabled = false;
+
+    _observers.forEach(({ el, observer }) => {
+        observer.disconnect();
+    });
+
+    document.querySelectorAll(".product-card").forEach(card => {
+        card.removeAttribute("draggable");
+    });
+
+    document.querySelectorAll(".drag-drop-zone, .drag-drop-zone--over, .drag-drop-zone--success").forEach(el => {
+        el.classList.remove("drag-drop-zone", "drag-drop-zone--over", "drag-drop-zone--success");
+    });
+    document.querySelectorAll(".dragging-card").forEach(el => el.classList.remove("dragging-card"));
+    document.querySelectorAll(".drag-active").forEach(el => el.classList.remove("drag-active"));
+
+    const header = document.querySelector("header");
+    if (header) header.style.pointerEvents = "";
+
+    isDragging = false;
+    if (returnTimer) {
+        clearTimeout(returnTimer);
+        returnTimer = null;
+    }
+}
+
 export function initDragDrop(addToCartFn) {
-    // Expose the existing addToCart so the drop handler can call it
     window.__luxeAddToCart = addToCartFn;
 
     bindDropZoneToCart();
-    bindDragToCards();
 
-    // Re-bind cards whenever the grids are re-rendered (MutationObserver)
     const grids = ["product-grid-shop", "product-grid-interactive", "product-grid-animated"];
     grids.forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
         const observer = new MutationObserver(() => {
-            bindDragToCards();
+            if (_enabled) bindDragToCards();
         });
-        observer.observe(el, { childList: true });
+        _observers.push({ el, observer });
     });
+
+    const mq = window.matchMedia("(min-width: 768px)");
+    const handler = (e) => {
+        if (e.matches) enableDragDrop();
+        else disableDragDrop();
+    };
+    mq.addEventListener("change", handler);
+
+    if (mq.matches) enableDragDrop();
 }
