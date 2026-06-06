@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>LuxeCart | Premium Fashion & Electronics Catalog</title>
+    <title>LeapCart | Premium Fashion & Electronics Catalog</title>
     <!-- Tailwind CSS with Forms and Container Queries -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <!-- Google Fonts Inter & Material Symbols Outlined -->
@@ -95,9 +95,18 @@
         <div class="backdrop-blur-gradient absolute inset-x-0 top-0 h-24 pointer-events-none z-0"></div>
         <div class="relative w-full max-w-[90vw] mx-auto px-0 pt-4 flex justify-center z-10">
             <div class="navbar-blur pointer-events-auto relative flex items-center justify-between w-full px-8 h-16 rounded-full z-10">
-                <a href="#" data-go-view="home" class="relative z-20 text-2xl font-black tracking-tight text-[var(--text-primary)] flex items-center shrink-0">
-                    LuxeCart
+                <!-- Mobile centered logo (hidden on desktop) -->
+                <a href="#" data-go-view="home" class="md:hidden absolute left-1/2 -translate-x-1/2 z-10 text-2xl font-black tracking-tight text-[var(--text-primary)] whitespace-nowrap">
+                    LeapCart
                 </a>
+                <div class="flex items-center gap-unit-2">
+                    <button id="mobile-menu-btn" class="md:hidden relative z-20 p-unit-2 hover:bg-white/10 transition-colors rounded-full flex items-center" aria-label="Toggle menu">
+                        <span class="material-symbols-outlined" id="mobile-menu-icon">menu</span>
+                    </button>
+                    <a href="#" data-go-view="home" class="hidden md:inline relative z-20 text-2xl font-black tracking-tight text-[var(--text-primary)] flex items-center shrink-0">
+                        LeapCart
+                    </a>
+                </div>
                 <div class="hidden md:flex items-center gap-unit-6 lg:gap-unit-8 h-full relative z-20">
                     <a class="nav-link font-label-md text-label-md whitespace-nowrap relative py-2" href="#" data-view="catalog-section">
                         Catalog
@@ -130,10 +139,10 @@
                     </a>
                 </div>
                 <div class="relative z-20 flex items-center gap-unit-2 md:gap-unit-4 text-[var(--text-primary)] shrink-0">
-                    <button class="p-unit-1.5 md:p-unit-2 hover:bg-white/10 transition-colors rounded-full flex items-center">
+                    <button class="hidden md:flex p-unit-1.5 md:p-unit-2 hover:bg-white/10 transition-colors rounded-full flex items-center">
                         <span class="material-symbols-outlined" data-icon="favorite">favorite</span>
                     </button>
-                    <button class="p-unit-1.5 md:p-unit-2 hover:bg-white/10 transition-colors rounded-full flex items-center" data-go-view="order-tracker">
+                    <button class="hidden md:flex p-unit-1.5 md:p-unit-2 hover:bg-white/10 transition-colors rounded-full flex items-center" data-go-view="order-tracker">
                         <span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
                     </button>
                     <button class="cart-drawer-trigger p-unit-1.5 md:p-unit-2 hover:bg-white/10 transition-colors rounded-full flex items-center relative">
@@ -146,14 +155,60 @@
     </header>
 
     <!-- ============================================== -->
+    <!-- MOBILE NAV PANEL -->
+    <!-- ============================================== -->
+    <div id="mobile-nav-panel" class="fixed inset-0 z-40 md:hidden hidden">
+        <div id="mobile-nav-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <div class="absolute right-0 top-24 bottom-0 w-72 max-w-[85vw] bg-[var(--bg-elevated)] border-l border-[var(--border-muted)] shadow-2xl p-unit-8 pt-unit-6 transform transition-transform duration-300 translate-x-full overflow-y-auto">
+            <nav class="flex flex-col gap-unit-2">
+                <a class="nav-link mobile-nav-link font-headline-md text-headline-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors py-unit-4 border-b border-[var(--border-muted)]" href="#" data-view="catalog-section">
+                    Catalog
+                </a>
+                <!-- Mobile Shop toggle (collapsible categories) -->
+                <div class="border-b border-[var(--border-muted)]">
+                    <button id="mobile-shop-toggle" class="mobile-nav-link font-headline-md text-headline-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors py-unit-4 flex items-center justify-between w-full text-left">
+                        <span>Shop</span>
+                        <span class="material-symbols-outlined text-[20px] transition-transform duration-200" id="mobile-shop-arrow">expand_more</span>
+                    </button>
+                    <div id="mobile-category-collapse" class="overflow-hidden transition-all duration-200 max-h-0">
+                        <div class="flex flex-col gap-unit-1 pl-unit-2 pb-unit-4">
+                            <button class="category-btn mobile-category-btn text-left text-[var(--text-secondary)] hover:text-[var(--accent-teal)] transition-colors font-label-md text-label-md py-unit-2" data-category="All">All</button>
+                            <button class="category-btn mobile-category-btn text-left text-[var(--text-secondary)] hover:text-[var(--accent-teal)] transition-colors font-label-md text-label-md py-unit-2" data-category="Apparel">Apparel</button>
+                            <button class="category-btn mobile-category-btn text-left text-[var(--text-secondary)] hover:text-[var(--accent-teal)] transition-colors font-label-md text-label-md py-unit-2" data-category="Electronics">Electronics</button>
+                            <button class="category-btn mobile-category-btn text-left text-[var(--text-secondary)] hover:text-[var(--accent-teal)] transition-colors font-label-md text-label-md py-unit-2" data-category="Accessories">Accessories</button>
+                            <button class="category-btn mobile-category-btn text-left text-[var(--text-secondary)] hover:text-[var(--accent-teal)] transition-colors font-label-md text-label-md py-unit-2" data-category="Fitness">Fitness</button>
+                            <button class="category-btn mobile-category-btn text-left text-[var(--text-secondary)] hover:text-[var(--accent-teal)] transition-colors font-label-md text-label-md py-unit-2" data-category="Home Decor">Home Decor</button>
+                            <button class="category-btn mobile-category-btn text-left text-[var(--text-secondary)] hover:text-[var(--accent-teal)] transition-colors font-label-md text-label-md py-unit-2" data-category="Home & Kitchen">Home & Kitchen</button>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-link mobile-nav-link font-headline-md text-headline-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors py-unit-4 border-b border-[var(--border-muted)]" href="#" data-view="about-section">
+                    About Us
+                </a>
+                <a class="mobile-nav-link font-headline-md text-headline-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors py-unit-4 border-b border-[var(--border-muted)]" href="#" data-go-view="order-tracker">
+                    <span class="flex items-center gap-unit-3">
+                        <span class="material-symbols-outlined text-[20px]">local_shipping</span>
+                        Track Order
+                    </span>
+                </a>
+                <button class="cart-drawer-trigger mobile-nav-link font-headline-md text-headline-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors py-unit-4 flex items-center gap-unit-3 w-full text-left" aria-label="Open cart">
+                    <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+                    <span>Cart</span>
+                    <span class="cart-count ml-auto bg-[var(--accent-amber)] text-[var(--text-dark)] text-[11px] w-5.5 h-5.5 min-w-[22px] rounded-full flex items-center justify-center font-extrabold hidden shadow-lg">0</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
     <!-- VIEW CONTAINER 1: LUXECART HOME -->
     <!-- ============================================== -->
     <div id="view-home" class="view-container active">
         <main class="max-w-7xl mx-auto px-unit-4 md:px-unit-12 pt-24 pb-unit-8">
             <!-- Hero Showcase Section -->
-            <section class="relative w-full h-[540px] mb-unit-16 rounded-xl overflow-hidden shadow-xl border border-[var(--border-muted)]">
+            <section class="relative w-full md:h-[540px] h-[300px] mb-unit-16 rounded-xl overflow-hidden shadow-xl border border-[var(--border-muted)]">
                 <div class="absolute inset-0 z-0">
-                    <img alt="LuxeCart Hero Showcase" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80" />
+                    <img alt="LeapCart Hero Showcase" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80" />
                     <div class="absolute inset-0 hero-gradient"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-[var(--accent-teal)]/15 mix-blend-color z-0"></div>
                 </div>
@@ -279,9 +334,9 @@
             <!-- About Us Target Section -->
             <section id="about-section" class="py-unit-12 border-t border-[var(--border-muted)] mt-unit-8 text-center max-w-3xl mx-auto">
                 <span class="text-[var(--accent-teal)] font-label-md text-label-md tracking-widest uppercase mb-unit-2 block">Our Philosophy</span>
-                <h3 class="font-headline-lg text-headline-lg text-[var(--text-primary)] font-black mb-unit-4">About LuxeCart</h3>
+                <h3 class="font-headline-lg text-headline-lg text-[var(--text-primary)] font-black mb-unit-4">About LeapCart</h3>
                 <p class="font-body-lg text-body-lg text-[var(--text-secondary)] leading-relaxed">
-                    Defining the next generation of digital retail. LuxeCart blends premium minimalist aesthetics, high-end styling details, and fluid interactive animations to deliver an effortless shopping journey. From carefully curated boutique apparel to high-fidelity electronics, we focus on luxury, speed, and absolute detail.
+                    Defining the next generation of digital retail. LeapCart blends premium minimalist aesthetics, high-end styling details, and fluid interactive animations to deliver an effortless shopping journey. From carefully curated boutique apparel to high-fidelity electronics, we focus on luxury, speed, and absolute detail.
                 </p>
             </section>
         </main>
@@ -398,6 +453,10 @@
                         <button data-go-view="home" class="flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent-teal)] transition-colors mr-unit-2 font-label-md text-xs uppercase tracking-wider">
                             <span class="material-symbols-outlined text-[16px]">arrow_back</span>
                             Home
+                        </button>
+                        <button id="mobile-filter-btn" class="md:hidden flex items-center gap-1 text-[var(--accent-teal)] hover:text-[var(--accent-teal)] transition-colors mr-unit-2 font-label-md text-xs uppercase tracking-wider px-unit-3 py-unit-1.5 rounded-full border border-[var(--accent-teal)]/30 bg-[var(--accent-teal)]/5">
+                            <span class="material-symbols-outlined text-[16px]">filter_list</span>
+                            Filters
                         </button>
                         <span class="font-label-md text-xs uppercase tracking-wider text-[var(--text-muted)]">Category:</span>
                         <span id="active-category-label" class="text-base text-[var(--text-primary)] font-black uppercase tracking-wide">All Products</span>
@@ -535,6 +594,81 @@
             </section>
         </main>
     </div>
+
+    <!-- ============================================== -->
+    <!-- MOBILE FILTER BOTTOM SHEET (Shop only) -->
+    <!-- ============================================== -->
+    <div id="mobile-filter-sheet" class="md:hidden fixed inset-x-0 bottom-0 z-50 hidden flex-col rounded-t-2xl bg-[var(--bg-section)] border-t border-[var(--border-muted)] shadow-2xl max-h-[85vh] transform transition-transform duration-300 translate-y-full">
+        <div class="flex items-center justify-between px-unit-6 pt-unit-4 pb-unit-2 border-b border-[var(--border-muted)] flex-shrink-0">
+            <div class="flex items-center gap-unit-3">
+                <div class="w-8 h-1 bg-[var(--text-muted)]/40 rounded-full mx-auto md:hidden"></div>
+                <h3 class="font-headline-md text-headline-md text-[var(--text-primary)] font-bold">Filters</h3>
+            </div>
+            <button id="mobile-filter-close" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[var(--bg-card)] transition-colors">
+                <span class="material-symbols-outlined text-[var(--text-secondary)]">close</span>
+            </button>
+        </div>
+        <div class="overflow-y-auto p-unit-6 space-y-unit-6 flex-1">
+            <div class="flex flex-col gap-unit-2">
+                <h3 class="font-label-md text-label-md text-[var(--text-muted)] uppercase font-bold">Category</h3>
+                <div class="grid grid-cols-2 gap-unit-2">
+                    <button class="mobile-filter-cat category-btn text-left px-unit-3 py-unit-2 rounded-lg border border-[var(--border-muted)] text-[var(--text-secondary)] hover:text-[var(--accent-teal)] hover:border-[var(--accent-teal)]/30 transition-all font-label-md text-label-md" data-category="All">All</button>
+                    <button class="mobile-filter-cat category-btn text-left px-unit-3 py-unit-2 rounded-lg border border-[var(--border-muted)] text-[var(--text-secondary)] hover:text-[var(--accent-teal)] hover:border-[var(--accent-teal)]/30 transition-all font-label-md text-label-md" data-category="Apparel">Apparel</button>
+                    <button class="mobile-filter-cat category-btn text-left px-unit-3 py-unit-2 rounded-lg border border-[var(--border-muted)] text-[var(--text-secondary)] hover:text-[var(--accent-teal)] hover:border-[var(--accent-teal)]/30 transition-all font-label-md text-label-md" data-category="Electronics">Electronics</button>
+                    <button class="mobile-filter-cat category-btn text-left px-unit-3 py-unit-2 rounded-lg border border-[var(--border-muted)] text-[var(--text-secondary)] hover:text-[var(--accent-teal)] hover:border-[var(--accent-teal)]/30 transition-all font-label-md text-label-md" data-category="Accessories">Accessories</button>
+                    <button class="mobile-filter-cat category-btn text-left px-unit-3 py-unit-2 rounded-lg border border-[var(--border-muted)] text-[var(--text-secondary)] hover:text-[var(--accent-teal)] hover:border-[var(--accent-teal)]/30 transition-all font-label-md text-label-md" data-category="Fitness">Fitness</button>
+                    <button class="mobile-filter-cat category-btn text-left px-unit-3 py-unit-2 rounded-lg border border-[var(--border-muted)] text-[var(--text-secondary)] hover:text-[var(--accent-teal)] hover:border-[var(--accent-teal)]/30 transition-all font-label-md text-label-md" data-category="Home Decor">Home Decor</button>
+                    <button class="mobile-filter-cat category-btn text-left px-unit-3 py-unit-2 rounded-lg border border-[var(--border-muted)] text-[var(--text-secondary)] hover:text-[var(--accent-teal)] hover:border-[var(--accent-teal)]/30 transition-all font-label-md text-label-md col-span-2" data-category="Home & Kitchen">Home & Kitchen</button>
+                </div>
+            </div>
+            <hr class="border-[var(--border-muted)]" />
+            <div class="flex flex-col gap-unit-2">
+                <h3 class="font-label-md text-label-md text-[var(--text-muted)] uppercase font-bold">Price Range</h3>
+                <div class="flex justify-between items-center text-xs font-bold font-label-md">
+                    <span id="mob-price-min-label" class="text-[var(--text-secondary)]">₹0</span>
+                    <span class="text-[var(--text-muted)]">—</span>
+                    <span id="mob-price-max-label" class="text-[var(--text-secondary)]">₹29,999+</span>
+                </div>
+                <div class="relative w-full h-6 flex items-center">
+                    <div class="relative w-[calc(100%-16px)] mx-auto h-full flex items-center">
+                        <div class="absolute inset-x-0 h-1 bg-[var(--bg-card)] rounded z-0"></div>
+                        <div id="mob-price-slider-track" class="absolute h-1 bg-[var(--accent-teal)] rounded z-10" style="left: 0%; right: 0%;"></div>
+                        <input type="range" id="mob-price-min-slider" min="0" max="30000" value="0" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
+                        <input type="range" id="mob-price-max-slider" min="0" max="30000" value="30000" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
+                    </div>
+                </div>
+                <div class="flex gap-unit-2 items-center mt-base">
+                    <div class="flex flex-col gap-1 flex-1">
+                        <span class="text-[10px] uppercase font-bold text-[var(--text-muted)]">Min (₹)</span>
+                        <input type="number" id="mob-price-min-input" min="0" max="30000" value="0" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
+                    </div>
+                    <div class="flex flex-col gap-1 flex-1">
+                        <span class="text-[10px] uppercase font-bold text-[var(--text-muted)]">Max (₹)</span>
+                        <input type="number" id="mob-price-max-input" min="0" max="30000" value="30000" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
+                    </div>
+                </div>
+            </div>
+            <hr class="border-[var(--border-muted)]" />
+            <div class="flex flex-col gap-unit-2">
+                <h3 class="font-label-md text-label-md text-[var(--text-muted)] uppercase font-bold">Minimum Rating</h3>
+                <div class="space-y-unit-2">
+                    <label class="flex items-center gap-unit-3 cursor-pointer py-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+                        <input class="filter-rating text-[var(--accent-teal)] focus:ring-[var(--accent-teal)] rounded-sm bg-[var(--bg-card)] border-[var(--border-soft)]" type="checkbox" value="4.5" />
+                        <span class="text-sm font-medium">4.5 Stars & Up</span>
+                    </label>
+                    <label class="flex items-center gap-unit-3 cursor-pointer py-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+                        <input class="filter-rating text-[var(--accent-teal)] focus:ring-[var(--accent-teal)] rounded-sm bg-[var(--bg-card)] border-[var(--border-soft)]" type="checkbox" value="4.8" />
+                        <span class="text-sm font-medium">4.8 Stars & Up</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-unit-3 px-unit-6 py-unit-4 border-t border-[var(--border-muted)] flex-shrink-0">
+            <button class="reset-filters btn-ghost flex-1 py-unit-3 rounded-lg font-label-md text-label-md">Reset</button>
+            <button class="apply-filters btn-primary flex-1 py-unit-3 rounded-lg font-label-md text-label-md" id="mobile-filters-apply">Apply Filters</button>
+        </div>
+    </div>
+    <div id="mobile-filter-backdrop" class="md:hidden fixed inset-0 bg-black/50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
 
     <!-- ============================================== -->
     <!-- VIEW CONTAINER 4: LUXECART ANIMATED SHOP -->
@@ -1044,7 +1178,7 @@
                                 <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                             </button>
                             <p class="mt-unit-6 text-center text-[var(--text-muted)] font-label-md text-label-md">
-                                By completing order, you align to LuxeCart's <br/>
+                                By completing order, you align to LeapCart's <br/>
                                 <a class="underline hover:text-[var(--text-primary)]" href="#">Terms of Service</a> &amp; <a class="underline hover:text-[var(--text-primary)]" href="#">Privacy policies</a>.
                             </p>
                         </section>
@@ -1243,10 +1377,10 @@
         <div class="max-w-7xl mx-auto px-unit-4 md:px-unit-12 grid grid-cols-1 md:grid-cols-4 gap-unit-8">
             <div class="col-span-1 md:col-span-1">
                 <div class="font-display-lg text-headline-lg font-black tracking-tight text-[var(--text-primary)] mb-unit-4">
-                    LuxeCart
+                    LeapCart
                 </div>
                 <p class="font-body-md text-body-md text-[var(--text-secondary)] leading-relaxed">
-                    Defining the next generation of e-commerce styling, responsive aesthetics, and premium interactions. LuxeCart offers an elite curated selection of designer apparel, cutting-edge electronics, and handcrafted lifestyle essentials.
+                    Defining the next generation of e-commerce styling, responsive aesthetics, and premium interactions. LeapCart offers an elite curated selection of designer apparel, cutting-edge electronics, and handcrafted lifestyle essentials.
                 </p>
             </div>
             <div>
@@ -1280,7 +1414,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-unit-4 md:px-unit-12 mt-unit-16 pt-unit-8 border-t border-[var(--border-muted)] flex flex-col md:flex-row justify-between items-center font-label-md text-[11px] text-[var(--text-muted)]">
-            <p>© 2026 LuxeCart Premium Storefront. All rights reserved.</p>
+            <p>© 2026 LeapCart Premium Storefront. All rights reserved.</p>
             <div class="flex gap-unit-6 mt-unit-4 md:mt-0">
                 <a href="#" class="hover:text-[var(--text-primary)] transition-colors">Privacy Policy</a>
                 <a href="#" class="hover:text-[var(--text-primary)] transition-colors">Terms of Service</a>
