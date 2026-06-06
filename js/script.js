@@ -9,7 +9,7 @@ import {
     validateCity,
     validatePincode,
 } from "./utils/checkout_validator.js";
-import { initDragDrop } from "./modules/dragdrop.js";
+import { loadCart, saveCart, clearCartStorage } from "./utils/localStorage.js";
 
 // Global App State
 const state = {
@@ -106,6 +106,8 @@ const DOM = {
 
 // --- INITIALIZE APPLICATION ---
 document.addEventListener("DOMContentLoaded", () => {
+    state.cart = loadCart();
+    initHistoryAPI();
     initRouter();
     initCart();
     initFilters();
@@ -113,13 +115,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initCategoryCards();
     renderGrids();
     updateCartUI();
-    initDragDrop(addToCart);
 });
 
-// Expose helpers so any external module can call back into the app
+// Expose helpers for external module access
 window.openCartDrawer = openCartDrawer;
 window.switchView     = switchView;
-window.clearCart      = () => { state.cart = []; updateCartUI(); };
 window.getCart        = () => state.cart;
 
 export function updateNavbarActiveState(activeViewOrSection) {
@@ -238,7 +238,7 @@ function scrollToSection(selector) {
     }
 }
 
-export function switchView(viewName) {
+export function switchView(viewName, { replace = false } = {}) {
     state.activeView = viewName;
     
     // Close Drawer if open
@@ -261,6 +261,15 @@ export function switchView(viewName) {
         }
     });
 
+    // Push history state (skip during initial load or replace)
+    const stateObj = { view: viewName, timestamp: Date.now() };
+    const url = viewName === "home" ? window.location.pathname : `?view=${viewName}`;
+    if (replace) {
+        history.replaceState(stateObj, "", url);
+    } else {
+        history.pushState(stateObj, "", url);
+    }
+
     // Render corresponding reviews if entering review steps
     if (viewName === "checkout-review") {
         renderOrderReview();
@@ -270,6 +279,20 @@ export function switchView(viewName) {
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function initHistoryAPI() {
+    // Replace initial state so back from shop lands on home correctly
+    history.replaceState({ view: "home", timestamp: Date.now() }, "", window.location.pathname);
+
+    window.addEventListener("popstate", (e) => {
+        const targetView = e.state?.view || "home";
+        // Only switch if different and not during a programmatic push
+        if (targetView !== state.activeView) {
+            // Call switchView with replace=true so we don't push another state
+            switchView(targetView, { replace: true });
+        }
+    });
 }
 
 // --- DYNAMIC PRODUCT RENDERER & FILTERS ---
@@ -851,6 +874,7 @@ function initCart() {
     document.querySelectorAll(".clear-cart-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             state.cart = [];
+            clearCartStorage();
             updateCartUI();
         });
     });
@@ -893,6 +917,7 @@ function addToCart(product) {
     } else {
         state.cart.push({ ...product, qty: 1 });
     }
+    saveCart(state.cart);
     updateCartUI();
     animateCartIcons();
 }
@@ -935,7 +960,7 @@ function updateCartUI() {
                         <button class="qty-btn bg-[var(--bg-elevated)] w-5 h-5 rounded flex items-center justify-center text-label-md text-[var(--text-primary)]" data-idx="${index}" data-act="inc">+</button>
                     </div>
                 </div>
-                <button class="remove-cart-item-btn material-symbols-outlined text-[var(--text-muted)] hover:text-[var(--error)] transition-colors" data-idx="${index}">close</button>
+                <button class="remove-cart-item-btn material-symbols-outlined text-[var(--text-muted)] hover:text-[var(--error)] transition-colors" data-idx="${index}">delete</button>
             </div>
             `;
         }).join("");
@@ -953,6 +978,7 @@ function updateCartUI() {
                         state.cart.splice(idx, 1);
                     }
                 }
+                saveCart(state.cart);
                 updateCartUI();
             });
         });
@@ -962,6 +988,7 @@ function updateCartUI() {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.dataset.idx);
                 state.cart.splice(idx, 1);
+                saveCart(state.cart);
                 updateCartUI();
             });
         });
@@ -1289,6 +1316,7 @@ function initCheckout() {
                 
                 // Clear the shopping cart
                 state.cart = [];
+                clearCartStorage();
                 updateCartUI();
 
                 // Restore Order Review Button markup
