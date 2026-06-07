@@ -38,12 +38,12 @@ function renderSearchHistory(container, input, state, renderGridsFn) {
     if (history.length === 0) return;
 
     const dropdown = document.createElement('div');
-    dropdown.className = 'search-history-dropdown absolute top-full left-0 mt-2 w-full bg-[var(--bg-card)] border border-[var(--border-muted)] rounded-lg shadow-xl overflow-hidden z-50 flex flex-col';
+    dropdown.className = 'search-history-dropdown';
 
     history.forEach(item => {
         const row = document.createElement('div');
-        row.className = 'px-unit-3 py-unit-2 text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] cursor-pointer flex items-center gap-2 transition-colors';
-        row.innerHTML = `<span class="material-symbols-outlined text-[var(--text-muted)] text-[16px]">history</span><span class="text-sm truncate">${item}</span>`;
+        row.className = 'history-row';
+        row.innerHTML = `<span class="material-symbols-outlined text-[var(--text-muted)] text-[16px]">history</span><span>${item}</span>`;
 
         row.addEventListener('mousedown', (e) => {
             e.preventDefault(); // prevents input blur from firing before selection
@@ -65,6 +65,24 @@ function renderSearchHistory(container, input, state, renderGridsFn) {
     container.appendChild(dropdown);
 }
 
+// Maps UI category names to product category names they should match
+const CATEGORY_ALIASES = {
+    "apparel": ["fashion", "apparel"],
+    "fashion": ["fashion", "apparel"],
+    "fitness": ["sports & fitness", "fitness"],
+    "home decor": ["home & kitchen", "decor", "home decor"],
+};
+
+function matchesCategory(uiCategory, productCategory) {
+    const normProduct = productCategory.toLowerCase();
+    const normUI = uiCategory.toLowerCase();
+    const aliases = CATEGORY_ALIASES[normUI];
+    if (aliases) {
+        return aliases.includes(normProduct);
+    }
+    return normProduct === normUI;
+}
+
 // Check category matching for single and multiple selections
 export function matchCategory(productCategory, selectedCategories, singleCategory) {
     const normProductCat = productCategory.toLowerCase();
@@ -74,25 +92,12 @@ export function matchCategory(productCategory, selectedCategories, singleCategor
         if (selectedCategories.includes("All")) {
             return true;
         }
-
-        // Map UI category names to matching rules:
-        // Apparel -> Fashion
-        return selectedCategories.some(cat => {
-            const normCat = cat.toLowerCase();
-            if (normCat === "apparel" || normCat === "fashion") {
-                return normProductCat === "fashion" || normProductCat === "apparel";
-            }
-            return normProductCat === normCat;
-        });
+        return selectedCategories.some(cat => matchesCategory(cat, productCategory));
     }
 
     // 2. Check if a single category is selected via buttons or cards
     if (singleCategory && singleCategory !== "All") {
-        const normSingleCat = singleCategory.toLowerCase();
-        if (normSingleCat === "apparel" || normSingleCat === "fashion") {
-            return normProductCat === "fashion" || normProductCat === "apparel";
-        }
-        return normProductCat === normSingleCat;
+        return matchesCategory(singleCategory, productCategory);
     }
 
     return true;
@@ -115,6 +120,8 @@ export function getFilteredProducts(state) {
     if (selectedCategories.length === 0) {
         selectedCategories = ["All"];
     }
+
+    console.log('[getFilteredProducts] selectedCategories:', selectedCategories, 'activeView:', state.activeView, 'priceMin:', state.filters.priceMin, 'priceMax:', state.filters.priceMax);
 
     return products.filter(prod => {
         // 1. Category filter (supports both multi-select array and single state.filters.category)
@@ -163,7 +170,10 @@ export function getFilteredProducts(state) {
 export function renderGridMarkup(items, type) {
     const isShop = type === "shop";
     return items.map(item => {
-        const formatPrice = (item.price / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+        const priceNum = item.price / 100;
+        const priceFormatted = priceNum.toLocaleString("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const dotIdx = priceFormatted.indexOf('.');
+        const formatPrice = dotIdx === -1 ? priceFormatted : priceFormatted.slice(0, dotIdx) + '<small class="price-decimal">' + priceFormatted.slice(dotIdx) + '</small>';
 
         let tagHtml = "";
         if (item.rating >= 4.9) {
@@ -260,6 +270,70 @@ export function bindProductCardEvents(productsList, addToCartFn) {
     });
 }
 
+// Helper to render autocomplete suggestions based on product titles
+function renderAutocompleteSuggestions(container, input, state, renderGridsFn) {
+    // Remove existing autocomplete dropdown
+    const existing = container.querySelector('.search-autocomplete-dropdown');
+    if (existing) existing.remove();
+
+    const query = input.value.trim().toLowerCase();
+    if (!query) return;
+
+    // Find matching product titles (max 8)
+    const matches = products
+        .filter(p => p.title.toLowerCase().includes(query))
+        .slice(0, 8);
+
+    if (matches.length === 0) return;
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'search-autocomplete-dropdown';
+    // Track state for keyboard navigation
+    dropdown._highlightIndex = -1;
+    dropdown._rows = [];
+
+    matches.forEach(product => {
+        const row = document.createElement('div');
+        row.className = 'suggestion-row';
+        row._product = product;
+        // Highlight the matching portion
+        const idx = product.title.toLowerCase().indexOf(query);
+        let displayTitle = product.title;
+        if (idx !== -1) {
+            displayTitle = product.title.slice(0, idx) +
+                '<strong>' + product.title.slice(idx, idx + query.length) + '</strong>' +
+                product.title.slice(idx + query.length);
+        }
+        row.innerHTML = `<span class="material-symbols-outlined text-[var(--text-muted)] text-[16px]">search</span><span class="suggestion-title">${displayTitle}</span><span class="suggestion-category">${product.category}</span>`;
+
+        row.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            input.value = product.title;
+            state.filters.searchQuery = product.title;
+            saveSearchQuery(product.title);
+
+            DOM.searchInputs.forEach(inp => {
+                if (inp !== input) inp.value = product.title;
+            });
+
+            renderGridsFn();
+            dropdown.remove();
+            input.blur();
+        });
+
+        row.addEventListener('mouseenter', () => {
+            dropdown._rows.forEach(r => r.classList.remove('active'));
+            row.classList.add('active');
+            dropdown._highlightIndex = dropdown._rows.indexOf(row);
+        });
+
+        dropdown._rows.push(row);
+        dropdown.appendChild(row);
+    });
+
+    container.appendChild(dropdown);
+}
+
 // Initialize search input elements and history
 export function initSearchAndFilters(state, DOM, renderGridsFn, addToCartFn) {
     // 1. Text Search Input listener
@@ -270,31 +344,91 @@ export function initSearchAndFilters(state, DOM, renderGridsFn, addToCartFn) {
         }
 
         input.addEventListener('focus', () => {
-            renderSearchHistory(container, input, state, renderGridsFn);
+            if (!input.value.trim()) {
+                renderSearchHistory(container, input, state, renderGridsFn);
+            } else {
+                renderAutocompleteSuggestions(container, input, state, renderGridsFn);
+            }
         });
 
         input.addEventListener('blur', () => {
             // Delay dropdown removal slightly to allow row click to fire first if it was a mouseclick
             setTimeout(() => {
-                const dropdown = container.querySelector('.search-history-dropdown');
-                if (dropdown) dropdown.remove();
+                const historyDropdown = container.querySelector('.search-history-dropdown');
+                if (historyDropdown) historyDropdown.remove();
+                const autocompleteDropdown = container.querySelector('.search-autocomplete-dropdown');
+                if (autocompleteDropdown) autocompleteDropdown.remove();
             }, 200);
         });
 
         input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+            const autocompleteDropdown = container.querySelector('.search-autocomplete-dropdown');
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (autocompleteDropdown && autocompleteDropdown._rows && autocompleteDropdown._rows.length > 0) {
+                    autocompleteDropdown._highlightIndex = Math.min(
+                        autocompleteDropdown._highlightIndex + 1,
+                        autocompleteDropdown._rows.length - 1
+                    );
+                    autocompleteDropdown._rows.forEach(r => r.classList.remove('active'));
+                    const activeRow = autocompleteDropdown._rows[autocompleteDropdown._highlightIndex];
+                    activeRow.classList.add('active');
+                    activeRow.scrollIntoView({ block: 'nearest' });
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (autocompleteDropdown && autocompleteDropdown._rows && autocompleteDropdown._rows.length > 0) {
+                    autocompleteDropdown._highlightIndex = Math.max(
+                        autocompleteDropdown._highlightIndex - 1,
+                        -1
+                    );
+                    autocompleteDropdown._rows.forEach(r => r.classList.remove('active'));
+                    if (autocompleteDropdown._highlightIndex >= 0) {
+                        const activeRow = autocompleteDropdown._rows[autocompleteDropdown._highlightIndex];
+                        activeRow.classList.add('active');
+                        activeRow.scrollIntoView({ block: 'nearest' });
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                if (autocompleteDropdown && autocompleteDropdown._highlightIndex >= 0) {
+                    e.preventDefault();
+                    const activeRow = autocompleteDropdown._rows[autocompleteDropdown._highlightIndex];
+                    const product = activeRow._product;
+                    input.value = product.title;
+                    state.filters.searchQuery = product.title;
+                    saveSearchQuery(product.title);
+                    DOM.searchInputs.forEach(inp => {
+                        if (inp !== input) inp.value = product.title;
+                    });
+                    renderGridsFn();
+                    autocompleteDropdown.remove();
+                    input.blur();
+                    return;
+                }
                 saveSearchQuery(e.target.value);
-                const dropdown = container.querySelector('.search-history-dropdown');
-                if (dropdown) dropdown.remove();
+                const historyDropdown = container.querySelector('.search-history-dropdown');
+                if (historyDropdown) historyDropdown.remove();
+                if (autocompleteDropdown) autocompleteDropdown.remove();
                 input.blur();
+            } else if (e.key === 'Escape') {
+                if (autocompleteDropdown) {
+                    autocompleteDropdown.remove();
+                }
+                const historyDropdown = container.querySelector('.search-history-dropdown');
+                if (historyDropdown) historyDropdown.remove();
             }
         });
 
         input.addEventListener('input', (e) => {
+            const value = e.target.value;
+
+            // Show autocomplete suggestions in real-time
+            renderAutocompleteSuggestions(container, input, state, renderGridsFn);
+
             if (searchTimeout) clearTimeout(searchTimeout);
 
             searchTimeout = setTimeout(() => {
-                const value = e.target.value;
                 state.filters.searchQuery = value;
 
                 // Sync search query in all inputs
