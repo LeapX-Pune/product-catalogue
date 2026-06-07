@@ -1424,8 +1424,10 @@ function updateCartUI() {
     // Update total price displays
     DOM.cartTotalDisplay.textContent = formatINR(subtotal);
 
-    // Keep cart page in sync
-    if (typeof renderCartPage === "function") renderCartPage();
+    // Sync cart page if visible
+    if (state.activeView === "cart") {
+        renderCartPage();
+    }
 }
 
 function animateCartIcons() {
