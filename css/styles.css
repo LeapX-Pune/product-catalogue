@@ -486,40 +486,92 @@ p,
 .product-card[draggable="true"]:active {
   cursor: grabbing;
 }
+
+/* The card being dragged */
 .product-card.dragging-card {
-  opacity: 0.5;
-  outline: 2px dashed var(--accent-teal, #00b8a9);
-  outline-offset: 2px;
-}
-.drag-drop-zone {
-  transition: transform 0.15s ease;
-}
-.drag-drop-zone--over {
-  transform: scale(1.15);
-}
-.drag-drop-zone--success {
-  transform: scale(1.2);
-  animation: drag-drop-pulse 0.3s ease;
-}
-@keyframes drag-drop-pulse {
-  0% { transform: scale(1.2); }
-  50% { transform: scale(1.35); }
-  100% { transform: scale(1); }
-}
-.navbar-blur.drag-active {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  opacity: 0.4;
+  border: 2px dashed var(--accent-teal) !important;
+  transform: scale(0.95);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
+/* Floating cart proxy */
+.floating-cart-proxy {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: auto;
+  cursor: copy;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px dashed var(--accent-teal);
+  color: var(--accent-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 184, 169, 0.2);
+  /* Visible at normal size; transition set dynamically by JS */
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: none;
+  will-change: transform, left, top;
+}
+
+.floating-cart-proxy .material-symbols-outlined {
+  font-size: 24px;
+  pointer-events: none;
+}
+
+/* Enlarged state after launch */
+.floating-cart-proxy--active {
+  transform: translate(-50%, -50%) scale(1.6);
+}
+
+/* Proximity-based enlargement (mouse near cart) */
+.floating-cart-proxy--near {
+  transform: translate(-50%, -50%) scale(3.2);
+}
+
+/* Dragover hover state */
+.floating-cart-proxy--over {
+  background: var(--accent-teal) !important;
+  color: var(--text-dark) !important;
+  border-color: var(--text-primary) !important;
+  transform: translate(-50%, -50%) scale(3.4) !important;
+  box-shadow: 0 0 40px rgba(0, 184, 169, 0.6) !important;
+}
+
+/* Drop success state */
+.floating-cart-proxy--success {
+  background: var(--success) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--text-primary) !important;
+  transform: translate(-50%, -50%) scale(2) !important;
+  box-shadow: 0 0 50px rgba(34, 197, 94, 0.7) !important;
+}
+
+/* Shrink/fade on drag end */
+.floating-cart-proxy--destroying {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(0) !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+/* Suppress proxy on mobile */
 @media (max-width: 767px) {
-  /* Suppress all drag visuals on mobile */
-  .product-card[draggable="true"] {
-    cursor: default;
+  .floating-cart-proxy {
+    display: none !important;
   }
   .product-card.dragging-card {
     opacity: 1;
-    outline: none;
+    border: none !important;
+    transform: none;
+    box-shadow: none;
   }
+}
+
+@media (max-width: 767px) {
   #shop-sidebar {
     position: fixed !important;
     left: 0 !important;
