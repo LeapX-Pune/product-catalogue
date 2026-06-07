@@ -18,6 +18,8 @@ import {
 } from "./modules/search_filter.js";
 
 // Global App State
+const MAX_PRICE = 70000;
+
 const state = {
     cart: [],
     shippingAddress: {
@@ -40,10 +42,11 @@ const state = {
         category: "All",
         priceRange: [], // Can contain "0-5000", "5000-15000", "15000-plus"
         priceMin: 0,
-        priceMax: 30000,
+        priceMax: MAX_PRICE,
         rating: 0,
         searchQuery: "",
-        sortOrder: "newest"
+        sortOrder: "newest",
+        subcategory: "All"
     }
 };
 
@@ -141,12 +144,6 @@ const initializeApp = () => {
     updateCartUI();
 };
 
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeApp);
-} else {
-    initializeApp();
-}
-
 // Expose helpers for external module access
 window.openCartDrawer = openCartDrawer;
 window.switchView     = switchView;
@@ -154,6 +151,14 @@ window.getCart        = () => state.cart;
 
 function formatINR(val) {
     return val.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+}
+
+function formatPriceHTML(val) {
+    const num = val / 100;
+    const formatted = num.toLocaleString("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const dotIdx = formatted.indexOf('.');
+    if (dotIdx === -1) return formatted;
+    return formatted.slice(0, dotIdx) + '<small class="price-decimal">' + formatted.slice(dotIdx) + '</small>';
 }
 
 export function updateNavbarActiveState(activeViewOrSection) {
@@ -371,6 +376,14 @@ function _restoreFilterUI(filters) {
         if (indicator) indicator.style.transform = isActive ? "scaleX(1)" : "scaleX(0)";
     });
 
+    // Sync sidebar category checkboxes with restored category
+    document.querySelectorAll(".category-btn-checkbox").forEach(cb => {
+        cb.checked = filters.category === "All"
+            ? cb.value === "All"
+            : cb.value.toLowerCase() === filters.category.toLowerCase()
+                || (cb.value === "Apparel" && (filters.category === "Apparel" || filters.category === "Fashion"));
+    });
+
     // Sidebar radio
     let radioValue = filters.category;
     if (radioValue === "Apparel") radioValue = "Fashion";
@@ -411,6 +424,7 @@ function _restoreFilterUI(filters) {
 
 function _restoreSavedView() {
     const saved = _loadSavedView();
+    console.log('[restore] saved state:', JSON.stringify(saved));
     if (!saved || !saved.view || saved.view === "home") return;
 
     // If on a checkout step with empty cart, redirect to shop
@@ -421,14 +435,19 @@ function _restoreSavedView() {
 
     // Restore filter state before the view switch
     if (saved.view === "shop" && saved.filters) {
+        // Migrate stale priceMax from old hardcoded value
+        if (saved.filters.priceMax === 30000) {
+            saved.filters.priceMax = MAX_PRICE;
+        }
         Object.assign(state.filters, saved.filters);
+        console.log('[restore] restored filters:', JSON.stringify(state.filters));
     }
 
     switchView(saved.view, { replace: true });
 
     // Restore filter UI elements after the view is shown
     if (saved.view === "shop" && saved.filters) {
-        _restoreFilterUI(saved.filters);
+        _restoreFilterUI(state.filters);
     }
 }
 
@@ -616,11 +635,11 @@ function initMobileFilterSheet() {
     function updateMobPriceUI(minVal, maxVal) {
         if (minLabel) minLabel.textContent = `₹${minVal.toLocaleString('en-IN')}`;
         if (maxLabel) {
-            maxLabel.textContent = maxVal >= 30000 ? "₹29,999+" : `₹${maxVal.toLocaleString('en-IN')}`;
+            maxLabel.textContent = maxVal >= MAX_PRICE ? `₹${(MAX_PRICE - 1).toLocaleString('en-IN')}+` : `₹${maxVal.toLocaleString('en-IN')}`;
         }
         if (track) {
-            const minPercent = (minVal / 30000) * 100;
-            const maxPercent = (maxVal / 30000) * 100;
+            const minPercent = (minVal / MAX_PRICE) * 100;
+            const maxPercent = (maxVal / MAX_PRICE) * 100;
             track.style.left = `${minPercent}%`;
             track.style.right = `${100 - maxPercent}%`;
         }
@@ -631,7 +650,7 @@ function initMobileFilterSheet() {
 
         minSlider.addEventListener("input", () => {
             let minVal = parseInt(minSlider.value) || 0;
-            let maxVal = parseInt(maxSlider.value) || 30000;
+            let maxVal = parseInt(maxSlider.value) || MAX_PRICE;
             if (minVal > maxVal - 500) { minVal = maxVal - 500; minSlider.value = minVal; }
             minSlider.style.zIndex = "25";
             maxSlider.style.zIndex = "20";
@@ -642,7 +661,7 @@ function initMobileFilterSheet() {
 
         maxSlider.addEventListener("input", () => {
             let minVal = parseInt(minSlider.value) || 0;
-            let maxVal = parseInt(maxSlider.value) || 30000;
+            let maxVal = parseInt(maxSlider.value) || MAX_PRICE;
             if (maxVal < minVal + 500) { maxVal = minVal + 500; maxSlider.value = maxVal; }
             maxSlider.style.zIndex = "25";
             minSlider.style.zIndex = "20";
@@ -665,9 +684,9 @@ function initMobileFilterSheet() {
 
         maxInput.addEventListener("change", () => {
             let maxVal = parseInt(maxInput.value);
-            if (isNaN(maxVal)) maxVal = 30000;
+            if (isNaN(maxVal)) maxVal = MAX_PRICE;
             let minVal = state.filters.priceMin;
-            if (maxVal > 30000) maxVal = 30000;
+            if (maxVal > MAX_PRICE) maxVal = MAX_PRICE;
             if (maxVal < minVal + 500) maxVal = minVal + 500;
             state.filters.priceMax = maxVal;
             maxInput.value = maxVal;
@@ -689,45 +708,85 @@ function initMobileFilterSheet() {
     sheet.querySelectorAll(".reset-filters").forEach(btn => {
         btn.addEventListener("click", () => {
             state.filters.priceMin = 0;
-            state.filters.priceMax = 30000;
+            state.filters.priceMax = MAX_PRICE;
             if (minSlider) { minSlider.value = 0; minInput.value = 0; }
-            if (maxSlider) { maxSlider.value = 30000; maxInput.value = 30000; }
-            updateMobPriceUI(0, 30000);
+            if (maxSlider) { maxSlider.value = MAX_PRICE; maxInput.value = MAX_PRICE; }
+            updateMobPriceUI(0, MAX_PRICE);
         });
     });
 }
 
 // --- DYNAMIC PRODUCT RENDERER & FILTERS ---
 // --- SUBCATEGORY DATA AND UPDATE FUNCTIONS ---
+const CATEGORY_TO_SUBCAT_KEY = {
+    "apparel": "Fashion",
+    "fashion": "Fashion",
+    "fitness": "Sports & Fitness",
+    "sports & fitness": "Sports & Fitness",
+    "home decor": "Home & Kitchen",
+    "home & kitchen": "Home & Kitchen",
+    "beauty & personal care": "Beauty & Personal Care",
+    "electronics": "Electronics",
+    "accessories": "Accessories"
+};
+
 const SUBCATEGORIES = {
-    "All": ["New Arrivals", "Best Sellers", "Trending", "Clearance"],
-    "Apparel": ["All Apparel", "T-Shirts", "Jackets", "Activewear"],
-    "Electronics": ["All Electronics", "Audio", "Smartwatches", "Computing"],
-    "Accessories": ["All Accessories", "Timepieces", "Bags", "Lifestyle"],
-    "Fitness": ["All Fitness", "Equipment", "Wearables", "Yoga"],
-    "Home Decor": ["All Decor", "Lighting", "Cushions", "Vases"],
-    "Home & Kitchen": ["All Kitchen", "Cookware", "Appliances", "Cutlery"]
+    "All": ["All"],
+    "Electronics": ["Smartphones", "Laptops", "Audio", "Wearables", "Accessories"],
+    "Fashion": ["Men's Wear", "Women's Wear", "Kids' Wear", "Footwear", "Fashion Accessories"],
+    "Home & Kitchen": ["Furniture", "Decor", "Kitchen Appliances", "Cookware", "Bedding"],
+    "Beauty & Personal Care": ["Skincare", "Haircare", "Makeup", "Fragrances", "Bath & Body"],
+    "Sports & Fitness": ["Cardio Equipment", "Strength Training", "Yoga", "Outdoor Gear", "Sports Accessories"],
+    "Accessories": ["Bags & Wallets", "Watches", "Sunglasses", "Jewellery", "Belts & Ties"]
 };
 
 function updateSubcategories(category) {
-    const container = document.getElementById("subcategory-buttons-container");
-    if (!container) return;
-    
-    const subcats = SUBCATEGORIES[category] || SUBCATEGORIES["All"];
-    container.innerHTML = subcats.map((sub, idx) => `
-        <button class="subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap ${idx === 0 ? 'btn-primary font-bold shadow-sm' : 'btn-ghost'}" data-subcategory="${sub}">
-            ${sub}
-        </button>
-    `).join('');
-    
-    container.querySelectorAll(".subcategory-filter-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            container.querySelectorAll(".subcategory-filter-btn").forEach(b => {
-                b.className = "subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap btn-ghost";
+    const resolved = CATEGORY_TO_SUBCAT_KEY[category.toLowerCase()] || category;
+    const subcats = SUBCATEGORIES[resolved] || SUBCATEGORIES["All"];
+    const activeSub = state.filters.subcategory || "All";
+
+    // Render top bar subcategory buttons
+    const topContainer = document.getElementById("subcategory-buttons-container");
+    if (topContainer) {
+        topContainer.innerHTML = subcats.map(sub => `
+            <button class="subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap ${sub === activeSub ? 'btn-primary font-bold shadow-sm' : 'btn-ghost'}" data-subcategory="${sub}">
+                ${sub}
+            </button>
+        `).join('');
+        topContainer.querySelectorAll(".subcategory-filter-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const sub = btn.dataset.subcategory;
+                state.filters.subcategory = sub;
+                updateSubcategories(category);
+                renderGrids();
             });
-            btn.className = "subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap btn-primary font-bold shadow-sm";
         });
-    });
+    }
+
+    // Render sidebar subcategory checkboxes
+    const sideContainer = document.getElementById("sidebar-subcategory-container");
+    if (sideContainer) {
+        sideContainer.innerHTML = subcats.map(sub => `
+            <label class="flex items-center gap-unit-3 cursor-pointer py-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+                <input type="checkbox" class="subcategory-checkbox text-[var(--accent-teal)] focus:ring-[var(--accent-teal)] rounded-sm bg-[var(--bg-card)] border-[var(--border-soft)]" value="${sub}" ${sub === activeSub ? 'checked' : ''} />
+                <span class="text-sm font-medium">${sub}</span>
+            </label>
+        `).join('');
+        sideContainer.querySelectorAll(".subcategory-checkbox").forEach(cb => {
+            cb.addEventListener("change", () => {
+                const checked = Array.from(sideContainer.querySelectorAll(".subcategory-checkbox:checked")).map(c => c.value);
+                state.filters.subcategory = checked.length === 1 ? checked[0] : (checked.length > 1 ? "Multiple" : "All");
+                // Sync top buttons: if one subcategory selected, highlight it; else reset to first
+                if (topContainer) {
+                    topContainer.querySelectorAll(".subcategory-filter-btn").forEach(b => {
+                        const isActive = b.dataset.subcategory === state.filters.subcategory;
+                        b.className = "subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap " + (isActive ? 'btn-primary font-bold shadow-sm' : 'btn-ghost');
+                    });
+                }
+                renderGrids();
+            });
+        });
+    }
 }
 
 function initFilters() {
@@ -838,15 +897,15 @@ function initFilters() {
     function updatePriceUI(minVal, maxVal) {
         if (minLabel) minLabel.textContent = `₹${minVal.toLocaleString('en-IN')}`;
         if (maxLabel) {
-            if (maxVal >= 30000) {
-                maxLabel.textContent = "₹29,999+";
+            if (maxVal >= MAX_PRICE) {
+                maxLabel.textContent = `₹${(MAX_PRICE - 1).toLocaleString('en-IN')}+`;
             } else {
                 maxLabel.textContent = `₹${maxVal.toLocaleString('en-IN')}`;
             }
         }
         if (track) {
-            const minPercent = (minVal / 30000) * 100;
-            const maxPercent = (maxVal / 30000) * 100;
+            const minPercent = (minVal / MAX_PRICE) * 100;
+            const maxPercent = (maxVal / MAX_PRICE) * 100;
             track.style.left = `${minPercent}%`;
             track.style.right = `${100 - maxPercent}%`;
         }
@@ -859,7 +918,7 @@ function initFilters() {
         // Min Slider Listener
         minSlider.addEventListener("input", () => {
             let minVal = parseInt(minSlider.value) || 0;
-            let maxVal = parseInt(maxSlider.value) || 30000;
+            let maxVal = parseInt(maxSlider.value) || MAX_PRICE;
             
             // Enforce margin of 500
             if (minVal > maxVal - 500) {
@@ -879,7 +938,7 @@ function initFilters() {
         // Max Slider Listener
         maxSlider.addEventListener("input", () => {
             let minVal = parseInt(minSlider.value) || 0;
-            let maxVal = parseInt(maxSlider.value) || 30000;
+            let maxVal = parseInt(maxSlider.value) || MAX_PRICE;
             
             // Enforce margin of 500
             if (maxVal < minVal + 500) {
@@ -916,12 +975,12 @@ function initFilters() {
         // Max Input Listener (Manual typing)
         maxInput.addEventListener("change", () => {
             let maxVal = parseInt(maxInput.value);
-            if (isNaN(maxVal)) maxVal = 30000;
+            if (isNaN(maxVal)) maxVal = MAX_PRICE;
             
             let minVal = state.filters.priceMin;
             
             // Clamp and validate
-            if (maxVal > 30000) maxVal = 30000;
+            if (maxVal > MAX_PRICE) maxVal = MAX_PRICE;
             if (maxVal < minVal + 500) maxVal = minVal + 500;
             
             state.filters.priceMax = maxVal;
@@ -984,13 +1043,13 @@ function initFilters() {
             
             // Reset price limits state
             state.filters.priceMin = 0;
-            state.filters.priceMax = 30000;
+            state.filters.priceMax = MAX_PRICE;
             
             if (minSlider) minSlider.value = 0;
-            if (maxSlider) maxSlider.value = 30000;
+            if (maxSlider) maxSlider.value = MAX_PRICE;
             if (minInput) minInput.value = 0;
-            if (maxInput) maxInput.value = 30000;
-            updatePriceUI(0, 30000);
+            if (maxInput) maxInput.value = MAX_PRICE;
+            updatePriceUI(0, MAX_PRICE);
             
             // Trigger category btn reset to all
             DOM.categoryBtns.forEach(b => {
@@ -1004,7 +1063,7 @@ function initFilters() {
     });
 
     // Initialize Search and Filter module (Student 3A)
-    initSearchAndFilters(state, DOM, renderGrids, addToCart);
+    initSearchAndFilters(state, DOM, renderGrids, addToCart, updateSubcategories);
 }
 
 function getFilteredProducts() {
@@ -1012,9 +1071,15 @@ function getFilteredProducts() {
 }
 
 function renderGrids() {
-    const list = getFilteredProducts();
+    let list;
+    try {
+        list = getFilteredProducts();
+    } catch (err) {
+        console.error('[renderGrids] getFilteredProducts threw:', err);
+        list = [];
+    }
+    console.log('[renderGrids] filtered count:', list && list.length, 'activeView:', state.activeView, 'category:', state.filters.category, 'priceMin:', state.filters.priceMin, 'priceMax:', state.filters.priceMax, 'searchQuery:', state.filters.searchQuery, 'gridShop:', !!DOM.gridShop);
     
-    // Select sort orders if elements exist
     const sortSelects = document.querySelectorAll(".sort-select");
     if (sortSelects.length > 0) {
         const order = sortSelects[0].value;
@@ -1063,7 +1128,7 @@ function renderGridMarkup(items, type) {
     const isShop = type === "shop";
     return items.map(item => {
         const ratingStars = Math.round(item.rating);
-        const formatPrice = formatINR(item.price);
+        const formatPrice = formatPriceHTML(item.price);
         
         // Tags
         let tagHtml = "";
@@ -1096,9 +1161,9 @@ function renderGridMarkup(items, type) {
                     </div>
                 </div>
                 <h3 class="font-headline-md text-headline-md text-[var(--text-primary)] truncate">${item.title}</h3>
-                <span class="text-[var(--text-primary)] font-bold text-body-lg">${formatPrice}</span>
-                <div class="flex justify-end mt-unit-1">
-                    <button class="quick-add-btn mt-unit-2 w-full py-unit-2 rounded-lg font-label-md text-label-md active:scale-95">
+                <div class="flex items-center justify-between gap-2 mt-unit-1">
+                    <span class="text-[var(--text-primary)] font-bold text-body-lg">${formatPrice}</span>
+                    <button class="quick-add-btn shrink-0 py-unit-2 px-unit-4 rounded-lg font-label-md text-label-md active:scale-95">
                         Add to Cart
                     </button>
                 </div>
@@ -1257,7 +1322,7 @@ function updateCartUI() {
         DOM.checkoutDrawerBtn.disabled = false;
 
         DOM.cartItemsContainer.innerHTML = state.cart.map((item, index) => {
-            const formatPrice = formatINR(item.price * item.qty);
+            const formatPrice = formatPriceHTML(item.price * item.qty);
             return `
             <div class="flex gap-unit-3 bg-[var(--bg-card)] p-unit-3 rounded-lg border border-[var(--border-muted)] transition-all hover:border-[var(--accent-teal)]/30">
                 <div class="w-16 h-16 bg-[var(--bg-elevated)] rounded-md overflow-hidden flex-shrink-0">
@@ -1307,7 +1372,7 @@ function updateCartUI() {
     }
 
     // Update total price displays
-    DOM.cartTotalDisplay.textContent = formatINR(subtotal);
+    DOM.cartTotalDisplay.innerHTML = formatPriceHTML(subtotal);
 
     // Sync cart page if visible
     if (state.activeView === "cart") {
@@ -1325,13 +1390,18 @@ function animateCartIcons() {
 function renderCartPage() {
     const totalCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
     const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const formatINR = (val) => (val / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+    const formatPriceHTML_local = (val) => {
+        const num = val / 100;
+        const formatted = num.toLocaleString("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const dotIdx = formatted.indexOf('.');
+        return dotIdx === -1 ? formatted : formatted.slice(0, dotIdx) + '<small class="price-decimal">' + formatted.slice(dotIdx) + '</small>';
+    };
 
     if (DOM.cartPageCount) {
         DOM.cartPageCount.textContent = `${totalCount} item${totalCount !== 1 ? 's' : ''}`;
     }
     if (DOM.cartPageSubtotal) {
-        DOM.cartPageSubtotal.textContent = formatINR(subtotal);
+        DOM.cartPageSubtotal.innerHTML = formatPriceHTML_local(subtotal);
     }
     if (DOM.checkoutPageBtn) {
         DOM.checkoutPageBtn.disabled = totalCount === 0;
@@ -1353,8 +1423,8 @@ function renderCartPage() {
     }
 
     DOM.cartPageItems.innerHTML = state.cart.map((item, index) => {
-        const lineTotal = formatINR(item.price * item.qty);
-        const unitPrice = formatINR(item.price);
+        const lineTotal = formatPriceHTML_local(item.price * item.qty);
+        const unitPrice = formatPriceHTML_local(item.price);
         return `
             <div class="card-dark p-unit-4 rounded-xl flex flex-col sm:flex-row gap-unit-4" data-cart-idx="${index}">
                 <div class="w-full sm:w-24 h-48 sm:h-24 bg-[var(--bg-card)] rounded-lg overflow-hidden flex-shrink-0">
@@ -1751,15 +1821,15 @@ function renderOrderReview() {
 
     const total = Math.max(0, subtotal + shipping + tax - discount);
 
-    DOM.summarySubtotal.textContent = formatINR(subtotal);
-    DOM.summaryShipping.textContent = shipping === 0 ? "FREE" : formatINR(shipping);
-    DOM.summaryTax.textContent = formatINR(tax);
-    DOM.summaryTotal.textContent = formatINR(total);
+    DOM.summarySubtotal.innerHTML = formatPriceHTML(subtotal);
+    DOM.summaryShipping.innerHTML = shipping === 0 ? "FREE" : formatPriceHTML(shipping);
+    DOM.summaryTax.innerHTML = formatPriceHTML(tax);
+    DOM.summaryTotal.innerHTML = formatPriceHTML(total);
 
     // Update discounts display row
     if (discount > 0) {
         DOM.summaryDiscountRow.classList.remove("hidden");
-        DOM.summaryDiscount.textContent = `- ${formatINR(discount)}`;
+        DOM.summaryDiscount.innerHTML = `- ${formatPriceHTML(discount)}`;
     } else {
         DOM.summaryDiscountRow.classList.add("hidden");
     }
@@ -1782,7 +1852,7 @@ function renderOrderReview() {
         <div class="flex-1 min-w-0">
             <div class="flex justify-between items-start">
                 <h3 class="font-body-lg text-body-lg font-bold text-[var(--text-primary)] truncate">${item.title}</h3>
-                <p class="font-body-lg text-body-lg font-bold text-[var(--text-primary)] ml-4">${formatINR(item.price * item.qty)}</p>
+                <p class="font-body-lg text-body-lg font-bold text-[var(--text-primary)] ml-4">${formatPriceHTML(item.price * item.qty)}</p>
             </div>
             <p class="font-body-md text-body-md text-[var(--text-secondary)] mb-unit-2">${item.category}</p>
             <div class="flex items-center gap-unit-2">
@@ -1861,4 +1931,11 @@ function initCategoryCards() {
             }
         }
     });
+}
+
+// Bootstrapping — placed at end so all const/function declarations exist
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeApp);
+} else {
+    initializeApp();
 }

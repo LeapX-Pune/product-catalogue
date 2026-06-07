@@ -391,6 +391,11 @@
                         </label>
                     </div>
                 </div>
+                <div id="subcategory-sidebar-section" class="flex flex-col gap-unit-2">
+                    <h3 class="font-label-md text-label-md text-[var(--text-muted)] uppercase font-bold">Subcategory</h3>
+                    <div id="sidebar-subcategory-container" class="flex flex-col gap-unit-1 text-body-md pl-unit-2">
+                    </div>
+                </div>
                 <hr class="border-[var(--border-muted)] my-unit-1" />
                 <div class="flex flex-col gap-unit-2">
                     <h3 class="font-label-md text-label-md text-[var(--text-muted)] uppercase font-bold">Price Filter</h3>
@@ -398,24 +403,24 @@
                         <div class="flex justify-between items-center text-xs font-bold font-label-md">
                             <span id="price-min-label" class="text-[var(--text-secondary)]">₹0</span>
                             <span class="text-[var(--text-muted)]">—</span>
-                            <span id="price-max-label" class="text-[var(--text-secondary)]">₹29,999+</span>
+                            <span id="price-max-label" class="text-[var(--text-secondary)]">₹69,999+</span>
                         </div>
                         <div class="relative w-full h-6 flex items-center">
                             <div class="relative w-[calc(100%-16px)] mx-auto h-full flex items-center">
                                 <div class="absolute inset-x-0 h-1 bg-[var(--bg-card)] rounded z-0"></div>
                                 <div id="price-slider-track" class="absolute h-1 bg-[var(--accent-teal)] rounded z-10" style="left: 0%; right: 0%;"></div>
-                                <input type="range" id="price-min-slider" min="0" max="30000" value="0" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
-                                <input type="range" id="price-max-slider" min="0" max="30000" value="30000" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
+                                <input type="range" id="price-min-slider" min="0" max="70000" value="0" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
+                                <input type="range" id="price-max-slider" min="0" max="70000" value="70000" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
                             </div>
                         </div>
                         <div class="flex gap-unit-2 items-center mt-base">
                             <div class="flex flex-col gap-1 flex-1">
                                 <span class="text-[10px] uppercase font-bold text-[var(--text-muted)]">Min (₹)</span>
-                                <input type="number" id="price-min-input" min="0" max="30000" value="0" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
+                                <input type="number" id="price-min-input" min="0" max="70000" value="0" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
                             </div>
                             <div class="flex flex-col gap-1 flex-1">
                                 <span class="text-[10px] uppercase font-bold text-[var(--text-muted)]">Max (₹)</span>
-                                <input type="number" id="price-max-input" min="0" max="30000" value="30000" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
+                                <input type="number" id="price-max-input" min="0" max="70000" value="70000" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
                             </div>
                         </div>
                     </div>
@@ -627,24 +632,24 @@
                 <div class="flex justify-between items-center text-xs font-bold font-label-md">
                     <span id="mob-price-min-label" class="text-[var(--text-secondary)]">₹0</span>
                     <span class="text-[var(--text-muted)]">—</span>
-                    <span id="mob-price-max-label" class="text-[var(--text-secondary)]">₹29,999+</span>
+                    <span id="mob-price-max-label" class="text-[var(--text-secondary)]">₹69,999+</span>
                 </div>
                 <div class="relative w-full h-6 flex items-center">
                     <div class="relative w-[calc(100%-16px)] mx-auto h-full flex items-center">
                         <div class="absolute inset-x-0 h-1 bg-[var(--bg-card)] rounded z-0"></div>
                         <div id="mob-price-slider-track" class="absolute h-1 bg-[var(--accent-teal)] rounded z-10" style="left: 0%; right: 0%;"></div>
-                        <input type="range" id="mob-price-min-slider" min="0" max="30000" value="0" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
-                        <input type="range" id="mob-price-max-slider" min="0" max="30000" value="30000" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
+                        <input type="range" id="mob-price-min-slider" min="0" max="70000" value="0" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
+                        <input type="range" id="mob-price-max-slider" min="0" max="70000" value="70000" step="500" class="absolute w-full appearance-none bg-transparent pointer-events-none focus:outline-none z-20 slider-thumb-style" />
                     </div>
                 </div>
                 <div class="flex gap-unit-2 items-center mt-base">
                     <div class="flex flex-col gap-1 flex-1">
                         <span class="text-[10px] uppercase font-bold text-[var(--text-muted)]">Min (₹)</span>
-                        <input type="number" id="mob-price-min-input" min="0" max="30000" value="0" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
+                        <input type="number" id="mob-price-min-input" min="0" max="70000" value="0" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
                     </div>
                     <div class="flex flex-col gap-1 flex-1">
                         <span class="text-[10px] uppercase font-bold text-[var(--text-muted)]">Max (₹)</span>
-                        <input type="number" id="mob-price-max-input" min="0" max="30000" value="30000" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
+                        <input type="number" id="mob-price-max-input" min="0" max="70000" value="70000" class="input-dark w-full rounded-lg py-1.5 px-2 text-xs font-semibold" />
                     </div>
                 </div>
             </div>
