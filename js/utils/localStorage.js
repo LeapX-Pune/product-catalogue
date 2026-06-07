@@ -41,16 +41,3 @@ export const saveCart = (cart) => {
   }
 };
 
-/**
- * Clears the cart data from localStorage.
- */
-export const clearCartStorage = () => {
-  try {
-    if (typeof window === "undefined" || typeof localStorage === "undefined") {
-      return;
-    }
-    localStorage.removeItem(STORAGE_KEY);
-  } catch (error) {
-    console.error("Failed to clear cart from localStorage:", error);
-  }
-};
