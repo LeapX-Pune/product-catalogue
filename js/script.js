@@ -122,6 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
     initMobileNav();
     initMobileFilterSheet();
     initDragDrop(addToCart);
+
+    // Restore view from previous session (runs after all DOM is ready)
+    _restoreSavedView();
+
     renderGrids();
     updateCartUI();
 });
@@ -249,6 +253,7 @@ function scrollToSection(selector) {
 
 export function switchView(viewName, { replace = false } = {}) {
     state.activeView = viewName;
+    _saveActiveView();
 
     // Reset all mobile overlays and restore body scroll
     resetMobileUI();
@@ -293,6 +298,115 @@ export function switchView(viewName, { replace = false } = {}) {
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ---- View State Persistence ---- */
+
+const VIEW_STATE_KEY = "luxeCartViewState";
+
+function _saveActiveView() {
+    try {
+        const data = {
+            view: state.activeView,
+            filters: state.activeView === "shop" ? {
+                category: state.filters.category,
+                priceMin: state.filters.priceMin,
+                priceMax: state.filters.priceMax,
+                searchQuery: state.filters.searchQuery,
+                rating: state.filters.rating,
+                sortOrder: state.filters.sortOrder,
+                priceRange: state.filters.priceRange,
+            } : null,
+            timestamp: Date.now(),
+        };
+        localStorage.setItem(VIEW_STATE_KEY, JSON.stringify(data));
+    } catch (e) {
+        /* ignore quota errors */
+    }
+}
+
+function _loadSavedView() {
+    try {
+        const raw = localStorage.getItem(VIEW_STATE_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch {
+        return null;
+    }
+}
+
+function _restoreFilterUI(filters) {
+    // Category buttons
+    DOM.categoryBtns.forEach(b => {
+        const isActive = b.dataset.category === filters.category;
+        b.classList.toggle("active", isActive);
+        const span = b.querySelector("span");
+        if (span) {
+            span.style.color = isActive ? "var(--text-primary)" : "";
+            span.style.fontWeight = isActive ? "700" : "";
+        }
+        const indicator = b.querySelector(".category-indicator");
+        if (indicator) indicator.style.transform = isActive ? "scaleX(1)" : "scaleX(0)";
+    });
+
+    // Sidebar radio
+    let radioValue = filters.category;
+    if (radioValue === "Apparel") radioValue = "Fashion";
+    const radio = document.querySelector(`.category-btn-radio[value="${radioValue}"]`);
+    if (radio) radio.checked = true;
+
+    const activeLabel = document.getElementById("active-category-label");
+    if (activeLabel) {
+        activeLabel.textContent = filters.category === "All" ? "All Products" : filters.category;
+    }
+
+    updateSubcategories(filters.category);
+
+    // Price sliders
+    const minSlider = document.getElementById("price-min-slider");
+    const maxSlider = document.getElementById("price-max-slider");
+    const minInput = document.getElementById("price-min-input");
+    const maxInput = document.getElementById("price-max-input");
+    if (minSlider) minSlider.value = filters.priceMin;
+    if (maxSlider) maxSlider.value = filters.priceMax;
+    if (minInput) minInput.value = filters.priceMin;
+    if (maxInput) maxInput.value = filters.priceMax;
+
+    const mobMinSlider = document.getElementById("mob-price-min-slider");
+    const mobMaxSlider = document.getElementById("mob-price-max-slider");
+    const mobMinInput = document.getElementById("mob-price-min-input");
+    const mobMaxInput = document.getElementById("mob-price-max-input");
+    if (mobMinSlider) mobMinSlider.value = filters.priceMin;
+    if (mobMaxSlider) mobMaxSlider.value = filters.priceMax;
+    if (mobMinInput) mobMinInput.value = filters.priceMin;
+    if (mobMaxInput) mobMaxInput.value = filters.priceMax;
+
+    // Search inputs
+    document.querySelectorAll(".search-input").forEach(input => {
+        input.value = filters.searchQuery || "";
+    });
+}
+
+function _restoreSavedView() {
+    const saved = _loadSavedView();
+    if (!saved || !saved.view || saved.view === "home") return;
+
+    // If on a checkout step with empty cart, redirect to shop
+    const checkoutViews = ["checkout-shipping", "checkout-payment", "checkout-review"];
+    if (checkoutViews.includes(saved.view) && state.cart.length === 0) {
+        saved.view = "shop";
+    }
+
+    // Restore filter state before the view switch
+    if (saved.view === "shop" && saved.filters) {
+        Object.assign(state.filters, saved.filters);
+    }
+
+    switchView(saved.view, { replace: true });
+
+    // Restore filter UI elements after the view is shown
+    if (saved.view === "shop" && saved.filters) {
+        _restoreFilterUI(saved.filters);
+    }
 }
 
 function initHistoryAPI() {

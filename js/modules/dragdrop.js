@@ -1,7 +1,6 @@
 import { products } from "../data/products.js";
 
 let isDragging = false;
-let returnTimer = null;
 let _enabled = false;
 let _observers = [];
 let _dropZoneEl = null;
@@ -101,12 +100,95 @@ function floatCartToDropZone() {
     const btn = getCartBtn();
     if (!btn) return;
 
-    if (returnTimer) {
-        clearTimeout(returnTimer);
-        returnTimer = null;
+    const btnRect = btn.getBoundingClientRect();
+    const startX = btnRect.left + btnRect.width / 2;
+    const startY = btnRect.top + btnRect.height / 2;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const isLeft = clientX < vw / 2;
+    const targetX = isLeft ? vw * 0.72 : vw * 0.28;
+    const targetY = vh * 0.4;
+
+    const proxy = document.createElement("div");
+    proxy.className = "floating-cart-proxy";
+    proxy.innerHTML = `<span class="material-symbols-outlined">shopping_cart</span>`;
+
+    proxy.addEventListener("dragover", _onFloatingDragOver);
+    proxy.addEventListener("dragleave", _onFloatingDragLeave);
+    proxy.addEventListener("drop", _onFloatingDrop);
+
+    // Place at navbar cart origin — no transition yet
+    proxy.style.left = `${startX}px`;
+    proxy.style.top = `${startY}px`;
+    proxy.style.transition = "none";
+
+    document.body.appendChild(proxy);
+    _floatingCart = proxy;
+
+    // Force layout so the initial position is committed
+    proxy.offsetHeight;
+
+    // Launch to target position and scale up
+    proxy.style.transition =
+        "left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), " +
+        "top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), " +
+        "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+    proxy.style.left = `${targetX}px`;
+    proxy.style.top = `${targetY}px`;
+    proxy.classList.add("floating-cart-proxy--active");
+
+    // Lock proxy static after launch animation finishes
+    // Keep a transform transition for smooth proximity scaling
+    let locked = false;
+    const onLaunchEnd = () => {
+        if (locked) return;
+        locked = true;
+        proxy.style.transition = "transform 0.15s ease";
+        proxy.removeEventListener("transitionend", onLaunchEnd);
+    };
+    proxy.addEventListener("transitionend", onLaunchEnd);
+
+    _startProximityTracking();
+}
+
+function _destroyFloatingCart(immediate = false) {
+    if (!_floatingCart) return;
+
+    _stopProximityTracking();
+
+    const el = _floatingCart;
+    el.classList.remove(
+        "floating-cart-proxy--over",
+        "floating-cart-proxy--active",
+        "floating-cart-proxy--success",
+        "floating-cart-proxy--near"
+    );
+    _floatingCart = null;
+
+    const cleanup = () => {
+        el.removeEventListener("dragover", _onFloatingDragOver);
+        el.removeEventListener("dragleave", _onFloatingDragLeave);
+        el.removeEventListener("drop", _onFloatingDrop);
+        el.remove();
+    };
+
+    if (immediate) {
+        cleanup();
+        return;
     }
 
-    btn.classList.add("drag-drop-zone");
+    // Animate out: shrink and fade
+    el.classList.add("floating-cart-proxy--destroying");
+    let ended = false;
+    const onDestroyEnd = () => {
+        if (ended) return;
+        ended = true;
+        el.removeEventListener("transitionend", onDestroyEnd);
+        cleanup();
+    };
+    el.addEventListener("transitionend", onDestroyEnd);
+}
 
     createDropZone();
     if (_dropZoneEl) {
@@ -118,17 +200,19 @@ function floatCartToDropZone() {
     const header = document.querySelector("header");
     if (header) header.style.pointerEvents = "auto";
 
-    const navbar = document.querySelector(".navbar-blur");
-    if (navbar) navbar.classList.add("drag-active");
+function _onFloatingDragLeave(e) {
+    if (_floatingCart && !_floatingCart.contains(e.relatedTarget)) {
+        _floatingCart.classList.remove("floating-cart-proxy--over");
+    }
 }
 
 function returnCartToOrigin(isDrop = false) {
     const btn = getCartBtn();
     if (!btn) return;
 
-    if (returnTimer) {
-        clearTimeout(returnTimer);
-        returnTimer = null;
+    _dropHandled = true;
+    if (_floatingCart) {
+        _floatingCart.classList.add("floating-cart-proxy--success");
     }
 
     const delay = isDrop ? 650 : 160;
@@ -136,6 +220,10 @@ function returnCartToOrigin(isDrop = false) {
     returnTimer = setTimeout(() => {
         btn.classList.remove("drag-drop-zone", "drag-drop-zone--over", "drag-drop-zone--success");
         isDragging = false;
+    }, 400);
+}
+
+/* ---- Proximity Detection ---- */
 
         if (_dropZoneEl) {
             _dropZoneEl.classList.remove("active", "dropping");
@@ -148,6 +236,24 @@ function returnCartToOrigin(isDrop = false) {
         if (navbar) navbar.classList.remove("drag-active");
     }, delay);
 }
+
+function _startProximityTracking() {
+    _stopProximityTracking();
+    _proximityHandler = (e) => {
+        if (_floatingCart) _checkProximity(e.clientX, e.clientY);
+    };
+    document.addEventListener("dragover", _proximityHandler);
+}
+
+function _stopProximityTracking() {
+    if (_proximityHandler) {
+        document.removeEventListener("dragover", _proximityHandler);
+        _proximityHandler = null;
+    }
+    if (_floatingCart) _floatingCart.classList.remove("floating-cart-proxy--near");
+}
+
+/* ---- Drop Zone Handlers (navbar cart button fallback) ---- */
 
 function onCartDragOver(e) {
     e.preventDefault();
@@ -181,24 +287,29 @@ function onCartDrop(e) {
     handleDrop(e);
 }
 
+/* ---- Card Drag Handlers ---- */
+
 function onCardDragStart(e) {
     const card = e.currentTarget;
     const productId = card.dataset.productId;
     if (!productId) return;
 
     isDragging = true;
+    _dropHandled = false;
     e.dataTransfer.setData("text/plain", productId);
     e.dataTransfer.effectAllowed = "copy";
 
     card.classList.add("dragging-card");
-    floatCartToDropZone();
+    _createFloatingCart(e.clientX);
 }
 
 function onCardDragEnd(e) {
     e.currentTarget.classList.remove("dragging-card");
-    if (isDragging) {
-        returnCartToOrigin();
+    if (!_dropHandled) {
+        _destroyFloatingCart();
+        isDragging = false;
     }
+    _dropHandled = false;
 }
 
 function bindDragToCards() {
@@ -241,6 +352,7 @@ export function disableDragDrop() {
 
     document.querySelectorAll(".product-card").forEach((card) => {
         card.removeAttribute("draggable");
+        delete card.dataset.dragBound;
     });
 
     document
@@ -266,11 +378,10 @@ export function disableDragDrop() {
     const header = document.querySelector("header");
     if (header) header.style.pointerEvents = "";
 
+    _stopProximityTracking();
+    _destroyFloatingCart(true);
     isDragging = false;
-    if (returnTimer) {
-        clearTimeout(returnTimer);
-        returnTimer = null;
-    }
+    _dropHandled = false;
 }
 
 export function initDragDrop(addToCartFn) {

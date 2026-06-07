@@ -487,6 +487,8 @@ p,
 .product-card[draggable="true"]:active {
   cursor: grabbing;
 }
+
+/* The card being dragged */
 .product-card.dragging-card {
   opacity: 0.4;
   outline: 2px dashed var(--accent-teal);
@@ -663,6 +665,7 @@ p,
   -webkit-backdrop-filter: none !important;
 }
 
+/* Suppress proxy on mobile */
 @media (max-width: 767px) {
   /* Suppress all drag visuals on mobile */
   .product-card[draggable="true"] {
@@ -677,6 +680,9 @@ p,
   .drop-zone-tray {
     display: none !important;
   }
+}
+
+@media (max-width: 767px) {
   #shop-sidebar {
     position: fixed !important;
     left: 0 !important;
