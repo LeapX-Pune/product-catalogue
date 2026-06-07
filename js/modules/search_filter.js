@@ -129,7 +129,15 @@ export function getFilteredProducts(state) {
             return false;
         }
 
-        // 2. Search query filter
+        // 2. Subcategory filter
+        const subFilter = state.filters.subcategory;
+        if (subFilter && subFilter !== "All" && subFilter !== "Multiple") {
+            if (!prod.subcategory || prod.subcategory !== subFilter) {
+                return false;
+            }
+        }
+
+        // 3. Search query filter
         if (state.filters.searchQuery) {
             const query = state.filters.searchQuery.toLowerCase().trim();
             const titleMatch = prod.title.toLowerCase().includes(query);
@@ -140,7 +148,7 @@ export function getFilteredProducts(state) {
             }
         }
 
-        // 3. Price range filter
+        // 4. Price range filter
         if (state.activeView === "shop") {
             if (prod.price < state.filters.priceMin || prod.price > state.filters.priceMax) {
                 return false;
@@ -157,7 +165,7 @@ export function getFilteredProducts(state) {
             }
         }
 
-        // 4. Rating filter
+        // 5. Rating filter
         if (state.filters.rating > 0 && prod.rating < state.filters.rating) {
             return false;
         }
@@ -335,7 +343,7 @@ function renderAutocompleteSuggestions(container, input, state, renderGridsFn) {
 }
 
 // Initialize search input elements and history
-export function initSearchAndFilters(state, DOM, renderGridsFn, addToCartFn) {
+export function initSearchAndFilters(state, DOM, renderGridsFn, addToCartFn, updateSubcategoriesFn) {
     // 1. Text Search Input listener
     DOM.searchInputs.forEach(input => {
         const container = input.parentElement;
@@ -491,8 +499,13 @@ export function initSearchAndFilters(state, DOM, renderGridsFn, addToCartFn) {
             if (activeValues.length === 1 && activeValues[0] === "All") {
                 state.filters.category = "All";
             } else {
-                // Keep state.filters.category updated if there is a primary single selection, otherwise multiple
                 state.filters.category = activeValues.length === 1 ? activeValues[0] : "Multiple";
+            }
+
+            // Reset subcategory and update subcategory UI when category changes
+            state.filters.subcategory = "All";
+            if (typeof updateSubcategoriesFn === "function") {
+                updateSubcategoriesFn(state.filters.category);
             }
 
             renderGridsFn();
@@ -507,6 +520,7 @@ export function initSearchAndFilters(state, DOM, renderGridsFn, addToCartFn) {
 
             // Set single category in state
             state.filters.category = category;
+            state.filters.subcategory = "All";
 
             // Sync checkboxes in sidebar
             checkboxes.forEach(cb => {
@@ -523,6 +537,10 @@ export function initSearchAndFilters(state, DOM, renderGridsFn, addToCartFn) {
             const activeLabel = document.getElementById("active-category-label");
             if (activeLabel) {
                 activeLabel.textContent = category === "All" ? "All Products" : category;
+            }
+
+            if (typeof updateSubcategoriesFn === "function") {
+                updateSubcategoriesFn(category);
             }
 
             renderGridsFn();

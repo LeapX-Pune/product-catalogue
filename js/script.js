@@ -45,7 +45,8 @@ const state = {
         priceMax: MAX_PRICE,
         rating: 0,
         searchQuery: "",
-        sortOrder: "newest"
+        sortOrder: "newest",
+        subcategory: "All"
     }
 };
 
@@ -717,35 +718,75 @@ function initMobileFilterSheet() {
 
 // --- DYNAMIC PRODUCT RENDERER & FILTERS ---
 // --- SUBCATEGORY DATA AND UPDATE FUNCTIONS ---
+const CATEGORY_TO_SUBCAT_KEY = {
+    "apparel": "Fashion",
+    "fashion": "Fashion",
+    "fitness": "Sports & Fitness",
+    "sports & fitness": "Sports & Fitness",
+    "home decor": "Home & Kitchen",
+    "home & kitchen": "Home & Kitchen",
+    "beauty & personal care": "Beauty & Personal Care",
+    "electronics": "Electronics",
+    "accessories": "Accessories"
+};
+
 const SUBCATEGORIES = {
-    "All": ["New Arrivals", "Best Sellers", "Trending", "Clearance"],
-    "Apparel": ["All Apparel", "T-Shirts", "Jackets", "Activewear"],
-    "Electronics": ["All Electronics", "Audio", "Smartwatches", "Computing"],
-    "Accessories": ["All Accessories", "Timepieces", "Bags", "Lifestyle"],
-    "Fitness": ["All Fitness", "Equipment", "Wearables", "Yoga"],
-    "Home Decor": ["All Decor", "Lighting", "Cushions", "Vases"],
-    "Home & Kitchen": ["All Kitchen", "Cookware", "Appliances", "Cutlery"]
+    "All": ["All"],
+    "Electronics": ["Smartphones", "Laptops", "Audio", "Wearables", "Accessories"],
+    "Fashion": ["Men's Wear", "Women's Wear", "Kids' Wear", "Footwear", "Fashion Accessories"],
+    "Home & Kitchen": ["Furniture", "Decor", "Kitchen Appliances", "Cookware", "Bedding"],
+    "Beauty & Personal Care": ["Skincare", "Haircare", "Makeup", "Fragrances", "Bath & Body"],
+    "Sports & Fitness": ["Cardio Equipment", "Strength Training", "Yoga", "Outdoor Gear", "Sports Accessories"],
+    "Accessories": ["Bags & Wallets", "Watches", "Sunglasses", "Jewellery", "Belts & Ties"]
 };
 
 function updateSubcategories(category) {
-    const container = document.getElementById("subcategory-buttons-container");
-    if (!container) return;
-    
-    const subcats = SUBCATEGORIES[category] || SUBCATEGORIES["All"];
-    container.innerHTML = subcats.map((sub, idx) => `
-        <button class="subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap ${idx === 0 ? 'btn-primary font-bold shadow-sm' : 'btn-ghost'}" data-subcategory="${sub}">
-            ${sub}
-        </button>
-    `).join('');
-    
-    container.querySelectorAll(".subcategory-filter-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            container.querySelectorAll(".subcategory-filter-btn").forEach(b => {
-                b.className = "subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap btn-ghost";
+    const resolved = CATEGORY_TO_SUBCAT_KEY[category.toLowerCase()] || category;
+    const subcats = SUBCATEGORIES[resolved] || SUBCATEGORIES["All"];
+    const activeSub = state.filters.subcategory || "All";
+
+    // Render top bar subcategory buttons
+    const topContainer = document.getElementById("subcategory-buttons-container");
+    if (topContainer) {
+        topContainer.innerHTML = subcats.map(sub => `
+            <button class="subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap ${sub === activeSub ? 'btn-primary font-bold shadow-sm' : 'btn-ghost'}" data-subcategory="${sub}">
+                ${sub}
+            </button>
+        `).join('');
+        topContainer.querySelectorAll(".subcategory-filter-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const sub = btn.dataset.subcategory;
+                state.filters.subcategory = sub;
+                updateSubcategories(category);
+                renderGrids();
             });
-            btn.className = "subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap btn-primary font-bold shadow-sm";
         });
-    });
+    }
+
+    // Render sidebar subcategory checkboxes
+    const sideContainer = document.getElementById("sidebar-subcategory-container");
+    if (sideContainer) {
+        sideContainer.innerHTML = subcats.map(sub => `
+            <label class="flex items-center gap-unit-3 cursor-pointer py-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+                <input type="checkbox" class="subcategory-checkbox text-[var(--accent-teal)] focus:ring-[var(--accent-teal)] rounded-sm bg-[var(--bg-card)] border-[var(--border-soft)]" value="${sub}" ${sub === activeSub ? 'checked' : ''} />
+                <span class="text-sm font-medium">${sub}</span>
+            </label>
+        `).join('');
+        sideContainer.querySelectorAll(".subcategory-checkbox").forEach(cb => {
+            cb.addEventListener("change", () => {
+                const checked = Array.from(sideContainer.querySelectorAll(".subcategory-checkbox:checked")).map(c => c.value);
+                state.filters.subcategory = checked.length === 1 ? checked[0] : (checked.length > 1 ? "Multiple" : "All");
+                // Sync top buttons: if one subcategory selected, highlight it; else reset to first
+                if (topContainer) {
+                    topContainer.querySelectorAll(".subcategory-filter-btn").forEach(b => {
+                        const isActive = b.dataset.subcategory === state.filters.subcategory;
+                        b.className = "subcategory-filter-btn px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap " + (isActive ? 'btn-primary font-bold shadow-sm' : 'btn-ghost');
+                    });
+                }
+                renderGrids();
+            });
+        });
+    }
 }
 
 function initFilters() {
@@ -1022,7 +1063,7 @@ function initFilters() {
     });
 
     // Initialize Search and Filter module (Student 3A)
-    initSearchAndFilters(state, DOM, renderGrids, addToCart);
+    initSearchAndFilters(state, DOM, renderGrids, addToCart, updateSubcategories);
 }
 
 function getFilteredProducts() {

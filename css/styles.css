@@ -1610,6 +1610,15 @@ p,
   background: var(--bg-card-hover);
 }
 
+/* --- Sidebar Subcategory Section --- */
+#sidebar-subcategory-container {
+  max-height: 200px;
+  overflow-y: auto;
+}
+#sidebar-subcategory-container label {
+  font-size: 0.8125rem;
+}
+
 /* --- Price decimal styling --- */
 .price-decimal {
   font-size: 0.65em;
