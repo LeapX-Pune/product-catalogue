@@ -154,7 +154,7 @@ function formatINR(val) {
 }
 
 function formatPriceHTML(val) {
-    const num = val / 100;
+    const num = val;
     const formatted = num.toLocaleString("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const dotIdx = formatted.indexOf('.');
     if (dotIdx === -1) return formatted;
@@ -1391,7 +1391,7 @@ function renderCartPage() {
     const totalCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
     const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     const formatPriceHTML_local = (val) => {
-        const num = val / 100;
+        const num = val;
         const formatted = num.toLocaleString("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const dotIdx = formatted.indexOf('.');
         return dotIdx === -1 ? formatted : formatted.slice(0, dotIdx) + '<small class="price-decimal">' + formatted.slice(dotIdx) + '</small>';

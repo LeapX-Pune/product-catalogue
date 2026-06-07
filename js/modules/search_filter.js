@@ -178,7 +178,7 @@ export function getFilteredProducts(state) {
 export function renderGridMarkup(items, type) {
     const isShop = type === "shop";
     return items.map(item => {
-        const priceNum = item.price / 100;
+        const priceNum = item.price;
         const priceFormatted = priceNum.toLocaleString("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const dotIdx = priceFormatted.indexOf('.');
         const formatPrice = dotIdx === -1 ? priceFormatted : priceFormatted.slice(0, dotIdx) + '<small class="price-decimal">' + priceFormatted.slice(dotIdx) + '</small>';
