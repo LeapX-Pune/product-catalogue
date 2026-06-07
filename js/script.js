@@ -48,7 +48,6 @@ const DOM = {
     views: document.querySelectorAll(".view-container"),
     
     // Cart elements
-    cartTrigger: document.getElementById("cart-trigger"),
     cartDrawer: document.getElementById("cart-drawer"),
     cartBackdrop: document.getElementById("drawer-backdrop"),
     cartItemsContainer: document.getElementById("cart-items"),
@@ -107,7 +106,13 @@ const DOM = {
     trackerPhone: document.getElementById("tracker-phone"),
     trackerPayment: document.getElementById("tracker-payment"),
     trackerTotal: document.getElementById("tracker-total"),
-    trackerItemsContainer: document.getElementById("tracker-items")
+    trackerItemsContainer: document.getElementById("tracker-items"),
+
+    // Cart Page Elements
+    cartPageItems: document.getElementById("cart-page-items"),
+    cartPageSubtotal: document.getElementById("cart-page-subtotal"),
+    cartPageCount: document.getElementById("cart-page-count"),
+    checkoutPageBtn: document.getElementById("checkout-page-btn")
 };
 
 // --- INITIALIZE APPLICATION ---
@@ -298,6 +303,8 @@ export function switchView(viewName, { replace = false } = {}) {
         renderOrderReview();
     } else if (viewName === "order-tracker") {
         renderOrderTracker();
+    } else if (viewName === "cart") {
+        renderCartPage();
     }
 
     // Scroll to top
@@ -1276,11 +1283,11 @@ function bindSortSelectors() {
 
 // --- GLOBAL CART CONTROLS ---
 function initCart() {
-    // Header cart toggle buttons
+    // Header cart buttons — navigate to cart page
     document.querySelectorAll(".cart-drawer-trigger").forEach(btn => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
-            toggleCartDrawer();
+            switchView("cart");
         });
     });
 
@@ -1298,7 +1305,7 @@ function initCart() {
         });
     });
 
-    // Go to checkout trigger
+    // Go to checkout from drawer
     DOM.checkoutDrawerBtn.addEventListener("click", () => {
         if (state.cart.length === 0) {
             alert("Your shopping cart is empty!");
@@ -1440,6 +1447,7 @@ function animateCartIcons() {
 function renderCartPage() {
     const totalCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
     const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const formatINR = (val) => (val / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
     if (DOM.cartPageCount) {
         DOM.cartPageCount.textContent = `${totalCount} item${totalCount !== 1 ? 's' : ''}`;

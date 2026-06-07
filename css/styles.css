@@ -482,6 +482,7 @@ p,
 /* ----- Drag-and-Drop Desktop Visuals ----- */
 .product-card[draggable="true"] {
   cursor: grab;
+  user-select: none;
 }
 .product-card[draggable="true"]:active {
   cursor: grabbing;
