@@ -101,7 +101,13 @@ const DOM = {
     trackerPhone: document.getElementById("tracker-phone"),
     trackerPayment: document.getElementById("tracker-payment"),
     trackerTotal: document.getElementById("tracker-total"),
-    trackerItemsContainer: document.getElementById("tracker-items")
+    trackerItemsContainer: document.getElementById("tracker-items"),
+
+    // Cart Page Elements
+    cartPageItems: document.getElementById("cart-page-items"),
+    cartPageSubtotal: document.getElementById("cart-page-subtotal"),
+    cartPageCount: document.getElementById("cart-page-count"),
+    checkoutPageBtn: document.getElementById("checkout-page-btn")
 };
 
 // --- INITIALIZE APPLICATION ---
@@ -276,11 +282,13 @@ export function switchView(viewName, { replace = false } = {}) {
         history.pushState(stateObj, "", url);
     }
 
-    // Render corresponding reviews if entering review steps
+    // Render corresponding views
     if (viewName === "checkout-review") {
         renderOrderReview();
     } else if (viewName === "order-tracker") {
         renderOrderTracker();
+    } else if (viewName === "cart") {
+        renderCartPage();
     }
 
     // Scroll to top
@@ -1150,11 +1158,11 @@ function bindSortSelectors() {
 
 // --- GLOBAL CART CONTROLS ---
 function initCart() {
-    // Header cart toggle buttons
+    // Header cart buttons — navigate to cart page
     document.querySelectorAll(".cart-drawer-trigger").forEach(btn => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
-            toggleCartDrawer();
+            switchView("cart");
         });
     });
 
@@ -1172,7 +1180,7 @@ function initCart() {
         });
     });
 
-    // Go to checkout trigger
+    // Go to checkout from drawer
     DOM.checkoutDrawerBtn.addEventListener("click", () => {
         if (state.cart.length === 0) {
             alert("Your shopping cart is empty!");
@@ -1180,6 +1188,14 @@ function initCart() {
         }
         switchView("checkout-shipping");
     });
+
+    // Go to checkout from cart page
+    if (DOM.checkoutPageBtn) {
+        DOM.checkoutPageBtn.addEventListener("click", () => {
+            if (state.cart.length === 0) return;
+            switchView("checkout-shipping");
+        });
+    }
 }
 
 function toggleCartDrawer() {
@@ -1290,12 +1306,109 @@ function updateCartUI() {
     // Update total price displays
     const formatSubtotal = (subtotal / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
     DOM.cartTotalDisplay.textContent = formatSubtotal;
+
+    // Sync cart page if visible
+    if (state.activeView === "cart") {
+        renderCartPage();
+    }
 }
 
 function animateCartIcons() {
     DOM.cartCountBadges.forEach(badge => {
         badge.classList.add("scale-125");
         setTimeout(() => badge.classList.remove("scale-125"), 200);
+    });
+}
+
+function renderCartPage() {
+    const totalCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
+    const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const formatINR = (val) => (val / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+
+    if (DOM.cartPageCount) {
+        DOM.cartPageCount.textContent = `${totalCount} item${totalCount !== 1 ? 's' : ''}`;
+    }
+    if (DOM.cartPageSubtotal) {
+        DOM.cartPageSubtotal.textContent = formatINR(subtotal);
+    }
+    if (DOM.checkoutPageBtn) {
+        DOM.checkoutPageBtn.disabled = totalCount === 0;
+    }
+
+    if (!DOM.cartPageItems) return;
+
+    if (totalCount === 0) {
+        DOM.cartPageItems.innerHTML = `
+            <div class="text-center py-unit-16 text-[var(--text-muted)]">
+                <span class="material-symbols-outlined text-5xl block mb-unit-4">shopping_cart</span>
+                <p class="font-body-lg text-body-lg">Your cart is empty</p>
+                <button data-go-view="shop" class="btn-primary mt-unit-4 px-unit-6 py-unit-2 rounded-lg font-label-md text-label-md inline-flex items-center gap-unit-2">
+                    Start Shopping
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    DOM.cartPageItems.innerHTML = state.cart.map((item, index) => {
+        const lineTotal = ((item.price * item.qty) / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+        const unitPrice = (item.price / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+        return `
+            <div class="card-dark p-unit-4 rounded-xl flex flex-col sm:flex-row gap-unit-4" data-cart-idx="${index}">
+                <div class="w-full sm:w-24 h-48 sm:h-24 bg-[var(--bg-card)] rounded-lg overflow-hidden flex-shrink-0">
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-grow min-w-0">
+                    <div class="flex justify-between items-start gap-unit-2">
+                        <div class="min-w-0 flex-1">
+                            <h3 class="font-headline-md text-headline-md font-bold text-[var(--text-primary)] truncate">${item.title}</h3>
+                            <p class="font-label-md text-label-md text-[var(--accent-silver)] uppercase tracking-widest mt-unit-1 truncate">${item.category}</p>
+                        </div>
+                        <span class="font-body-lg text-body-lg font-bold text-[var(--text-primary)] whitespace-nowrap flex-shrink-0">${lineTotal}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-unit-4 gap-unit-2">
+                        <div class="flex items-center gap-unit-3 flex-wrap">
+                            <span class="font-label-md text-label-md text-[var(--text-muted)]">${unitPrice}</span>
+                            <div class="flex items-center gap-unit-2 bg-[var(--bg-elevated)] rounded-lg px-unit-2 py-unit-1">
+                                <button class="qty-page-btn w-7 h-7 rounded flex items-center justify-center text-label-md text-[var(--text-primary)] hover:bg-[var(--bg-card)] transition-colors" data-idx="${index}" data-act="dec">−</button>
+                                <span class="text-body-md font-bold text-[var(--text-primary)] min-w-[24px] text-center">${item.qty}</span>
+                                <button class="qty-page-btn w-7 h-7 rounded flex items-center justify-center text-label-md text-[var(--text-primary)] hover:bg-[var(--bg-card)] transition-colors" data-idx="${index}" data-act="inc">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-page-btn flex items-center gap-unit-1 text-[var(--text-muted)] hover:text-[var(--error)] transition-colors font-label-md text-label-md self-end sm:self-auto" data-idx="${index}">
+                            <span class="material-symbols-outlined text-[16px]">delete</span>
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    DOM.cartPageItems.querySelectorAll(".qty-page-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const idx = parseInt(btn.dataset.idx);
+            const act = btn.dataset.act;
+            if (act === "inc") {
+                state.cart[idx].qty++;
+            } else {
+                state.cart[idx].qty--;
+                if (state.cart[idx].qty <= 0) {
+                    state.cart.splice(idx, 1);
+                }
+            }
+            saveCart(state.cart);
+            updateCartUI();
+        });
+    });
+
+    DOM.cartPageItems.querySelectorAll(".remove-page-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const idx = parseInt(btn.dataset.idx);
+            state.cart.splice(idx, 1);
+            saveCart(state.cart);
+            updateCartUI();
+        });
     });
 }
 
