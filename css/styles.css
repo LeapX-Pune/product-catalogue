@@ -512,7 +512,8 @@ p,
   transition:
     width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
     height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 0.3s ease;
+    opacity 0.3s ease,
+    transform 0.18s ease;
 }
 
 .drop-zone-tray.active {
@@ -665,7 +666,7 @@ p,
   -webkit-backdrop-filter: none !important;
 }
 
-/* Suppress proxy on mobile */
+/* Suppress drag visuals on mobile */
 @media (max-width: 767px) {
   /* Suppress all drag visuals on mobile */
   .product-card[draggable="true"] {
