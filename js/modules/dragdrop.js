@@ -3,17 +3,100 @@ import { products } from "../data/products.js";
 let isDragging = false;
 let _enabled = false;
 let _observers = [];
-let _floatingCart = null;
-let _dropHandled = false;
-let _proximityHandler = null;
+let _dropZoneEl = null;
+let _positionRaf = null;
 
 const getCartBtn = () => document.querySelector(".cart-drawer-trigger");
 
-/* ---- Floating Cart Proxy ---- */
+function handleDrop(e) {
+    e.preventDefault();
+    const productId = parseInt(e.dataTransfer.getData("text/plain"), 10);
+    if (isNaN(productId)) return;
 
-function _createFloatingCart(clientX) {
-    _destroyFloatingCart(true);
+    const product = products.find((p) => p.id === productId);
+    if (!product) return;
 
+    if (typeof window.__luxeAddToCart === "function") {
+        window.__luxeAddToCart(product);
+    }
+
+    const btn = getCartBtn();
+    if (btn) btn.classList.add("drag-drop-zone--success");
+
+    if (_dropZoneEl) {
+        _dropZoneEl.classList.add("dropping");
+        _dropZoneEl.classList.remove("active");
+    }
+
+    returnCartToOrigin(true);
+}
+
+function createDropZone() {
+    if (_dropZoneEl) return;
+
+    const el = document.createElement("div");
+    el.className = "drop-zone-tray";
+    el.id = "drop-zone-tray";
+    el.innerHTML = `
+        <div class="drop-zone-inner">
+            <div class="drop-zone-icon-wrapper">
+                <span class="material-symbols-outlined">add</span>
+            </div>
+            <div class="drop-zone-text">
+                Drop item here
+                <small>Add to cart</small>
+            </div>
+        </div>
+    `;
+
+    el.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+        el.classList.add("active");
+        const btn = getCartBtn();
+        if (btn) btn.classList.add("drag-drop-zone--over");
+    });
+
+    el.addEventListener("dragleave", (e) => {
+        if (!el.contains(e.relatedTarget)) {
+            el.classList.remove("active");
+            const btn = getCartBtn();
+            if (btn) btn.classList.remove("drag-drop-zone--over");
+        }
+    });
+
+    el.addEventListener("drop", handleDrop);
+
+    document.body.appendChild(el);
+    _dropZoneEl = el;
+}
+
+function removeDropZone() {
+    if (_positionRaf) {
+        cancelAnimationFrame(_positionRaf);
+        _positionRaf = null;
+    }
+    if (_dropZoneEl && _dropZoneEl.parentElement) {
+        _dropZoneEl.parentElement.removeChild(_dropZoneEl);
+    }
+    _dropZoneEl = null;
+}
+
+function positionDropZone() {
+    if (!_dropZoneEl) return;
+    const btn = getCartBtn();
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const zoneWidth = 260;
+    const margin = 16;
+    const halfWidth = zoneWidth / 2;
+    let left = rect.left + rect.width / 2;
+    left = Math.max(halfWidth + margin, Math.min(window.innerWidth - halfWidth - margin, left));
+    _dropZoneEl.style.left = `${left}px`;
+    _dropZoneEl.style.top = `${rect.bottom + 10}px`;
+}
+
+function floatCartToDropZone() {
     const btn = getCartBtn();
     if (!btn) return;
 
@@ -107,11 +190,15 @@ function _destroyFloatingCart(immediate = false) {
     el.addEventListener("transitionend", onDestroyEnd);
 }
 
-function _onFloatingDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "copy";
-    if (_floatingCart) _floatingCart.classList.add("floating-cart-proxy--over");
-}
+    createDropZone();
+    if (_dropZoneEl) {
+        _dropZoneEl.classList.remove("dropping");
+        _dropZoneEl.classList.add("active");
+        positionDropZone();
+    }
+
+    const header = document.querySelector("header");
+    if (header) header.style.pointerEvents = "auto";
 
 function _onFloatingDragLeave(e) {
     if (_floatingCart && !_floatingCart.contains(e.relatedTarget)) {
@@ -119,44 +206,35 @@ function _onFloatingDragLeave(e) {
     }
 }
 
-function _onFloatingDrop(e) {
-    e.preventDefault();
-    if (_floatingCart) {
-        _floatingCart.classList.remove("floating-cart-proxy--over");
-    }
-
-    const productId = parseInt(e.dataTransfer.getData("text/plain"), 10);
-    if (isNaN(productId)) return;
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    if (typeof window.__luxeAddToCart === "function") {
-        window.__luxeAddToCart(product);
-    }
+function returnCartToOrigin(isDrop = false) {
+    const btn = getCartBtn();
+    if (!btn) return;
 
     _dropHandled = true;
     if (_floatingCart) {
         _floatingCart.classList.add("floating-cart-proxy--success");
     }
 
-    setTimeout(() => {
-        _destroyFloatingCart(true);
+    const delay = isDrop ? 650 : 160;
+
+    returnTimer = setTimeout(() => {
+        btn.classList.remove("drag-drop-zone", "drag-drop-zone--over", "drag-drop-zone--success");
         isDragging = false;
     }, 400);
 }
 
 /* ---- Proximity Detection ---- */
 
-const PROXIMITY_THRESHOLD = 250;
+        if (_dropZoneEl) {
+            _dropZoneEl.classList.remove("active", "dropping");
+        }
 
-function _checkProximity(clientX, clientY) {
-    if (!_floatingCart) return;
-    const cx = parseFloat(_floatingCart.style.left);
-    const cy = parseFloat(_floatingCart.style.top);
-    if (isNaN(cx) || isNaN(cy)) return;
-    const dx = clientX - cx;
-    const dy = clientY - cy;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    _floatingCart.classList.toggle("floating-cart-proxy--near", dist < PROXIMITY_THRESHOLD);
+        const header = document.querySelector("header");
+        if (header) header.style.pointerEvents = "";
+
+        const navbar = document.querySelector(".navbar-blur");
+        if (navbar) navbar.classList.remove("drag-active");
+    }, delay);
 }
 
 function _startProximityTracking() {
@@ -180,24 +258,33 @@ function _stopProximityTracking() {
 function onCartDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
+
+    const btn = getCartBtn();
+    if (btn) btn.classList.add("drag-drop-zone--over");
+
+    if (_dropZoneEl) {
+        _dropZoneEl.classList.add("active");
+        if (_positionRaf) cancelAnimationFrame(_positionRaf);
+        _positionRaf = requestAnimationFrame(positionDropZone);
+    }
 }
 
 function onCartDragLeave(e) {
-    /* no visual state to manage */
+    const btn = getCartBtn();
+    if (!btn) return;
+    if (!btn.contains(e.relatedTarget)) {
+        btn.classList.remove("drag-drop-zone--over");
+        if (_dropZoneEl) {
+            _dropZoneEl.classList.remove("active");
+        }
+    }
 }
 
 function onCartDrop(e) {
     e.preventDefault();
-    const productId = parseInt(e.dataTransfer.getData("text/plain"), 10);
-    if (isNaN(productId)) return;
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    if (typeof window.__luxeAddToCart === "function") {
-        window.__luxeAddToCart(product);
-    }
-    _dropHandled = true;
-    _destroyFloatingCart();
-    isDragging = false;
+    const btn = getCartBtn();
+    if (btn) btn.classList.remove("drag-drop-zone--over");
+    handleDrop(e);
 }
 
 /* ---- Card Drag Handlers ---- */
@@ -226,7 +313,7 @@ function onCardDragEnd(e) {
 }
 
 function bindDragToCards() {
-    document.querySelectorAll(".product-card").forEach(card => {
+    document.querySelectorAll(".product-card").forEach((card) => {
         if (card.dataset.dragBound) return;
         card.dataset.dragBound = "1";
         card.setAttribute("draggable", "true");
@@ -251,7 +338,7 @@ export function enableDragDrop() {
     bindDragToCards();
 
     _observers.forEach(({ el, observer }) => {
-        observer.observe(el, { childList: true });
+        observer.observe(el, { childList: true, subtree: true });
     });
 }
 
@@ -263,12 +350,33 @@ export function disableDragDrop() {
         observer.disconnect();
     });
 
-    document.querySelectorAll(".product-card").forEach(card => {
+    document.querySelectorAll(".product-card").forEach((card) => {
         card.removeAttribute("draggable");
         delete card.dataset.dragBound;
     });
 
-    document.querySelectorAll(".dragging-card").forEach(el => el.classList.remove("dragging-card"));
+    document
+        .querySelectorAll(
+            ".drag-drop-zone, .drag-drop-zone--over, .drag-drop-zone--success"
+        )
+        .forEach((el) => {
+            el.classList.remove(
+                "drag-drop-zone",
+                "drag-drop-zone--over",
+                "drag-drop-zone--success"
+            );
+        });
+    document
+        .querySelectorAll(".dragging-card")
+        .forEach((el) => el.classList.remove("dragging-card"));
+    document
+        .querySelectorAll(".drag-active")
+        .forEach((el) => el.classList.remove("drag-active"));
+
+    removeDropZone();
+
+    const header = document.querySelector("header");
+    if (header) header.style.pointerEvents = "";
 
     _stopProximityTracking();
     _destroyFloatingCart(true);
@@ -281,8 +389,12 @@ export function initDragDrop(addToCartFn) {
 
     bindDropZoneToCart();
 
-    const grids = ["product-grid-shop", "product-grid-interactive", "product-grid-animated"];
-    grids.forEach(id => {
+    const grids = [
+        "product-grid-shop",
+        "product-grid-interactive",
+        "product-grid-animated",
+    ];
+    grids.forEach((id) => {
         const el = document.getElementById(id);
         if (!el) return;
         const observer = new MutationObserver(() => {

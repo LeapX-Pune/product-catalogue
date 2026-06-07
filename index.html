@@ -1334,6 +1334,60 @@
     </div>
 
     <!-- ============================================== -->
+    <!-- VIEW: CART PAGE -->
+    <!-- ============================================== -->
+    <div id="view-cart" class="view-container hidden">
+        <main class="max-w-4xl mx-auto px-unit-4 md:px-unit-12 pt-28 pb-unit-16 min-h-screen">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-unit-4 mb-unit-8">
+                <div>
+                    <h1 class="font-headline-lg text-headline-lg font-black text-[var(--text-primary)]">Shopping Cart</h1>
+                    <p class="font-body-lg text-body-lg text-[var(--text-secondary)]">Review and manage your selected items</p>
+                </div>
+                <button data-go-view="shop" class="btn-ghost px-unit-4 py-unit-2 rounded-lg font-label-md text-label-md flex items-center gap-unit-2 self-start md:self-auto">
+                    <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                    Continue Shopping
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-unit-8">
+                <div class="lg:col-span-2 space-y-unit-4" id="cart-page-items">
+                    <div class="text-center py-unit-16 text-[var(--text-muted)]">
+                        <span class="material-symbols-outlined text-5xl block mb-unit-4">shopping_cart</span>
+                        <p class="font-body-lg text-body-lg">Your cart is empty</p>
+                        <button data-go-view="shop" class="btn-primary mt-unit-4 px-unit-6 py-unit-2 rounded-lg font-label-md text-label-md inline-flex items-center gap-unit-2">
+                            Start Shopping
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="card-dark p-unit-6 rounded-xl sticky top-28">
+                        <h3 class="font-headline-md text-headline-md font-bold text-[var(--text-primary)] mb-unit-6">Order Summary</h3>
+                        <div class="space-y-unit-4">
+                            <div class="flex justify-between items-center">
+                                <span class="font-body-md text-body-md text-[var(--text-secondary)]">Subtotal</span>
+                                <span class="font-body-lg text-body-lg font-bold text-[var(--text-primary)]" id="cart-page-subtotal">₹0</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-body-md text-body-md text-[var(--text-secondary)]">Items</span>
+                                <span class="font-body-md text-body-md text-[var(--text-secondary)]" id="cart-page-count">0 items</span>
+                            </div>
+                        </div>
+                        <div class="border-t border-[var(--border-muted)] mt-unit-6 pt-unit-6 space-y-unit-4">
+                            <button id="checkout-page-btn" class="btn-primary rounded-xl py-unit-3 text-center w-full font-label-md text-label-md font-bold disabled:opacity-40 disabled:cursor-not-allowed">
+                                Proceed to Checkout
+                            </button>
+                            <button class="clear-cart-btn w-full text-center text-[var(--text-muted)] hover:text-[var(--error)] font-label-md text-label-md transition-colors">
+                                Clear Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============================================== -->
     <!-- GLOBAL CORE COMPONENT: SLIDING CART DRAWER -->
     <!-- ============================================== -->
     <div class="fixed right-0 top-0 h-full w-full md:w-96 bg-[var(--bg-section)] z-[60] shadow-2xl transition-transform duration-500 translate-x-full flex flex-col border-l border-[var(--border-muted)]" id="cart-drawer">
