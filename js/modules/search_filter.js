@@ -200,7 +200,7 @@ export function renderGridMarkup(items, type) {
              data-price="${item.price}" 
              data-category="${item.category}">
             <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
-                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
+                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" loading="lazy" />
                 ${tagHtml}
                 <button class="add-favorite-btn absolute top-unit-2 right-unit-2 w-8 h-8 bg-[var(--bg-card)]/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">favorite</span>
@@ -233,7 +233,7 @@ export function renderGridMarkup(items, type) {
              data-price="${item.price}" 
              data-category="${item.category}">
             <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
-                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
+                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" loading="lazy" />
                 ${tagHtml}
                 <button class="add-favorite-btn absolute top-unit-2 right-unit-2 w-8 h-8 bg-[var(--bg-card)]/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">favorite</span>

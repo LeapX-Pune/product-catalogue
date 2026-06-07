@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 :root {
   --bg-main-start: #080F14;
   --bg-main-mid: #10141C;
@@ -666,6 +670,73 @@ p,
   -webkit-backdrop-filter: none !important;
 }
 
+/* --- Product image aspect-ratio --- */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* --- Product title 3-line clamp for desktop cards --- */
+.product-card h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+}
+.product-card h3:hover {
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+
+/* --- Touch interaction improvements --- */
+#shop-sidebar,
+#product-grid-shop .product-card,
+.product-card {
+  touch-action: manipulation;
+}
+
+/* --- Hover overlay fix: disable hover effects on touch devices --- */
+@media (hover: none) and (pointer: coarse) {
+  .product-card .add-favorite-btn {
+    opacity: 1 !important;
+    background: rgba(31, 36, 48, 0.7) !important;
+  }
+  .product-card .group-hover\:opacity-100 {
+    opacity: 1 !important;
+  }
+}
+
+/* --- 2-column grid for medium screens (601px - 900px) --- */
+@media (min-width: 601px) and (max-width: 900px) {
+  #product-grid-shop {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem !important;
+  }
+  #product-grid-shop .product-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0.875rem !important;
+  }
+  #product-grid-shop .product-card .aspect-square {
+    width: 100% !important;
+    min-width: unset;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 0.75rem !important;
+  }
+  #product-grid-shop .product-card .product-card-img {
+    border-radius: 0.625rem;
+  }
+  #product-grid-shop .product-card .flex.flex-col.gap-unit-1 {
+    gap: 0.25rem;
+    justify-content: flex-start;
+  }
+  #product-grid-shop .product-card .quick-add-btn {
+    min-height: 44px;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
 /* Suppress drag visuals on mobile */
 @media (max-width: 767px) {
   /* Suppress all drag visuals on mobile */
@@ -1304,8 +1375,8 @@ p,
   }
   #product-grid-shop .product-card .aspect-square {
     width: 100px !important;
-    height: 100px !important;
     min-width: 100px;
+    aspect-ratio: 1 / 1;
     margin-bottom: 0 !important;
     border-radius: 0.625rem;
     flex-shrink: 0;
@@ -1532,6 +1603,73 @@ p,
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
     line-height: 1.25rem;
+  }
+
+  /* ----- Navbar: fix hamburger icon alignment ----- */
+  #mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* ----- Search bar: prevent horizontal scroll ----- */
+  .hidden\:lg\:flex.items-center.bg-\[var\(--bg-elevated\)\].rounded-full input.search-input,
+  .search-input {
+    width: 90vw !important;
+    max-width: 100% !important;
+  }
+
+  /* ----- Sidebar filter checkboxes padding ----- */
+  #shop-sidebar .flex.flex-col.gap-unit-1.text-body-md.pl-unit-2 label {
+    padding-left: 0.5rem;
+  }
+
+  /* ----- Touch targets: 48px min height for interactive elements ----- */
+  .category-btn-checkbox + span,
+  .filter-rating + span,
+  .subcategory-checkbox + span {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+  }
+  #product-grid-shop .product-card .quick-add-btn {
+    min-height: 48px !important;
+    min-width: 48px;
+  }
+  .quick-add-btn,
+  .subcategory-filter-btn,
+  .reset-filters,
+  .apply-filters {
+    min-height: 48px;
+  }
+
+  /* ----- Mobile nav panel close button alignment ----- */
+  #mobile-nav-panel .flex.items-center.justify-between {
+    gap: 0.5rem;
+  }
+
+  /* ----- Subcategory buttons: prevent horizontal overflow ----- */
+  #subcategory-buttons-container {
+    flex-wrap: wrap !important;
+    overflow-x: hidden !important;
+    gap: 0.375rem !important;
+    justify-content: flex-start;
+  }
+  #subcategory-buttons-container .subcategory-filter-btn {
+    flex-shrink: 0;
+  }
+
+  /* ----- Product grid container: prevent overflow after subcategory filter ----- */
+  #product-grid-shop {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  #product-grid-shop .product-card {
+    max-width: 100%;
+  }
+  #sticky-filter-tab {
+    overflow-x: hidden;
   }
 }
 

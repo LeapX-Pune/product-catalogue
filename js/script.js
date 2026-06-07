@@ -1146,7 +1146,7 @@ function renderGridMarkup(items, type) {
              data-price="${item.price}" 
              data-category="${item.category}">
             <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
-                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
+                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" loading="lazy" />
                 ${tagHtml}
                 <button class="add-favorite-btn absolute top-unit-2 right-unit-2 w-8 h-8 bg-[var(--bg-card)]/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">favorite</span>
@@ -1179,7 +1179,7 @@ function renderGridMarkup(items, type) {
              data-price="${item.price}" 
              data-category="${item.category}">
             <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
-                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
+                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" loading="lazy" />
                 ${tagHtml}
                 <button class="add-favorite-btn absolute top-unit-2 right-unit-2 w-8 h-8 bg-[var(--bg-card)]/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">favorite</span>
@@ -1326,7 +1326,7 @@ function updateCartUI() {
             return `
             <div class="flex gap-unit-3 bg-[var(--bg-card)] p-unit-3 rounded-lg border border-[var(--border-muted)] transition-all hover:border-[var(--accent-teal)]/30">
                 <div class="w-16 h-16 bg-[var(--bg-elevated)] rounded-md overflow-hidden flex-shrink-0">
-                     <img src="${item.image}" class="w-full h-full object-cover">
+                     <img src="${item.image}" class="w-full h-full object-cover" loading="lazy">
                 </div>
                 <div class="flex-grow min-w-0">
                     <h4 class="font-bold text-[var(--text-primary)] text-body-md truncate">${item.title}</h4>
@@ -1428,7 +1428,7 @@ function renderCartPage() {
         return `
             <div class="card-dark p-unit-4 rounded-xl flex flex-col sm:flex-row gap-unit-4" data-cart-idx="${index}">
                 <div class="w-full sm:w-24 h-48 sm:h-24 bg-[var(--bg-card)] rounded-lg overflow-hidden flex-shrink-0">
-                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover" loading="lazy">
                 </div>
                 <div class="flex-grow min-w-0">
                     <div class="flex justify-between items-start gap-unit-2">
@@ -1848,7 +1848,7 @@ function renderOrderReview() {
     // Render review items
     DOM.reviewItemsContainer.innerHTML = state.cart.map(item => `
     <div class="flex gap-unit-6 pb-unit-6 border-b border-[var(--border-muted)]">
-        <img src="${item.image}" alt="${item.title}" class="w-20 h-20 object-cover rounded-lg bg-[var(--bg-card)]">
+        <img src="${item.image}" alt="${item.title}" class="w-20 h-20 object-cover rounded-lg bg-[var(--bg-card)]" loading="lazy">
         <div class="flex-1 min-w-0">
             <div class="flex justify-between items-start">
                 <h3 class="font-body-lg text-body-lg font-bold text-[var(--text-primary)] truncate">${item.title}</h3>
