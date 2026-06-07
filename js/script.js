@@ -48,7 +48,6 @@ const DOM = {
     views: document.querySelectorAll(".view-container"),
     
     // Cart elements
-    cartTrigger: document.getElementById("cart-trigger"),
     cartDrawer: document.getElementById("cart-drawer"),
     cartBackdrop: document.getElementById("drawer-backdrop"),
     cartItemsContainer: document.getElementById("cart-items"),

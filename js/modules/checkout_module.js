@@ -1,3 +1,11 @@
+/**
+ * STALE — This module is NOT imported by index.html or script.js.
+ * The active checkout flow is implemented directly in js/script.js
+ * with the markup in index.html (shipping-form, payment-form).
+ * Keep this file only as a reference; do not wire it in without
+ * reconciling against the active flow.
+ */
+
 import {
     validateFullName,
     validateEmail,

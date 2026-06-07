@@ -1,4 +1,10 @@
 /**
+ * NOTE: This utility is NOT currently imported by index.html or script.js.
+ * The active cart calculations are inlined in js/script.js.
+ * If integrating this module, ensure the cart item shape uses `qty` (not `quantity`).
+ */
+
+/**
  * Utility functions for cart totals and calculations.
  * Supports checkout validation and cart badge counts.
  */
@@ -14,7 +20,7 @@ export const calculateCartTotal = (cart, appliedCoupon = null) => {
   
   let total = cart.reduce((sum, item) => {
     const price = Number(item.price) || 0;
-    const quantity = Number(item.quantity) || 0;
+    const quantity = Number(item.qty) || 0;
     return sum + price * quantity;
   }, 0);
 
@@ -43,7 +49,7 @@ export const calculateCartTotal = (cart, appliedCoupon = null) => {
 export const calculateCartItems = (cart) => {
   if (!Array.isArray(cart)) return 0;
   return cart.reduce((total, item) => {
-    const quantity = Number(item.quantity) || 0;
+    const quantity = Number(item.qty) || 0;
     return total + quantity;
   }, 0);
 };

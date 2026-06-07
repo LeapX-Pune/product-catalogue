@@ -5,6 +5,9 @@ let _enabled = false;
 let _observers = [];
 let _dropZoneEl = null;
 let _positionRaf = null;
+let _dropHandled = false;
+let returnTimer = null;
+let _trayProximityHandler = null;
 
 const getCartBtn = () => document.querySelector(".cart-drawer-trigger");
 
@@ -59,7 +62,7 @@ function createDropZone() {
 
     el.addEventListener("dragleave", (e) => {
         if (!el.contains(e.relatedTarget)) {
-            el.classList.remove("active");
+            if (!isDragging) el.classList.remove("active");
             const btn = getCartBtn();
             if (btn) btn.classList.remove("drag-drop-zone--over");
         }
@@ -96,100 +99,7 @@ function positionDropZone() {
     _dropZoneEl.style.top = `${rect.bottom + 10}px`;
 }
 
-function floatCartToDropZone() {
-    const btn = getCartBtn();
-    if (!btn) return;
-
-    const btnRect = btn.getBoundingClientRect();
-    const startX = btnRect.left + btnRect.width / 2;
-    const startY = btnRect.top + btnRect.height / 2;
-
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const isLeft = clientX < vw / 2;
-    const targetX = isLeft ? vw * 0.72 : vw * 0.28;
-    const targetY = vh * 0.4;
-
-    const proxy = document.createElement("div");
-    proxy.className = "floating-cart-proxy";
-    proxy.innerHTML = `<span class="material-symbols-outlined">shopping_cart</span>`;
-
-    proxy.addEventListener("dragover", _onFloatingDragOver);
-    proxy.addEventListener("dragleave", _onFloatingDragLeave);
-    proxy.addEventListener("drop", _onFloatingDrop);
-
-    // Place at navbar cart origin — no transition yet
-    proxy.style.left = `${startX}px`;
-    proxy.style.top = `${startY}px`;
-    proxy.style.transition = "none";
-
-    document.body.appendChild(proxy);
-    _floatingCart = proxy;
-
-    // Force layout so the initial position is committed
-    proxy.offsetHeight;
-
-    // Launch to target position and scale up
-    proxy.style.transition =
-        "left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), " +
-        "top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), " +
-        "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
-    proxy.style.left = `${targetX}px`;
-    proxy.style.top = `${targetY}px`;
-    proxy.classList.add("floating-cart-proxy--active");
-
-    // Lock proxy static after launch animation finishes
-    // Keep a transform transition for smooth proximity scaling
-    let locked = false;
-    const onLaunchEnd = () => {
-        if (locked) return;
-        locked = true;
-        proxy.style.transition = "transform 0.15s ease";
-        proxy.removeEventListener("transitionend", onLaunchEnd);
-    };
-    proxy.addEventListener("transitionend", onLaunchEnd);
-
-    _startProximityTracking();
-}
-
-function _destroyFloatingCart(immediate = false) {
-    if (!_floatingCart) return;
-
-    _stopProximityTracking();
-
-    const el = _floatingCart;
-    el.classList.remove(
-        "floating-cart-proxy--over",
-        "floating-cart-proxy--active",
-        "floating-cart-proxy--success",
-        "floating-cart-proxy--near"
-    );
-    _floatingCart = null;
-
-    const cleanup = () => {
-        el.removeEventListener("dragover", _onFloatingDragOver);
-        el.removeEventListener("dragleave", _onFloatingDragLeave);
-        el.removeEventListener("drop", _onFloatingDrop);
-        el.remove();
-    };
-
-    if (immediate) {
-        cleanup();
-        return;
-    }
-
-    // Animate out: shrink and fade
-    el.classList.add("floating-cart-proxy--destroying");
-    let ended = false;
-    const onDestroyEnd = () => {
-        if (ended) return;
-        ended = true;
-        el.removeEventListener("transitionend", onDestroyEnd);
-        cleanup();
-    };
-    el.addEventListener("transitionend", onDestroyEnd);
-}
-
+function _showDropZone() {
     createDropZone();
     if (_dropZoneEl) {
         _dropZoneEl.classList.remove("dropping");
@@ -199,11 +109,6 @@ function _destroyFloatingCart(immediate = false) {
 
     const header = document.querySelector("header");
     if (header) header.style.pointerEvents = "auto";
-
-function _onFloatingDragLeave(e) {
-    if (_floatingCart && !_floatingCart.contains(e.relatedTarget)) {
-        _floatingCart.classList.remove("floating-cart-proxy--over");
-    }
 }
 
 function returnCartToOrigin(isDrop = false) {
@@ -211,19 +116,13 @@ function returnCartToOrigin(isDrop = false) {
     if (!btn) return;
 
     _dropHandled = true;
-    if (_floatingCart) {
-        _floatingCart.classList.add("floating-cart-proxy--success");
-    }
 
     const delay = isDrop ? 650 : 160;
 
     returnTimer = setTimeout(() => {
+        _teardownTrayProximity();
         btn.classList.remove("drag-drop-zone", "drag-drop-zone--over", "drag-drop-zone--success");
         isDragging = false;
-    }, 400);
-}
-
-/* ---- Proximity Detection ---- */
 
         if (_dropZoneEl) {
             _dropZoneEl.classList.remove("active", "dropping");
@@ -234,23 +133,44 @@ function returnCartToOrigin(isDrop = false) {
 
         const navbar = document.querySelector(".navbar-blur");
         if (navbar) navbar.classList.remove("drag-active");
+
+        _dropHandled = false;
+        returnTimer = null;
     }, delay);
 }
 
-function _startProximityTracking() {
-    _stopProximityTracking();
-    _proximityHandler = (e) => {
-        if (_floatingCart) _checkProximity(e.clientX, e.clientY);
+/* ---- Tray Proximity Scaling ---- */
+
+function _setupTrayProximity() {
+    _teardownTrayProximity();
+    _trayProximityHandler = (e) => {
+        if (!_dropZoneEl || !_dropZoneEl.isConnected) return;
+        if (!_dropZoneEl.classList.contains("active")) return;
+
+        const rect = _dropZoneEl.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        const maxDist = 300;
+        const t = Math.min(dist, maxDist) / maxDist;
+        const scale = 1 + 0.2 * (1 - t * t);
+
+        _dropZoneEl.style.transform = `translateX(-50%) scale(${scale})`;
     };
-    document.addEventListener("dragover", _proximityHandler);
+    document.addEventListener("dragover", _trayProximityHandler);
 }
 
-function _stopProximityTracking() {
-    if (_proximityHandler) {
-        document.removeEventListener("dragover", _proximityHandler);
-        _proximityHandler = null;
+function _teardownTrayProximity() {
+    if (_trayProximityHandler) {
+        document.removeEventListener("dragover", _trayProximityHandler);
+        _trayProximityHandler = null;
     }
-    if (_floatingCart) _floatingCart.classList.remove("floating-cart-proxy--near");
+    if (_dropZoneEl) {
+        _dropZoneEl.style.transform = "";
+    }
 }
 
 /* ---- Drop Zone Handlers (navbar cart button fallback) ---- */
@@ -274,9 +194,6 @@ function onCartDragLeave(e) {
     if (!btn) return;
     if (!btn.contains(e.relatedTarget)) {
         btn.classList.remove("drag-drop-zone--over");
-        if (_dropZoneEl) {
-            _dropZoneEl.classList.remove("active");
-        }
     }
 }
 
@@ -299,16 +216,39 @@ function onCardDragStart(e) {
     e.dataTransfer.setData("text/plain", productId);
     e.dataTransfer.effectAllowed = "copy";
 
+    if (returnTimer) {
+        clearTimeout(returnTimer);
+        returnTimer = null;
+    }
+
     card.classList.add("dragging-card");
-    _createFloatingCart(e.clientX);
+    _showDropZone();
+    _setupTrayProximity();
 }
 
 function onCardDragEnd(e) {
     e.currentTarget.classList.remove("dragging-card");
-    if (!_dropHandled) {
-        _destroyFloatingCart();
-        isDragging = false;
+
+    if (_dropHandled) return;
+
+    _teardownTrayProximity();
+
+    if (_dropZoneEl) {
+        _dropZoneEl.classList.remove("active", "dropping");
     }
+
+    const btn = getCartBtn();
+    if (btn) {
+        btn.classList.remove("drag-drop-zone", "drag-drop-zone--over", "drag-drop-zone--success");
+    }
+
+    const header = document.querySelector("header");
+    if (header) header.style.pointerEvents = "";
+
+    const navbar = document.querySelector(".navbar-blur");
+    if (navbar) navbar.classList.remove("drag-active");
+
+    isDragging = false;
     _dropHandled = false;
 }
 
@@ -378,8 +318,13 @@ export function disableDragDrop() {
     const header = document.querySelector("header");
     if (header) header.style.pointerEvents = "";
 
-    _stopProximityTracking();
-    _destroyFloatingCart(true);
+    _teardownTrayProximity();
+
+    if (returnTimer) {
+        clearTimeout(returnTimer);
+        returnTimer = null;
+    }
+
     isDragging = false;
     _dropHandled = false;
 }
