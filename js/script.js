@@ -54,13 +54,18 @@ const DOM = {
     views: document.querySelectorAll(".view-container"),
     
     // Cart elements
-    cartTrigger: document.getElementById("cart-trigger"),
     cartDrawer: document.getElementById("cart-drawer"),
     cartBackdrop: document.getElementById("drawer-backdrop"),
     cartItemsContainer: document.getElementById("cart-items"),
     cartCountBadges: document.querySelectorAll(".cart-count"),
     cartTotalDisplay: document.getElementById("cart-total"),
     checkoutDrawerBtn: document.getElementById("checkout-drawer-btn"),
+
+    // Cart Page
+    cartPageItems: document.getElementById("cart-page-items"),
+    cartPageSubtotal: document.getElementById("cart-page-subtotal"),
+    cartPageCount: document.getElementById("cart-page-count"),
+    checkoutPageBtn: document.getElementById("checkout-page-btn"),
 
     // Product Grids
     gridShop: document.getElementById("product-grid-shop"),
@@ -146,6 +151,10 @@ if (document.readyState === "loading") {
 window.openCartDrawer = openCartDrawer;
 window.switchView     = switchView;
 window.getCart        = () => state.cart;
+
+function formatINR(val) {
+    return val.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+}
 
 export function updateNavbarActiveState(activeViewOrSection) {
     const navLinks = document.querySelectorAll(".nav-link");
@@ -299,8 +308,10 @@ export function switchView(viewName, { replace = false } = {}) {
         history.pushState(stateObj, "", url);
     }
 
-    // Render corresponding views
-    if (viewName === "checkout-review") {
+    // Render corresponding reviews if entering review steps
+    if (viewName === "cart") {
+        renderCartPage();
+    } else if (viewName === "checkout-review") {
         renderOrderReview();
     } else if (viewName === "order-tracker") {
         renderOrderTracker();
@@ -1049,7 +1060,83 @@ function toggleGridEmptyState(count) {
 }
 
 function renderGridMarkup(items, type) {
-    return renderGridMarkupSF(items, type);
+    const isShop = type === "shop";
+    return items.map(item => {
+        const ratingStars = Math.round(item.rating);
+        const formatPrice = formatINR(item.price);
+        
+        // Tags
+        let tagHtml = "";
+        if (item.rating >= 4.9) {
+            tagHtml = `<div class="absolute top-unit-2 left-unit-2 bg-[var(--accent-amber)] text-[var(--text-dark)] font-label-md text-[10px] px-unit-2 py-0.5 rounded uppercase font-bold">Elite</div>`;
+        } else if (item.id % 7 === 0) {
+            tagHtml = `<div class="absolute top-unit-2 left-unit-2 bg-[var(--accent-teal)] text-[var(--text-dark)] font-label-md text-[10px] px-unit-2 py-0.5 rounded uppercase font-bold">New</div>`;
+        }
+
+        if (isShop) {
+            return `
+        <div class="card-dark group product-card rounded-xl p-unit-4 shadow-sm" 
+             data-product-id="${item.id}" 
+             data-name="${item.title}" 
+             data-price="${item.price}" 
+             data-category="${item.category}">
+            <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
+                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
+                ${tagHtml}
+                <button class="add-favorite-btn absolute top-unit-2 right-unit-2 w-8 h-8 bg-[var(--bg-card)]/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">favorite</span>
+                </button>
+            </div>
+            <div class="flex flex-col gap-unit-1">
+                <div class="flex items-start justify-between gap-1">
+                    <span class="font-label-md text-label-md text-[var(--accent-silver)] uppercase tracking-widest truncate">${item.category}</span>
+                    <div class="flex items-center gap-[2px] shrink-0">
+                        <span class="material-symbols-outlined text-[var(--accent-amber)] text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="text-label-md font-bold text-[var(--text-secondary)]">${item.rating.toFixed(1)}</span>
+                    </div>
+                </div>
+                <h3 class="font-headline-md text-headline-md text-[var(--text-primary)] truncate">${item.title}</h3>
+                <span class="text-[var(--text-primary)] font-bold text-body-lg">${formatPrice}</span>
+                <div class="flex justify-end mt-unit-1">
+                    <button class="quick-add-btn mt-unit-2 w-full py-unit-2 rounded-lg font-label-md text-label-md active:scale-95">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+            `;
+        }
+
+        return `
+        <div class="card-dark group product-card rounded-xl p-unit-4 shadow-sm" 
+             data-product-id="${item.id}" 
+             data-name="${item.title}" 
+             data-price="${item.price}" 
+             data-category="${item.category}">
+            <div class="aspect-square bg-[var(--bg-card)] rounded-lg mb-unit-4 overflow-hidden relative">
+                <img alt="${item.title}" class="product-card-img w-full h-full object-cover" src="${item.image}" />
+                ${tagHtml}
+                <button class="add-favorite-btn absolute top-unit-2 right-unit-2 w-8 h-8 bg-[var(--bg-card)]/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">favorite</span>
+                </button>
+            </div>
+            <div class="flex flex-col gap-unit-1">
+                <span class="font-label-md text-label-md text-[var(--accent-silver)] uppercase tracking-widest">${item.category}</span>
+                <h3 class="font-headline-md text-headline-md text-[var(--text-primary)] truncate">${item.title}</h3>
+                <div class="flex justify-between items-center mt-unit-2">
+                    <span class="text-[var(--text-primary)] font-bold text-body-lg">${formatPrice}</span>
+                    <div class="flex items-center gap-unit-1">
+                        <span class="material-symbols-outlined text-[var(--accent-amber)] text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="text-label-md font-bold text-[var(--text-secondary)]">${item.rating.toFixed(1)}</span>
+                    </div>
+                </div>
+                <button class="quick-add-btn mt-unit-4 w-full py-unit-2 rounded-lg font-label-md text-label-md active:scale-95">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+        `;
+    }).join("");
 }
 
 // Bind quick-add buttons & sort selectors
@@ -1105,7 +1192,7 @@ function initCart() {
         switchView("checkout-shipping");
     });
 
-    // Go to checkout from cart page
+    // Cart page checkout button
     if (DOM.checkoutPageBtn) {
         DOM.checkoutPageBtn.addEventListener("click", () => {
             if (state.cart.length === 0) return;
@@ -1170,7 +1257,7 @@ function updateCartUI() {
         DOM.checkoutDrawerBtn.disabled = false;
 
         DOM.cartItemsContainer.innerHTML = state.cart.map((item, index) => {
-            const formatPrice = ((item.price * item.qty) / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+            const formatPrice = formatINR(item.price * item.qty);
             return `
             <div class="flex gap-unit-3 bg-[var(--bg-card)] p-unit-3 rounded-lg border border-[var(--border-muted)] transition-all hover:border-[var(--accent-teal)]/30">
                 <div class="w-16 h-16 bg-[var(--bg-elevated)] rounded-md overflow-hidden flex-shrink-0">
@@ -1220,8 +1307,7 @@ function updateCartUI() {
     }
 
     // Update total price displays
-    const formatSubtotal = (subtotal / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
-    DOM.cartTotalDisplay.textContent = formatSubtotal;
+    DOM.cartTotalDisplay.textContent = formatINR(subtotal);
 
     // Sync cart page if visible
     if (state.activeView === "cart") {
@@ -1267,8 +1353,8 @@ function renderCartPage() {
     }
 
     DOM.cartPageItems.innerHTML = state.cart.map((item, index) => {
-        const lineTotal = ((item.price * item.qty) / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
-        const unitPrice = (item.price / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+        const lineTotal = formatINR(item.price * item.qty);
+        const unitPrice = formatINR(item.price);
         return `
             <div class="card-dark p-unit-4 rounded-xl flex flex-col sm:flex-row gap-unit-4" data-cart-idx="${index}">
                 <div class="w-full sm:w-24 h-48 sm:h-24 bg-[var(--bg-card)] rounded-lg overflow-hidden flex-shrink-0">
@@ -1651,23 +1737,19 @@ function initCheckout() {
 
 function renderOrderReview() {
     const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const shipping = subtotal > 150000 ? 0 : 49900; // Free shipping over ₹1,500
-    const tax = Math.round(subtotal * 0.18); // 18% GST standard Indian rate
+    const shipping = subtotal > 1500 ? 0 : 499;
+    const tax = Math.round(subtotal * 0.18);
 
-    // Calculate discount
     let discount = 0;
     if (state.appliedCoupon) {
         if (state.appliedCoupon.type === "percentage") {
             discount = Math.round(subtotal * (state.appliedCoupon.discountValue / 100));
         } else if (state.appliedCoupon.type === "fixed") {
-            discount = state.appliedCoupon.discountValue * 100; // Rs 500 fixed
+            discount = state.appliedCoupon.discountValue;
         }
     }
 
     const total = Math.max(0, subtotal + shipping + tax - discount);
-
-    // Format utility helper
-    const formatINR = (val) => (val / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
     DOM.summarySubtotal.textContent = formatINR(subtotal);
     DOM.summaryShipping.textContent = shipping === 0 ? "FREE" : formatINR(shipping);

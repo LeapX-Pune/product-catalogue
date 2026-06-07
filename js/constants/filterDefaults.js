@@ -7,5 +7,5 @@ import { products } from "../data/products.js";
 export const filterDefaults = {
   category: "All", // "All" represents no category filter applied
   maxPrice: Math.max(...products.map(product => product.price)), // Dynamically set to the highest product price
-  rating: 0 // 0 ensures all products are shown by default
+  rating: 0 
 };
