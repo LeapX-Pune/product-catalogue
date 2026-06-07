@@ -56,6 +56,12 @@ const DOM = {
     cartTotalDisplay: document.getElementById("cart-total"),
     checkoutDrawerBtn: document.getElementById("checkout-drawer-btn"),
 
+    // Cart Page
+    cartPageItems: document.getElementById("cart-page-items"),
+    cartPageSubtotal: document.getElementById("cart-page-subtotal"),
+    cartPageCount: document.getElementById("cart-page-count"),
+    checkoutPageBtn: document.getElementById("checkout-page-btn"),
+
     // Product Grids
     gridShop: document.getElementById("product-grid-shop"),
     gridInteractive: document.getElementById("product-grid-interactive"),
@@ -128,6 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
 window.openCartDrawer = openCartDrawer;
 window.switchView     = switchView;
 window.getCart        = () => state.cart;
+
+function formatINR(val) {
+    return val.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+}
 
 export function updateNavbarActiveState(activeViewOrSection) {
     const navLinks = document.querySelectorAll(".nav-link");
@@ -282,7 +292,9 @@ export function switchView(viewName, { replace = false } = {}) {
     }
 
     // Render corresponding reviews if entering review steps
-    if (viewName === "checkout-review") {
+    if (viewName === "cart") {
+        renderCartPage();
+    } else if (viewName === "checkout-review") {
         renderOrderReview();
     } else if (viewName === "order-tracker") {
         renderOrderTracker();
@@ -1152,7 +1164,7 @@ function renderGridMarkup(items, type) {
     const isShop = type === "shop";
     return items.map(item => {
         const ratingStars = Math.round(item.rating);
-        const formatPrice = (item.price / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+        const formatPrice = formatINR(item.price);
         
         // Tags
         let tagHtml = "";
@@ -1294,6 +1306,14 @@ function initCart() {
         }
         switchView("checkout-shipping");
     });
+
+    // Cart page checkout button
+    if (DOM.checkoutPageBtn) {
+        DOM.checkoutPageBtn.addEventListener("click", () => {
+            if (state.cart.length === 0) return;
+            switchView("checkout-shipping");
+        });
+    }
 }
 
 function toggleCartDrawer() {
@@ -1352,7 +1372,7 @@ function updateCartUI() {
         DOM.checkoutDrawerBtn.disabled = false;
 
         DOM.cartItemsContainer.innerHTML = state.cart.map((item, index) => {
-            const formatPrice = ((item.price * item.qty) / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+            const formatPrice = formatINR(item.price * item.qty);
             return `
             <div class="flex gap-unit-3 bg-[var(--bg-card)] p-unit-3 rounded-lg border border-[var(--border-muted)] transition-all hover:border-[var(--accent-teal)]/30">
                 <div class="w-16 h-16 bg-[var(--bg-elevated)] rounded-md overflow-hidden flex-shrink-0">
@@ -1402,14 +1422,107 @@ function updateCartUI() {
     }
 
     // Update total price displays
-    const formatSubtotal = (subtotal / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
-    DOM.cartTotalDisplay.textContent = formatSubtotal;
+    DOM.cartTotalDisplay.textContent = formatINR(subtotal);
+
+    // Keep cart page in sync
+    if (typeof renderCartPage === "function") renderCartPage();
 }
 
 function animateCartIcons() {
     DOM.cartCountBadges.forEach(badge => {
         badge.classList.add("scale-125");
         setTimeout(() => badge.classList.remove("scale-125"), 200);
+    });
+}
+
+function renderCartPage() {
+    const totalCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
+    const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+    if (DOM.cartPageCount) {
+        DOM.cartPageCount.textContent = `${totalCount} item${totalCount !== 1 ? 's' : ''}`;
+    }
+    if (DOM.cartPageSubtotal) {
+        DOM.cartPageSubtotal.textContent = formatINR(subtotal);
+    }
+    if (DOM.checkoutPageBtn) {
+        DOM.checkoutPageBtn.disabled = totalCount === 0;
+    }
+
+    if (!DOM.cartPageItems) return;
+
+    if (totalCount === 0) {
+        DOM.cartPageItems.innerHTML = `
+            <div class="text-center py-unit-16 text-[var(--text-muted)]">
+                <span class="material-symbols-outlined text-5xl block mb-unit-4">shopping_cart</span>
+                <p class="font-body-lg text-body-lg">Your cart is empty</p>
+                <button data-go-view="shop" class="btn-primary mt-unit-4 px-unit-6 py-unit-2 rounded-lg font-label-md text-label-md inline-flex items-center gap-unit-2">
+                    Start Shopping
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    DOM.cartPageItems.innerHTML = state.cart.map((item, index) => {
+        const lineTotal = formatINR(item.price * item.qty);
+        const unitPrice = formatINR(item.price);
+        return `
+            <div class="card-dark p-unit-4 rounded-xl flex flex-col sm:flex-row gap-unit-4" data-cart-idx="${index}">
+                <div class="w-full sm:w-24 h-48 sm:h-24 bg-[var(--bg-card)] rounded-lg overflow-hidden flex-shrink-0">
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-grow min-w-0">
+                    <div class="flex justify-between items-start gap-unit-2">
+                        <div class="min-w-0 flex-1">
+                            <h3 class="font-headline-md text-headline-md font-bold text-[var(--text-primary)] truncate">${item.title}</h3>
+                            <p class="font-label-md text-label-md text-[var(--accent-silver)] uppercase tracking-widest mt-unit-1 truncate">${item.category}</p>
+                        </div>
+                        <span class="font-body-lg text-body-lg font-bold text-[var(--text-primary)] whitespace-nowrap flex-shrink-0">${lineTotal}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-unit-4 gap-unit-2">
+                        <div class="flex items-center gap-unit-3 flex-wrap">
+                            <span class="font-label-md text-label-md text-[var(--text-muted)]">${unitPrice}</span>
+                            <div class="flex items-center gap-unit-2 bg-[var(--bg-elevated)] rounded-lg px-unit-2 py-unit-1">
+                                <button class="qty-page-btn w-7 h-7 rounded flex items-center justify-center text-label-md text-[var(--text-primary)] hover:bg-[var(--bg-card)] transition-colors" data-idx="${index}" data-act="dec">−</button>
+                                <span class="text-body-md font-bold text-[var(--text-primary)] min-w-[24px] text-center">${item.qty}</span>
+                                <button class="qty-page-btn w-7 h-7 rounded flex items-center justify-center text-label-md text-[var(--text-primary)] hover:bg-[var(--bg-card)] transition-colors" data-idx="${index}" data-act="inc">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-page-btn flex items-center gap-unit-1 text-[var(--text-muted)] hover:text-[var(--error)] transition-colors font-label-md text-label-md self-end sm:self-auto" data-idx="${index}">
+                            <span class="material-symbols-outlined text-[16px]">delete</span>
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    DOM.cartPageItems.querySelectorAll(".qty-page-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const idx = parseInt(btn.dataset.idx);
+            const act = btn.dataset.act;
+            if (act === "inc") {
+                state.cart[idx].qty++;
+            } else {
+                state.cart[idx].qty--;
+                if (state.cart[idx].qty <= 0) {
+                    state.cart.splice(idx, 1);
+                }
+            }
+            saveCart(state.cart);
+            updateCartUI();
+        });
+    });
+
+    DOM.cartPageItems.querySelectorAll(".remove-page-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const idx = parseInt(btn.dataset.idx);
+            state.cart.splice(idx, 1);
+            saveCart(state.cart);
+            updateCartUI();
+        });
     });
 }
 
@@ -1736,23 +1849,19 @@ function initCheckout() {
 
 function renderOrderReview() {
     const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const shipping = subtotal > 150000 ? 0 : 49900; // Free shipping over ₹1,500
-    const tax = Math.round(subtotal * 0.18); // 18% GST standard Indian rate
+    const shipping = subtotal > 1500 ? 0 : 499;
+    const tax = Math.round(subtotal * 0.18);
 
-    // Calculate discount
     let discount = 0;
     if (state.appliedCoupon) {
         if (state.appliedCoupon.type === "percentage") {
             discount = Math.round(subtotal * (state.appliedCoupon.discountValue / 100));
         } else if (state.appliedCoupon.type === "fixed") {
-            discount = state.appliedCoupon.discountValue * 100; // Rs 500 fixed
+            discount = state.appliedCoupon.discountValue;
         }
     }
 
     const total = Math.max(0, subtotal + shipping + tax - discount);
-
-    // Format utility helper
-    const formatINR = (val) => (val / 100).toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
     DOM.summarySubtotal.textContent = formatINR(subtotal);
     DOM.summaryShipping.textContent = shipping === 0 ? "FREE" : formatINR(shipping);
